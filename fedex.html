@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedEx Territory Management Dashboard · Divyansh Srivastava</title>
+<meta name="description" content="Four fragmented logistics systems collapsed into one territory workspace. Academic project, IIT Roorkee.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="case.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html" class="on">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="chead wrap spine">
+      <div class="rail">
+        <p class="label">Case study &middot; 2026 &middot; UX &amp; systems</p>
+      </div>
+      <h1>FedEx Territory Management Dashboard</h1>
+    </header>
+
+    <section class="lede wrap spine">
+      <div class="rail"><p class="label">In brief</p></div>
+      <p class="body">
+        A territory manager's day is spent stitching together four systems that
+        never speak to each other. This dashboard collapses delivery, client,
+        route and exception data into one surface you never have to leave.
+      </p>
+    </section>
+
+    <div class="facts wrap">
+      <div><span class="k">Target users</span><span class="v">Logistics managers &amp; territory planners</span></div>
+      <div><span class="k">Context</span><span class="v">Logistics dashboard problem solving</span></div>
+      <div><span class="k">Mentor</span><span class="v">Nishant Kumar, FedEx Vadodara</span></div>
+      <div><span class="k">Year</span><span class="v">2026</span></div>
+    </div>
+
+    <!-- ============ 00 DISCLOSURE ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">00 &mdash; Disclosure</p></div>
+      <div>
+        <h2>Academic project</h2>
+        <div class="note-box" data-r>
+          <p class="body">
+            <b>Independent academic exercise.</b> This design project was
+            completed as part of my academic learning at IIT Roorkee, under the
+            guidance of Mr. Nishant Kumar, Territory Manager at FedEx Vadodara.
+            This is not an official FedEx project and is not endorsed by FedEx
+            Corporation. No proprietary or confidential business data was used.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 01 OVERVIEW ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">01 &mdash; Overview</p></div>
+      <div>
+        <h2>The <em>fragmentation</em> problem</h2>
+        <p class="body" data-r>
+          In the contemporary logistics ecosystem, territory managers operate
+          within an increasingly fragmented information architecture. Delivery
+          status, client records, route performance and exception handling all
+          live in separate systems &mdash;
+          <b>forcing managers to context-switch constantly</b> to build any
+          coherent picture of their territory.
+        </p>
+        <p class="body" data-r>
+          The challenge: synthesising all of that operational data into a single
+          actionable surface &mdash; one where a manager can move from overview
+          to drill-down without leaving the screen.
+        </p>
+        <div class="hmw" data-r>
+          <span>How might we</span>
+          design a unified dashboard interface that consolidates fragmented data
+          streams into a cohesive analytical environment for territory managers?
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 CHALLENGES ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">02 &mdash; Key challenges</p></div>
+      <div>
+        <h2>What makes logistics dashboards <em>hard</em></h2>
+        <p class="body" data-r>
+          Through conversations with the mentor and secondary research into
+          logistics operations, four core design tensions emerged:
+        </p>
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>Data sprawl</h3>
+            <p>Delivery, client, route and exception data originate from different systems with incompatible formats and update frequencies.</p>
+          </article>
+          <article>
+            <h3>Time sensitivity</h3>
+            <p>Logistics is real-time. Delays cascade. Managers need to spot issues before they compound — not after a report is generated.</p>
+          </article>
+          <article>
+            <h3>Spatial complexity</h3>
+            <p>Territory data is geographic by nature. Representing route density and coverage gaps in a flat interface requires careful hierarchy.</p>
+          </article>
+          <article>
+            <h3>Client-level visibility</h3>
+            <p>Managers need to jump from territory overview to a specific client's issue log without losing context or reloading.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 FINAL DESIGN ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">03 &mdash; Final design</p></div>
+      <div>
+        <h2>Four <em>unified views</em></h2>
+        <p class="body" data-r>
+          The dashboard is structured around the way a manager actually works
+          &mdash; starting from the territory home view, drilling into client
+          records, resolving issues, and reading analytics &mdash; all within one
+          continuous interface.
+        </p>
+
+        <figure class="fig" data-r>
+          <div class="frame"><img src="assets/images/case/fedex-1.jpg" alt="FedEx territory home view" loading="lazy"></div>
+          <figcaption>View 01 &mdash; territory home: delivery status, route coverage and the day's exceptions at a glance.</figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame"><img src="assets/images/case/fedex-2.jpg" alt="FedEx client screen" loading="lazy"></div>
+          <figcaption>View 02 &mdash; client screen: a single client's records, history and service level, one click from the overview.</figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame"><img src="assets/images/case/fedex-3.jpg" alt="FedEx issue page" loading="lazy"></div>
+          <figcaption>View 03 &mdash; issue page: exception handling in context, without losing the client you came from.</figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame"><img src="assets/images/case/fedex-4.jpg" alt="FedEx analytics view" loading="lazy"></div>
+          <figcaption>View 04 &mdash; analytics: route performance and territory trends over time.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ 04 CONCLUSION ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; Conclusion</p></div>
+      <div>
+        <h2>What this <em>achieves</em></h2>
+        <p class="body" data-r>
+          The FedEx Territory Management Dashboard demonstrates how logistics
+          data &mdash; when unified rather than siloed &mdash; enables faster,
+          more confident decision-making. Territory managers gain a single
+          surface that moves with them from the overview down to the issue log,
+          without losing context at any step.
+        </p>
+
+        <div class="metrics" data-r>
+          <div><p class="n">4</p><p class="l">Unified views</p></div>
+          <div><p class="n">1</p><p class="l">Workspace</p></div>
+          <div><p class="n">0</p><p class="l">Context switches needed</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NEXT ============ -->
+    <nav class="next wrap" aria-label="Next case study">
+      <a href="veromoda.html">
+        <span>
+          <span class="k">Next case study</span><br>
+          <span class="v">Why Vero Moda was losing users</span>
+        </span>
+        <span class="go">&rarr;</span>
+      </a>
+    </nav>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

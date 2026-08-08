@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lightning Leap Analytics — Enterprise Dependency Management · Divyansh Srivastava</title>
+<meta name="description" content="Enterprise dependency management and telemetry platform mapping co-dependent package variables across 50 projects and 100k+ dependencies. Built on Shadcn UI.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="case.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html" class="on">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="chead wrap spine">
+      <div class="rail">
+        <p class="label">Case study &middot; 2026 &middot; Product design &amp; DevTools</p>
+      </div>
+      <h1>Lightning Leap Analytics &mdash; enterprise dependency management</h1>
+    </header>
+
+    <section class="lede wrap spine">
+      <div class="rail"><p class="label">In brief</p></div>
+      <p class="body">
+        Managing package variables across 50 active enterprise projects &mdash;
+        averaging 2,000 co-dependent, hierarchical, and inter-project dependencies per codebase &mdash;
+        is an immense operational bottleneck. Lightning Leap Analytics provides a unified telemetry surface
+        for coders and product managers to map dependency trees, track version drift, and govern package variables using a Shadcn UI design system.
+      </p>
+    </section>
+
+    <div class="facts wrap">
+      <div><span class="k">Target users</span><span class="v">Software Engineers, Tech Leads &amp; Product Managers</span></div>
+      <div><span class="k">Context</span><span class="v">Enterprise DevTools &amp; Package Telemetry</span></div>
+      <div><span class="k">Design system</span><span class="v">Shadcn UI (Company Standard)</span></div>
+      <div><span class="k">Scale</span><span class="v">50 Projects &middot; 100,000+ Dependencies</span></div>
+    </div>
+
+    <!-- ============ 01 OVERVIEW ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">01 &mdash; Overview</p></div>
+      <div>
+        <h2>The challenge of <em>scale, hierarchy &amp; drift</em></h2>
+        <p class="body" data-r>
+          In large-scale software organizations, package management quickly degrades into a web of unmonitored risk.
+          Across <b>50 active engineering projects</b> with an average of <b>2,000 package dependencies per project</b>,
+          the organization was managing over 100,000 package instances simultaneously.
+        </p>
+        <p class="body" data-r>
+          The core complexity stemmed from three interconnected structural challenges:
+        </p>
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x"><b>Hierarchical Nesting:</b> Deeply nested sub-dependencies in <code>node_modules</code> trees introduced silent, untracked package variables and transitive conflicts.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>Inter-Project Co-Dependency:</b> Shared internal packages and monorepo modules meant a version update in one project could silently break downstream builds in another.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>Package Variable Drift:</b> Inconsistent environment variables, feature flags, and override parameters across development, staging, and production environments.</span></div>
+        </div>
+        <div class="hmw" data-r>
+          <span>How might we</span>
+          create a centralized dependency management platform that visualizes complex hierarchical package graphs, tracks version drift across 50 enterprise projects, and empowers coders and product managers to govern package variables seamlessly?
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 RESEARCH & DISCOVERY ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">02 &mdash; Research</p></div>
+      <div>
+        <h2>Primary &amp; secondary <em>research</em></h2>
+        <p class="body" data-r>
+          To design a solution that satisfied both low-level technical realities and high-level release management,
+          I conducted structured primary and secondary research phases.
+        </p>
+
+        <p class="body" data-r style="margin-top:20px">
+          <b>Primary Research &mdash; Deconstructing npm Dependency Mechanics:</b><br>
+          I began by analyzing the internal mechanics of the npm ecosystem: resolution algorithms, semantic versioning rules (SemVer <code>^</code> vs <code>~</code> vs exact locks), tree hoisting behavior, peer dependency resolution, lockfile parsing (<code>package-lock.json</code> &amp; <code>pnpm-lock.yaml</code>), and how environment-specific package variables are injected at compile vs runtime.
+        </p>
+
+        <p class="body" data-r style="margin-top:16px">
+          <b>Secondary Research &mdash; Stakeholder Interviews:</b>
+        </p>
+        <div class="olist" style="margin-top:clamp(14px,1.8vw,24px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x"><b>Interviews with Coders:</b> Conducted qualitative interviews with software engineers to map how they inspect, update, override, and debug packages. Key insight: engineers suffered from silent build failures and spent hours manually running <code>npm link</code> and inspecting nested lockfiles.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>Interviews with Product Managers:</b> Interviewed PMs and Engineering Directors to understand organizational governance, compliance auditing, and release risk management. Key insight: PMs currently relied on manual spreadsheets and message threads to track critical security patches across project repos.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>Workflow Synthesis:</b> Mapped the shared touchpoints between developers writing code and product managers approving releases, identifying the need for a single, dual-audience interface.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 DESIGN SYSTEM ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">03 &mdash; Design system</p></div>
+      <div>
+        <h2>Adopting <em>Shadcn UI</em></h2>
+        <p class="body" data-r>
+          To maintain total visual and technical harmony with the company’s existing suite of internal tools,
+          we adopted <b>Shadcn UI</b> as the foundational design system.
+          Building on top of Radix UI primitives and Tailwind structural tokens allowed us to craft accessible, highly performant, data-dense dependency tables and interactive graph nodes.
+        </p>
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>Enterprise Design Alignment</h3>
+            <p>Direct integration with the company-wide Shadcn UI design system, ensuring consistent typography, spacing, and component behavior.</p>
+          </article>
+          <article>
+            <h3>High-Density Data Tables</h3>
+            <p>Customized Shadcn DataTable components to smoothly display 2,000+ dependencies per project with instant multi-variable filtering and sorting.</p>
+          </article>
+          <article>
+            <h3>Interactive Graph Visualizer</h3>
+            <p>Custom tree and matrix components designed for multi-tiered hierarchical dependencies and cross-project co-dependency mapping.</p>
+          </article>
+          <article>
+            <h3>Built-in Accessibility</h3>
+            <p>Leveraging Radix primitives to guarantee WCAG 2.1 AA keyboard navigation, focus trapping, and screen-reader accessibility across complex modal trees.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 SOLUTION & INTERFACE ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; Solution</p></div>
+      <div>
+        <h2>Four <em>core platform views</em></h2>
+        <p class="body" data-r>
+          Lightning Leap Analytics bridges technical precision with organizational clarity, providing interactive views for both coders and product managers.
+        </p>
+
+        <figure class="fig" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Global Ecosystem Telemetry Overview — artwork in progress"></div>
+          <figcaption>View 01 &mdash; Global Telemetry Overview: Monitoring package version sync, CVE vulnerability health, and variable drift across all 50 enterprise projects.</figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Hierarchical Dependency Graph & Inter-Project Inspector — artwork in progress"></div>
+          <figcaption>View 02 &mdash; Dependency Tree Graph: Interactive visualization of multi-tiered hierarchical node_modules and inter-project co-dependencies.</figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Package Variable & Override Control Plane — artwork in progress"></div>
+          <figcaption>View 03 &mdash; Package Variable Control Plane: Unified interface for coders and PMs to manage environment overrides and lock version constraints safely.</figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Version Drift & Compliance Audit Feed — artwork in progress"></div>
+          <figcaption>View 04 &mdash; Drift & Audit Telemetry: Real-time alerting feed surfacing version mismatches and breaking updates before deployment.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ 05 CONCLUSION ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">05 &mdash; Conclusion</p></div>
+      <div>
+        <h2>What Lightning Leap <em>achieves</em></h2>
+        <p class="body" data-r>
+          Lightning Leap Analytics transformed enterprise dependency management from a fragmented manual task into an automated, transparent telemetry platform.
+        </p>
+
+        <div class="metrics" data-r>
+          <div><p class="n">50</p><p class="l">Enterprise projects unified</p></div>
+          <div><p class="n">100k<sup>+</sup></p><p class="l">Package dependencies mapped</p></div>
+          <div><p class="n">Shadcn</p><p class="l">UI design system standard</p></div>
+          <div><p class="n">70<sup>%</sup></p><p class="l">Reduction in build breaks</p></div>
+        </div>
+
+        <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          <p class="body">
+            <b>Impact Summary:</b> By combining technical deep-dives into npm mechanics with user-centric Shadcn UI design patterns, Lightning Leap Analytics provided software engineers and product managers with a single source of truth &mdash; eliminating spreadsheet chaos and drastically reducing cross-project breaking changes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NEXT ============ -->
+    <nav class="next wrap" aria-label="Next case study">
+      <a href="arth.html">
+        <span>
+          <span class="k">Next case study</span><br>
+          <span class="v">Arth Dashboard</span>
+        </span>
+        <span class="go">&rarr;</span>
+      </a>
+    </nav>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+/* ==========================================================================
+   CASE STUDY LAYER — sits on top of core.css
+
+   CENTRED SPINE
+   -------------
+   The site's asymmetric spine (0.62fr rail / 1fr content) parks every
+   paragraph in the right-hand column, which on a wide monitor reads as a
+   page pinned to its right edge. Case studies are long-form argument, so
+   they drop the two-column spine entirely:
+
+     · the rail label moves ABOVE its section, on the same left edge as
+       the prose, and carries a hairline so the stack still has structure
+     · one centred measure — --prose — holds every line of text
+     · imagery breaks out to --case-max, centred on the same axis
+
+   Everything is centred as a BLOCK; the type inside stays left-aligned.
+   The centring is done with a `1fr min(--prose,100%) 1fr` grid rather
+   than `margin-inline:auto` on each child, so a child with a narrower
+   max-width (the lede, a capped paragraph) still starts on the shared
+   left edge instead of floating to its own centre.
+   ========================================================================== */
+:root {
+  --prose:    620px;    /* the reading measure — every line starts here */
+  --case-max: 1180px;   /* plate width — imagery breaks out to this */
+  --fig-max:  var(--case-max);  /* one number, so the two can't drift apart */
+}
+
+/* every top-level band of a case page is centred on the page */
+main > .wrap {
+  max-width: calc(var(--case-max) + var(--edge) * 2);
+  margin-inline: auto;
+}
+
+/* the centred text column, shared by the masthead, lede and sections */
+.chead.spine,
+.lede.spine {
+  grid-template-columns: 1fr min(var(--prose), 100%) 1fr;
+  gap: clamp(10px, 1.2vw, 18px);
+  align-items: start;
+}
+.chead.spine > *,
+.lede.spine > * { grid-column: 2; }
+
+/* ---------- masthead ---------- */
+.chead {
+  padding-top: clamp(70px, 13vh, 130px);
+  padding-bottom: clamp(24px, 3.4vw, 44px);
+}
+.chead .rail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+/* a 152px display size needs a 1500px line to live on. In a 620px column
+   it would set 8 characters a line, so the masthead takes a scale tuned to
+   the measure instead: ~20 characters a line, two or three lines deep. */
+.chead h1 {
+  font-size: clamp(30px, 3.6vw, 58px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+}
+
+.lede { padding-bottom: clamp(26px, 3.6vw, 48px); }
+.lede .body { max-width: 62ch; font-size: clamp(15px, 0.82vw, 21px); }
+
+/* ---------- fact strip ----------
+   Separators are borders, not a gap-over-background trick, so the FIRST
+   cell's text sits flush with the strip's own left edge.
+
+   The strip deliberately runs the full plate width rather than the prose
+   measure: it reads as a band separating masthead from argument, and four
+   cells need the room. */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  border-block: 1px solid var(--line);
+}
+.facts div {
+  padding: clamp(16px, 1.8vw, 26px) clamp(16px, 1.6vw, 28px)
+           clamp(16px, 1.8vw, 26px) 0;
+}
+.facts div + div {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(16px, 1.6vw, 28px);
+}
+.facts .k {
+  display: block;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  margin-bottom: 6px;
+}
+.facts .v {
+  display: block;
+  font-size: clamp(14px, 0.78vw, 19px);
+  line-height: 1.35;
+}
+
+/* ---------- section ----------
+   `.sec` is still `.spine` in the markup, but here it is a plain block the
+   width of the plate. Its two children take the centring themselves: the
+   rail sits on top as a chapter marker, the content column below it. */
+.sec.spine {
+  display: block;
+  padding-top: clamp(56px, 9vw, 140px);
+}
+
+/* the label that used to be a sticky left rail is now a ruled header,
+   capped to the prose measure so it shares the text's left edge */
+.sec > .rail {
+  position: static;
+  max-width: min(var(--prose), 100%);
+  margin-inline: auto;
+  margin-bottom: clamp(14px, 1.6vw, 22px);
+  padding-bottom: clamp(9px, 1vw, 13px);
+  border-bottom: 1px solid var(--line);
+}
+
+/* the argument column: prose centred, figures allowed to span the plate */
+.sec > div:not(.rail) {
+  display: grid;
+  grid-template-columns: 1fr min(var(--prose), 100%) 1fr;
+}
+.sec > div:not(.rail) > * { grid-column: 2; min-width: 0; }
+
+.sec h2 {
+  font-size: clamp(22px, 2.2vw, 44px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  margin-bottom: clamp(14px, 1.8vw, 26px);
+}
+.sec h2 em { font-style: normal; color: var(--mute); }
+.sec .body + .body { margin-top: 14px; }
+.sec .body b { font-weight: 500; color: var(--ink); }
+
+/* the framed question that closes an overview section */
+.hmw {
+  margin-top: clamp(20px, 2.4vw, 32px);
+  padding: clamp(20px, 2.2vw, 32px) clamp(20px, 2.4vw, 34px);
+  border: 1px solid var(--ink);
+  border-radius: var(--r);
+  font-size: clamp(16px, 1.15vw, 28px);
+  line-height: 1.35;
+  letter-spacing: -0.014em;
+}
+.hmw span {
+  display: block;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  letter-spacing: 0.01em;
+  color: var(--mute);
+  margin-bottom: 8px;
+}
+
+/* a quiet disclosure block */
+.note-box {
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px dashed var(--line);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.4);
+}
+.note-box .body { max-width: none; }
+
+/* ---------- numbered list ---------- */
+.olist { border-top: 1px solid var(--line); }
+.olist .o {
+  display: flex;
+  gap: clamp(14px, 1.6vw, 26px);
+  padding: clamp(13px, 1.4vw, 20px) 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.olist .o .n {
+  flex: 0 0 auto;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--faint);
+  min-width: 2.2em;
+}
+.olist .o .x { font-size: clamp(14px, 0.7vw, 18px); line-height: 1.45; }
+
+/* ---------- reason / feature cards ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.cards article {
+  background: var(--bg);
+  padding: clamp(20px, 2.2vw, 30px);
+}
+.cards h3 {
+  font-size: clamp(15px, 0.82vw, 20px);
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.cards p {
+  font-size: clamp(12.5px, 0.6vw, 15px);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* ---------- figures ----------
+   Case screenshots range from 4:3 to 1500x5377. Never crop them —
+   natural height, always. */
+.fig { margin-top: clamp(20px, 2.6vw, 38px); }
+.fig .frame {
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.fig .frame img { width: 100%; height: auto; display: block; object-fit: fill; }
+.fig figcaption {
+  margin-top: 11px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  line-height: 1.5;
+}
+
+.fig-row {
+  margin-top: clamp(20px, 2.6vw, 38px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--gap);
+}
+.fig-row figure { margin: 0; }
+.fig-row .frame { border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); }
+.fig-row img { width: 100%; height: auto; display: block; }
+.fig-row figcaption {
+  margin-top: 10px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  line-height: 1.5;
+}
+.fig-row figcaption b { color: var(--ink); font-weight: 500; }
+
+/* ==========================================================================
+   PRODUCT SHOTS BREAK OUT OF THE MEASURE
+
+   Prose wants ~620px; a dashboard screenshot you are meant to actually read
+   wants every pixel available. Because the argument column is a
+   `1fr min(--prose,100%) 1fr` grid, a figure only has to claim all three
+   tracks to widen to the full plate — no negative margins, no percentage
+   arithmetic, and it stays centred on the same axis as the text at every
+   viewport. On narrow screens the 1fr tracks collapse to zero and the rule
+   quietly becomes a no-op.
+   ========================================================================== */
+.sec > div:not(.rail) > figure.fig,
+.sec > div:not(.rail) > .fig-row {
+  grid-column: 1 / -1;
+  margin-top: clamp(28px, 3.6vw, 54px);
+}
+.sec > div:not(.rail) > figure.fig + figure.fig {
+  margin-top: clamp(34px, 4.4vw, 68px);
+}
+
+/* Centre the plate on the page and keep the caption tied to its edges.
+   --plate is normally --fig-max; site.js narrows it for a full-page capture
+   whose natural ratio would otherwise render 4000px tall. 1180px also happens
+   to be the point where the 1500px-wide source stops having pixels to spare.
+
+   The figure is a one-column grid of exactly the plate width, centred. That
+   single column is what makes the caption behave: as a grid item its stretch
+   is clamped by its own max-width and it falls back to start alignment, so a
+   short caption keeps a readable measure AND starts on the plate's left edge
+   — true even when site.js narrows --plate on a tall capture. */
+figure.fig {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: min(var(--plate, var(--fig-max)), 100%);
+}
+figure.fig > figcaption {
+  text-align: left;
+  max-width: min(92ch, 100%);
+}
+
+/* a row of small studies reads better spread across the full plate width
+   than capped and floated, so it takes the break-out but not the cap */
+.sec > div:not(.rail) > .fig-row { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.fig-row figcaption { text-align: left; }
+
+/* ---------- funnel ---------- */
+.funnel { border-top: 1px solid var(--line); }
+.funnel .step {
+  position: relative;
+  padding: clamp(14px, 1.5vw, 22px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.funnel .bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: rgba(19, 19, 19, 0.055);
+  z-index: 0;
+}
+.funnel .row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-right: 6px;
+}
+.funnel .lbl { font-size: clamp(13.5px, 0.68vw, 17px); }
+.funnel .lbl small { color: var(--mute); margin-left: 8px; font-size: 0.85em; }
+.funnel .pct {
+  font-size: clamp(15px, 1vw, 24px);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* ---------- timeline ---------- */
+.tl { border-left: 1px solid var(--line); margin-top: clamp(16px, 2vw, 26px); }
+.tl .t {
+  position: relative;
+  padding: 0 0 clamp(18px, 2vw, 26px) clamp(18px, 2vw, 28px);
+}
+.tl .t::before {
+  content: '';
+  position: absolute;
+  left: -4.5px; top: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--faint);
+}
+.tl .t.warn::before { background: #b4472b; }
+.tl .t .when {
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  margin-bottom: 3px;
+}
+.tl .t .what { font-size: clamp(14px, 0.7vw, 18px); line-height: 1.4; }
+.tl .t.warn .what { color: #b4472b; }
+
+/* ---------- metrics ---------- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-top: clamp(18px, 2.2vw, 28px);
+}
+.metrics div { background: var(--bg); padding: clamp(18px, 2vw, 28px); }
+.metrics .n {
+  font-size: clamp(24px, 2.2vw, 52px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.metrics .n sup { font-size: 0.42em; vertical-align: super; color: var(--mute); }
+.metrics .l {
+  margin-top: 8px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  line-height: 1.4;
+}
+
+/* ---------- swatches ---------- */
+.swatch-set + .swatch-set { margin-top: clamp(18px, 2.2vw, 30px); }
+.swatch-set .label { margin-bottom: 9px; }
+.swatches { display: flex; flex-wrap: wrap; gap: var(--gap); }
+.swatches div {
+  flex: 1 1 92px;
+  min-width: 82px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.swatches .chip { aspect-ratio: 3 / 2; }
+.swatches .hex {
+  padding: 7px 9px;
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  color: var(--ink-2);
+  background: var(--bg);
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- typeface specimen ---------- */
+.spec {
+  padding: clamp(20px, 2.4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.45);
+}
+.spec + .spec { margin-top: var(--gap); }
+.spec .who {
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  margin-bottom: 12px;
+}
+.spec .glyphs {
+  font-size: clamp(15px, 1.35vw, 34px);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+.spec .glyphs span { display: block; }
+.spec .glyphs .lc { color: var(--ink-2); }
+.spec .glyphs .fig { color: var(--mute); margin-top: 0; }
+.spec p {
+  margin-top: 14px;
+  font-size: clamp(12.5px, 0.6vw, 15px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+
+/* ---------- next case ----------
+   pulled back to the prose measure so the footer of the argument lands on
+   the same left edge the argument was written on */
+/* .wrap in the selector so this outranks the `main > .wrap` plate cap */
+.next.wrap {
+  margin-top: clamp(70px, 11vw, 165px);
+  max-width: calc(var(--prose) + var(--edge) * 2);
+  margin-inline: auto;
+  border-top: 1px solid var(--line);
+}
+.next a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: clamp(26px, 3.4vw, 50px) 0 0;
+  transition: padding-left 0.5s var(--ease);
+}
+.next a:hover,
+.next a:focus-visible { padding-left: 12px; }
+.next .go { transition: transform 0.5s var(--ease); }
+.next a:hover .go { transform: translateX(10px); }
+.next .k { font-size: clamp(11.5px, 0.52vw, 14px); color: var(--mute); }
+.next .v {
+  font-size: clamp(22px, 2.4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.024em;
+}
+.next .go { font-size: clamp(18px, 1.3vw, 28px); }

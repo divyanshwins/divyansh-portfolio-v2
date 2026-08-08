@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work — Divyansh Srivastava</title>
+<meta name="description" content="Arth Dashboard, FedEx, Vero Moda and RozInvest.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+
+<style>
+.whead {
+  padding-top: clamp(70px, 13vh, 130px);
+  padding-bottom: clamp(34px, 5vw, 70px);
+  align-items: end;
+}
+.whead .rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+}
+@media (max-width: 900px) { .whead .rail { margin-bottom: 22px; } }
+
+/* One project per spine row: meta in the left rail, image + copy on the
+   right. The shots are ~4:3 dashboards, so the frame is 4:3 — screenshots
+   stay legible instead of being sliced into a letterbox. */
+.proj {
+  padding-top: clamp(56px, 8.5vw, 120px);
+  align-items: start;
+}
+.proj:first-of-type { padding-top: 0; }
+
+.proj .rail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 84px;
+}
+@media (max-width: 900px) {
+  .proj .rail { position: static; flex-direction: row; align-items: baseline; gap: 18px; }
+}
+
+.proj .idx {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 11.5px;
+  color: var(--mute);
+}
+.proj .idx b { color: var(--ink); font-weight: 400; font-size: 13px; }
+
+.proj .shot { aspect-ratio: 4 / 3; }
+
+.shot-tbd {
+  background: repeating-linear-gradient(-45deg, transparent 0 13px,
+              rgba(19,19,19,.045) 13px 14px);
+  border: 1px solid var(--line);
+  position: relative;
+}
+.shot-tbd::after {
+  content: 'Artwork in progress';
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  padding: 7px 16px; border-radius: 999px;
+  background: var(--bg); border: 1px solid var(--line);
+  font-size: clamp(11.5px, .52vw, 14px); color: var(--mute); white-space: nowrap;
+}
+
+.proj-body {
+  margin-top: clamp(16px, 2.2vw, 26px);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px clamp(20px, 3vw, 44px);
+  align-items: start;
+}
+@media (max-width: 620px) { .proj-body { grid-template-columns: 1fr; } }
+
+.proj-body h2 { margin-bottom: 10px; }
+.proj-body .body { max-width: 54ch; }
+
+.tags { display: flex; gap: 7px; flex-wrap: wrap; }
+.tags span {
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.proj-cta { align-self: start; }
+
+.tail {
+  padding-top: clamp(70px, 11vw, 165px);
+  align-items: start;
+}
+.tail .body { max-width: 52ch; }
+.tail .pill { margin-top: 20px; }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html" class="on" aria-current="page">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="whead wrap spine">
+      <div class="rail">
+        <p class="note">
+          Analytics, logistics, performance and identity. Different sectors,
+          the same problem underneath.
+        </p>
+        <p class="label">05 projects</p>
+      </div>
+      <h1 class="d-xl solo">Work</h1>
+    </header>
+
+    <!-- ============ 01 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>01</b><span>2025</span></p>
+        <div class="tags"><span>Product design</span><span>IBM Carbon</span><span>Figma</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="arth.html" data-peek="View Arth ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Arth Dashboard — artwork in progress"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">Arth Dashboard</h2>
+            <p class="body">
+              E-commerce analytics. Logistics, marketing and SKU data unified
+              into one source of truth.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="arth.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 02 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>02</b><span>2026</span></p>
+        <div class="tags"><span>UX research</span><span>Dashboard</span><span>Systems</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="fedex.html" data-peek="View FedEx ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="FedEx UX research — artwork in progress"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">FedEx</h2>
+            <p class="body">
+              Logistics &middot; UX research. Four fragmented systems folded
+              into one territory workspace.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="fedex.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 03 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>03</b><span>2026</span></p>
+        <div class="tags"><span>GA4</span><span>Lighthouse</span><span>Research</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="veromoda.html" data-peek="View Vero Moda ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Vero Moda performance research — artwork in progress"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">Vero Moda</h2>
+            <p class="body">
+              Performance research. 634,884 sessions traced through GA4 to find
+              where users vanished.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="veromoda.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 04 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>04</b><span>2026</span></p>
+        <div class="tags"><span>Brand</span><span>Type</span><span>Iconography</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="rozinvest.html" data-peek="View RozInvest ↗" data-r>
+          <div class="shot"><img src="assets/images/work/rozinvest.jpg" alt="RozInvest visual identity"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">RozInvest</h2>
+            <p class="body">
+              Fintech &middot; Visual identity. A brand system built on Indian
+              market psychology.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="rozinvest.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 05 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>05</b><span>2026</span></p>
+        <div class="tags"><span>Analytics</span><span>Data Vis</span><span>Dashboard</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Lightning Leap Analytics — artwork in progress"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">Lightning Leap Analytics</h2>
+            <p class="body">
+              Analytics &middot; Data Visualization. Real-time performance metrics and intelligent telemetry dashboards.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="lightning.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ TAIL ============ -->
+    <section class="tail wrap spine">
+      <h2 class="label">More soon</h2>
+      <div>
+        <p class="body">
+          New work lands here as it finishes. Happy to walk through the
+          unpublished projects.
+        </p>
+        <a class="pill" href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+      </div>
+    </section>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="process.html">Process</a><br><a href="about.html">About</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

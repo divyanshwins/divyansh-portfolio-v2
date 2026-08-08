@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Process — Divyansh Srivastava</title>
+<meta name="description" content="How I work: frame, research, quantify, architect, prototype, validate.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+
+<style>
+/* ---------- head ---------- */
+.phead {
+  padding-top: clamp(70px, 13vh, 130px);
+  padding-bottom: clamp(30px, 4.4vw, 60px);
+  align-items: end;
+}
+.phead .rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+}
+@media (max-width: 900px) { .phead .rail { margin-bottom: 22px; } }
+
+.intro { padding-top: clamp(10px, 2vw, 24px); align-items: start; }
+.intro .body { max-width: 68ch; }
+
+/* ---------- legend ---------- */
+.legend {
+  margin-top: clamp(18px, 2.4vw, 30px);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.legend span {
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  padding: 5px 13px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ---------- flow map (SVG overview) ---------- */
+.map { padding-top: clamp(56px, 9vw, 130px); }
+.map-scroll { overflow-x: auto; overflow-y: hidden; padding-bottom: 6px; }
+.map svg { width: 100%; min-width: 940px; height: auto; display: block; }
+
+.map .track      { fill: none; stroke: var(--line); stroke-width: 2; }
+.map .prog       { fill: none; stroke: var(--ink); stroke-width: 2; }
+.map .loop       { fill: none; stroke: var(--line); stroke-width: 2; stroke-dasharray: 5 6; }
+.map .node       { cursor: default; }
+.map .node circle { stroke: rgba(19,19,19,.14); stroke-width: 1; }
+.map .n-num      { font-size: 19px; font-weight: 500; }
+.map .n-name     { font-size: 16px; fill: var(--ink); }
+.map .n-sub      { font-size: 12.5px; fill: var(--mute); }
+.map .loop-label { font-size: 12.5px; fill: var(--mute); }
+.map .node:hover circle { stroke: var(--ink); stroke-width: 1.5; }
+
+/* ---------- phases ---------- */
+.phases { padding-top: clamp(56px, 9vw, 130px); }
+
+.phase {
+  align-items: start;
+  padding: clamp(26px, 3.4vw, 46px) 0;
+  border-top: 1px solid var(--line);
+}
+.phase:last-child { border-bottom: 1px solid var(--line); }
+
+.phase .rail { display: flex; flex-direction: column; gap: 10px; }
+.phase .n {
+  font-size: clamp(30px, 3.4vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--faint);
+  transition: color 0.5s var(--ease);
+}
+.phase:hover .n { color: var(--ink); }
+.phase .lens {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: clamp(11px, 0.5vw, 13px);
+  padding: 4px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.phase h3 {
+  font-size: clamp(20px, 1.9vw, 46px);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  line-height: 1.16;
+  margin-bottom: 10px;
+}
+.phase .body { max-width: 56ch; }
+
+.steps {
+  margin-top: clamp(14px, 1.8vw, 22px);
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.steps span {
+  padding: 5px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--ink-2);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* ---------- toolkit ---------- */
+.kit { padding-top: clamp(56px, 9vw, 130px); }
+.kit-set + .kit-set { margin-top: clamp(20px, 2.4vw, 32px); }
+.kit-set .label { margin-bottom: 9px; }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html">Work</a>
+    <a href="process.html" class="on" aria-current="page">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="phead wrap spine">
+      <div class="rail">
+        <p class="note">
+          Evidence first, pixels last. Six phases, and a loop that keeps
+          running until the numbers agree.
+        </p>
+        <p class="label">06 phases</p>
+      </div>
+      <h1 class="d-xl solo">Process</h1>
+    </header>
+
+    <!-- ============ INTRO ============ -->
+    <section class="intro wrap spine">
+      <h2 class="label">In short</h2>
+      <div>
+        <p class="body">
+          I start with the problem statement, then go looking for evidence.
+          Primary research &mdash; ethnographic studies, interviews, usability
+          testing &mdash; sits alongside secondary reading. The quantitative
+          half runs through Google Analytics, Meta, Metabase and Microsoft
+          Clarity, then Excel or Python until the data says something specific.
+          Only then do I design: user flows, information architecture, visual
+          reference mapping. First renders come out of AI &mdash; Claude wired
+          to Figma over MCP, or straight into React Native and HTML.
+          Stakeholders review, I produce, we test, and the numbers decide
+          whether it ships.
+        </p>
+
+        <div class="legend" aria-label="Which lens each phase leans on">
+          <span class="tag-math">mathematics</span>
+          <span class="tag-data">data</span>
+          <span class="tag-psy">psychology</span>
+          <span class="tag-arts">the arts</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FLOW MAP ============ -->
+    <section class="map wrap" aria-labelledby="map-h">
+      <h2 class="label" id="map-h" style="padding-bottom:clamp(14px,2vw,22px)">The loop</h2>
+
+      <div class="map-scroll">
+        <svg viewBox="0 0 1200 300" role="img" aria-labelledby="map-t map-d">
+          <title id="map-t">Divyansh's six-phase design process</title>
+          <desc id="map-d">Frame, Research, Quantify, Architect, Prototype and Validate,
+            connected left to right, with a dashed loop returning from Validate to Frame.</desc>
+
+          <!-- baseline + progress overlay -->
+          <path class="track" d="M 100 96 L 1100 96"></path>
+          <path class="prog"  d="M 100 96 L 1100 96" id="prog"></path>
+
+          <!-- iterate loop -->
+          <path class="loop" id="loop"
+                d="M 1100 96 C 1100 250, 100 250, 100 96"></path>
+          <text class="loop-label" x="600" y="243" text-anchor="middle">iterate until the data agrees</text>
+
+          <g class="node" data-i="0">
+            <circle cx="100" cy="96" r="27" fill="#f3e1d6"></circle>
+            <text class="n-num"  x="100" y="103" text-anchor="middle" fill="#8a4726">01</text>
+            <text class="n-name" x="100" y="150" text-anchor="middle">Frame</text>
+            <text class="n-sub"  x="100" y="170" text-anchor="middle">the problem</text>
+          </g>
+          <g class="node" data-i="1">
+            <circle cx="300" cy="96" r="27" fill="#f3e1d6"></circle>
+            <text class="n-num"  x="300" y="103" text-anchor="middle" fill="#8a4726">02</text>
+            <text class="n-name" x="300" y="150" text-anchor="middle">Research</text>
+            <text class="n-sub"  x="300" y="170" text-anchor="middle">primary + secondary</text>
+          </g>
+          <g class="node" data-i="2">
+            <circle cx="500" cy="96" r="27" fill="#d8e8df"></circle>
+            <text class="n-num"  x="500" y="103" text-anchor="middle" fill="#205a48">03</text>
+            <text class="n-name" x="500" y="150" text-anchor="middle">Quantify</text>
+            <text class="n-sub"  x="500" y="170" text-anchor="middle">analytics to inference</text>
+          </g>
+          <g class="node" data-i="3">
+            <circle cx="700" cy="96" r="27" fill="#dde5f1"></circle>
+            <text class="n-num"  x="700" y="103" text-anchor="middle" fill="#294a75">04</text>
+            <text class="n-name" x="700" y="150" text-anchor="middle">Architect</text>
+            <text class="n-sub"  x="700" y="170" text-anchor="middle">flows + IA</text>
+          </g>
+          <g class="node" data-i="4">
+            <circle cx="900" cy="96" r="27" fill="#e9dded"></circle>
+            <text class="n-num"  x="900" y="103" text-anchor="middle" fill="#5d3769">05</text>
+            <text class="n-name" x="900" y="150" text-anchor="middle">Prototype</text>
+            <text class="n-sub"  x="900" y="170" text-anchor="middle">AI-first renders</text>
+          </g>
+          <g class="node" data-i="5">
+            <circle cx="1100" cy="96" r="27" fill="#d8e8df"></circle>
+            <text class="n-num"  x="1100" y="103" text-anchor="middle" fill="#205a48">06</text>
+            <text class="n-name" x="1100" y="150" text-anchor="middle">Validate</text>
+            <text class="n-sub"  x="1100" y="170" text-anchor="middle">test, measure, ship</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ PHASES ============ -->
+    <section class="phases wrap" aria-labelledby="ph-h">
+      <h2 class="label" id="ph-h" style="padding-bottom:clamp(14px,2vw,22px)">Phase by phase</h2>
+
+      <article class="phase spine">
+        <div class="rail">
+          <p class="n">01</p>
+          <span class="lens tag-psy">psychology</span>
+        </div>
+        <div>
+          <h3>Frame the problem</h3>
+          <p class="body">
+            Before anything else, I get the problem statement to hold still.
+            What is actually being asked, who it hurts, and what a good answer
+            would even look like.
+          </p>
+          <div class="steps"><span>Problem statement</span><span>Scope</span><span>Success criteria</span></div>
+        </div>
+      </article>
+
+      <article class="phase spine">
+        <div class="rail">
+          <p class="n">02</p>
+          <span class="lens tag-psy">psychology</span>
+        </div>
+        <div>
+          <h3>Research, primary and secondary</h3>
+          <p class="body">
+            Primary work depends on the question &mdash; ethnographic studies
+            when I need context, usability testing when I need friction,
+            interviews when I need the why. Secondary reading fills the gaps
+            around it.
+          </p>
+          <div class="steps"><span>Ethnographic studies</span><span>Interviews</span><span>Usability testing</span><span>Secondary reading</span></div>
+        </div>
+      </article>
+
+      <article class="phase spine">
+        <div class="rail">
+          <p class="n">03</p>
+          <span class="lens tag-data">data</span>
+        </div>
+        <div>
+          <h3>Quantify it</h3>
+          <p class="body">
+            The qualitative half tells me where to look; the quantitative half
+            tells me how much it matters. I pull customer response data out of
+            the analytics stack, then push it through Excel or Python until it
+            resolves into a specific inference &mdash; not a vibe.
+          </p>
+          <div class="steps"><span>Google Analytics</span><span>Meta Analytics</span><span>Metabase</span><span>Microsoft Clarity</span><span>Excel</span><span>Python</span></div>
+        </div>
+      </article>
+
+      <article class="phase spine">
+        <div class="rail">
+          <p class="n">04</p>
+          <span class="lens tag-math">mathematics</span>
+        </div>
+        <div>
+          <h3>Architect before visuals</h3>
+          <p class="body">
+            User flows and information architecture come before a single screen
+            gets styled. Only once the structure holds do I map the visual and
+            functional direction through component research.
+          </p>
+          <div class="steps"><span>User flows</span><span>Information architecture</span><span>Component research</span><span>Reference mapping</span></div>
+        </div>
+      </article>
+
+      <article class="phase spine">
+        <div class="rail">
+          <p class="n">05</p>
+          <span class="lens tag-arts">the arts</span>
+        </div>
+        <div>
+          <h3>Prototype, AI first</h3>
+          <p class="body">
+            First renders come out of AI &mdash; Claude connected to Figma over
+            MCP, or vibe-coded straight into a React Native environment or a
+            plain HTML file. Fast, disposable, and always inside the design
+            system and the flows I already committed to.
+          </p>
+          <div class="steps"><span>Claude + Figma MCP</span><span>React Native</span><span>HTML / CSS</span><span>Design system</span></div>
+        </div>
+      </article>
+
+      <article class="phase spine">
+        <div class="rail">
+          <p class="n">06</p>
+          <span class="lens tag-data">data</span>
+        </div>
+        <div>
+          <h3>Validate, produce, measure</h3>
+          <p class="body">
+            Stakeholders see the prototype early. Once I have a green light I go
+            into full production, then test with stakeholders or customers and
+            read the data. If it holds up, it ships. If it doesn't, the loop
+            starts again.
+          </p>
+          <div class="steps"><span>Stakeholder review</span><span>Green light</span><span>Production</span><span>Testing</span><span>Analysis</span></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ TOOLKIT ============ -->
+    <section class="kit wrap" aria-labelledby="kit-h">
+      <h2 class="label" id="kit-h" style="padding-bottom:clamp(14px,2vw,22px)">The toolkit</h2>
+      <div class="kit-set">
+        <p class="label">Measure</p>
+        <div class="tools">
+          <span class="tool"><span class="ico" data-m="GA"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/googleanalytics.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Google Analytics<small>Behaviour</small></span></span>
+          <span class="tool"><span class="ico" data-m="MT"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/meta.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Meta Analytics<small>Acquisition</small></span></span>
+          <span class="tool"><span class="ico" data-m="MB"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/metabase.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Metabase<small>Queries</small></span></span>
+          <span class="tool"><span class="ico" data-m="MC"></span><span class="tn">Microsoft Clarity<small>Session replay</small></span></span>
+          <span class="tool"><span class="ico" data-m="LH"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/lighthouse.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Lighthouse<small>Performance</small></span></span>
+          <span class="tool"><span class="ico" data-m="XL"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/microsoftexcel.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">MS Excel<small>Analysis</small></span></span>
+          <span class="tool"><span class="ico" data-m="PY"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/python.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Python<small>Analysis</small></span></span>
+        </div>
+      </div>
+
+      <div class="kit-set">
+        <p class="label">Reference</p>
+        <div class="tools">
+          <a class="tool" href="https://mobbin.com" target="_blank" rel="noopener"><span class="ico" data-m="MO"></span><span class="tn">Mobbin<small>App flows</small></span></a>
+          <a class="tool" href="https://pinterest.com" target="_blank" rel="noopener"><span class="ico" data-m="PI"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/pinterest.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Pinterest<small>Visual range</small></span></a>
+          <a class="tool" href="https://godly.website" target="_blank" rel="noopener"><span class="ico" data-m="GO"></span><span class="tn">Godly<small>Web craft</small></span></a>
+          <a class="tool" href="https://land-book.com" target="_blank" rel="noopener"><span class="ico" data-m="LB"></span><span class="tn">Land-book<small>Landing pages</small></span></a>
+          <a class="tool" href="https://savee.it" target="_blank" rel="noopener"><span class="ico" data-m="SV"></span><span class="tn">Savee<small>Art direction</small></span></a>
+          <a class="tool" href="https://refero.design" target="_blank" rel="noopener"><span class="ico" data-m="RF"></span><span class="tn">Refero<small>UI patterns</small></span></a>
+        </div>
+      </div>
+
+      <div class="kit-set">
+        <p class="label">Make</p>
+        <div class="tools">
+          <span class="tool"><span class="ico" data-m="FI"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/figma.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Figma<small>Design</small></span></span>
+          <span class="tool"><span class="ico" data-m="CL"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/claude.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Claude + Figma MCP<small>First renders</small></span></span>
+          <span class="tool"><span class="ico" data-m="RN"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/react.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">React Native<small>Prototypes</small></span></span>
+          <span class="tool"><span class="ico" data-m="HT"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/html5.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">HTML / CSS<small>Prototypes</small></span></span>
+          <span class="tool"><span class="ico" data-m="IBM"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/ibm.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">IBM Carbon<small>Systems</small></span></span>
+          <span class="tool"><span class="ico" data-m="AI"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/adobeillustrator.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Illustrator<small>Vector, icons</small></span></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="about.html">About</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // GSAP is a progressive enhancement — if the CDN is unreachable the page
+  // still reads perfectly, it just doesn't animate.
+  if (!window.gsap || reduce) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ---- flow map: draw the spine, pop the nodes, then dash the loop ---- */
+  var prog = document.getElementById('prog');
+  var loop = document.getElementById('loop');
+  var progLen = prog.getTotalLength();
+  var loopLen = loop.getTotalLength();
+
+  gsap.set(prog, { strokeDasharray: progLen, strokeDashoffset: progLen });
+  gsap.set(loop, { opacity: 0 });
+  gsap.set('.map .node', { opacity: 0, scale: 0.5, transformOrigin: 'center' });
+  gsap.set('.map .loop-label', { opacity: 0 });
+
+  gsap.timeline({
+    scrollTrigger: { trigger: '.map', start: 'top 72%', once: true }
+  })
+    .to(prog, { strokeDashoffset: 0, duration: 1.5, ease: 'power2.inOut' })
+    .to('.map .node', { opacity: 1, scale: 1, duration: 0.5, stagger: 0.11,
+                        ease: 'back.out(1.7)' }, 0.25)
+    .to(loop, { opacity: 1, duration: 0.6 }, '-=0.3')
+    .to('.map .loop-label', { opacity: 1, duration: 0.5 }, '-=0.35');
+
+  /* the dashed loop keeps crawling, so the process reads as continuous */
+  gsap.to(loop, { strokeDashoffset: -loopLen, duration: 34,
+                  ease: 'none', repeat: -1 });
+
+  /* ---- phases: slide in, and light the number as each one leads ---- */
+  gsap.utils.toArray('.phase').forEach(function (el) {
+    gsap.from(el, {
+      opacity: 0, y: 26, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+    });
+
+    ScrollTrigger.create({
+      trigger: el, start: 'top 62%', end: 'bottom 42%',
+      onToggle: function (s) {
+        gsap.to(el.querySelector('.n'), {
+          color: s.isActive ? '#131313' : '#b3b3b3',
+          duration: 0.45, overwrite: true
+        });
+      }
+    });
+  });
+
+  /* ---- toolkit columns ---- */
+  gsap.utils.toArray('.kit-set').forEach(function (el, i) {
+    gsap.from(el, {
+      opacity: 0, y: 22, duration: 0.7, delay: i * 0.09, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+    });
+  });
+
+  /* ---- head + intro ---- */
+  gsap.from('.phead .rail, .phead h1', {
+    opacity: 0, y: 22, duration: 0.9, stagger: 0.1, ease: 'power3.out'
+  });
+  gsap.from('.intro .body, .legend span', {
+    opacity: 0, y: 18, duration: 0.7, stagger: 0.06, ease: 'power3.out',
+    scrollTrigger: { trigger: '.intro', start: 'top 84%', once: true }
+  });
+})();
+</script>
+<script src="site.js"></script>
+</body>
+</html>

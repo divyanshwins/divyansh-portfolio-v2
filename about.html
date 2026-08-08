@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Divyansh Srivastava</title>
+<meta name="description" content="M.Des at IIT Roorkee, B.FTech from NIFT. Photography, chai, and a year of product work.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+
+<style>
+/* ---------- head ---------- */
+.ahead {
+  padding-top: clamp(70px, 13vh, 130px);
+  padding-bottom: clamp(30px, 4.4vw, 60px);
+  align-items: end;
+}
+.ahead .rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+}
+@media (max-width: 900px) { .ahead .rail { margin-bottom: 22px; } }
+
+/* ---------- portrait + intro ----------
+   portrait.jpg is 4:3 landscape, so the frame is 4:3 and gets the wider
+   column. Text sits optically centred against it. */
+.pband {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: clamp(24px, 3.6vw, 60px);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .pband { grid-template-columns: 1fr; gap: 28px; }
+}
+
+.pband .frame {
+  border-radius: var(--r);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-2);
+}
+
+.pband .text h2 { margin-bottom: clamp(16px, 2vw, 24px); }
+.pband .text .body { max-width: 46ch; }
+.pband .text .body + .body { margin-top: 13px; }
+
+/* ---------- ledgers ---------- */
+.led-block { padding-top: clamp(64px, 10vw, 150px); }
+.led-block + .led-block { padding-top: clamp(40px, 6vw, 88px); }
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+}
+@media (max-width: 700px) { .pair { grid-template-columns: 1fr; } }
+
+.mini { border-top: 1px solid var(--line); }
+.mini .r {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.mini .r .t { font-size: 15px; }
+.mini .r .t small { display: block; margin-top: 3px; font-size: 11.5px; color: var(--mute); }
+.mini .r .v { font-size: 11.5px; color: var(--mute); white-space: nowrap; }
+
+/* ---------- capabilities ---------- */
+.cap-set + .cap-set { margin-top: clamp(20px, 2.4vw, 32px); }
+.cap-set .label { margin-bottom: 9px; }
+
+/* ---------- photo wall ----------
+   Nearly every photo is portrait 3:4, so every standard cell IS 3:4 and the
+   two landscape frames take double-width cells. Five columns × three rows. */
+.wall { padding-top: clamp(70px, 11vw, 165px); }
+.wall-lead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: clamp(14px, 2vw, 22px);
+}
+
+.gal {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--gap);
+}
+.gal figure {
+  position: relative;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.gal figure:not(.wide) { aspect-ratio: 3 / 4; }
+.gal figure.wide { grid-column: span 2; }   /* stretches to the row height */
+
+.gal img {
+  filter: grayscale(1);
+  transition: filter 0.6s var(--ease), transform 1.1s var(--ease);
+}
+.gal figure:hover img { filter: none; transform: scale(1.05); }
+
+.gal figcaption {
+  position: absolute;
+  left: 12px; right: 12px; bottom: 11px;
+  font-size: 11.5px;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.gal figure:hover figcaption,
+.gal figure:focus-within figcaption { opacity: 1; transform: none; }
+
+@media (max-width: 1100px) { .gal { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px)  { .gal { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html" class="on" aria-current="page">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="ahead wrap spine">
+      <div class="rail">
+        <p class="note">
+          It isn't always Shakespeare, but it's genuine. It's a life.
+        </p>
+        <p class="label">सारंगापुर, प्रयागराज</p>
+      </div>
+      <h1 class="d-xl solo">About</h1>
+    </header>
+
+    <!-- ============ PORTRAIT + INTRO ============ -->
+    <section class="pband wrap">
+      <div class="frame" data-r>
+        <img src="assets/images/about/portrait.jpg"
+             alt="Divyansh Srivastava sketching at his desk">
+      </div>
+
+      <div class="text">
+        <h2 class="d-m" data-r>
+          My life revolves around
+          <span class="tag tag-math">mathematics</span>,
+          <span class="tag tag-data">data</span>,
+          <span class="tag tag-psy">psychology</span>
+          and <span class="tag tag-arts">the arts</span>
+          &mdash; the alchemy through which I become a product designer.
+        </h2>
+        <p class="body" data-r>
+          Hi. My name is Divyansh Srivastava. I'm currently a student at IIT
+          Roorkee, doing my Masters in Design. I have two years of corporate
+          experience across consulting and influencer marketing, plus a few
+          internships.
+        </p>
+        <p class="body" data-r>
+          Born and brought up in Prayagraj. I come from a background that makes
+          me a designer who is tech-driven, data-driven and psychology-driven.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section class="led-block wrap spine" aria-labelledby="edu-h">
+      <h2 class="label" id="edu-h">Education</h2>
+      <div class="ledger" data-r>
+        <div class="row">
+          <span class="t">M.Des, Indian Institute of Technology Roorkee</span>
+          <span class="v">25 &mdash; 27</span>
+        </div>
+        <div class="row">
+          <span class="t">B.FTech, National Institute of Fashion Technology</span>
+          <span class="v">24</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="led-block wrap spine" aria-labelledby="exp-h">
+      <h2 class="label" id="exp-h">Experience &mdash; 2 years</h2>
+      <div class="ledger" data-r>
+        <div class="row">
+          <span class="t">ShopDeck<small>Product design</small></span>
+          <span class="v">&#8599;</span>
+        </div>
+        <div class="row">
+          <span class="t">Rare Rabbit<small>Design</small></span>
+          <span class="v">&#8599;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ OFF THE CLOCK ============ -->
+    <section class="led-block wrap spine" aria-labelledby="off-h">
+      <h2 class="label" id="off-h">Off the clock</h2>
+      <div class="pair" data-r>
+        <div>
+          <p class="label" style="margin-bottom:10px">On repeat</p>
+          <div class="mini">
+            <div class="r"><span class="t">4AM in Karachi<small>Talha Anjum</small></span></div>
+            <div class="r"><span class="t">Sifar Safar<small>Karan Aujla</small></span></div>
+            <div class="r"><span class="t">One Love<small>Shubh</small></span></div>
+          </div>
+        </div>
+        <div>
+          <p class="label" style="margin-bottom:10px">Shows I swear by</p>
+          <div class="mini">
+            <div class="r"><span class="t">The Blacklist</span><span class="v">crime · red</span></div>
+            <div class="r"><span class="t">Dexter</span><span class="v">thriller · dark</span></div>
+            <div class="r"><span class="t">Better Call Saul</span><span class="v">drama · slippin'</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CAPABILITIES ============ -->
+    <section class="led-block wrap spine" aria-labelledby="cap-h">
+      <h2 class="label" id="cap-h">Technical capabilities</h2>
+      <div>
+        <p class="body" style="max-width:56ch;margin-bottom:clamp(20px,2.4vw,30px)" data-r>
+          I'm comfortable owning a problem from the analytics query all the way
+          to the shipped interface &mdash; which mostly means I'm fluent in the
+          tools on both sides of that gap.
+        </p>
+
+        <div class="cap-set" data-r>
+          <p class="label">Analytics &amp; data</p>
+          <div class="tools">
+            <span class="tool"><span class="ico" data-m="GA"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/googleanalytics.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Google Analytics<small>Funnels, GA4 events</small></span></span>
+            <span class="tool"><span class="ico" data-m="MT"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/meta.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Meta Analytics<small>Campaign performance</small></span></span>
+            <span class="tool"><span class="ico" data-m="MB"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/metabase.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Metabase<small>Querying, dashboards</small></span></span>
+            <span class="tool"><span class="ico" data-m="MC"></span><span class="tn">Microsoft Clarity<small>Session replay, heatmaps</small></span></span>
+            <span class="tool"><span class="ico" data-m="LH"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/lighthouse.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Lighthouse<small>Performance auditing</small></span></span>
+            <span class="tool"><span class="ico" data-m="XL"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/microsoftexcel.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">MS Excel<small>Modelling, analysis</small></span></span>
+            <span class="tool"><span class="ico" data-m="PY"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/python.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Python<small>Data analysis</small></span></span>
+          </div>
+        </div>
+
+        <div class="cap-set" data-r>
+          <p class="label">Design &amp; systems</p>
+          <div class="tools">
+            <span class="tool"><span class="ico" data-m="FI"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/figma.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Figma<small>Design, prototyping</small></span></span>
+            <span class="tool"><span class="ico" data-m="IBM"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/ibm.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">IBM Carbon<small>Enterprise design system</small></span></span>
+            <span class="tool"><span class="ico" data-m="AI"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/adobeillustrator.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Illustrator<small>Vector, iconography</small></span></span>
+            <span class="tool"><span class="ico" data-m="PS"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/adobephotoshop.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Photoshop<small>Image treatment</small></span></span>
+            <span class="tool"><span class="ico" data-m="MO"></span><span class="tn">Mobbin<small>Pattern research</small></span></span>
+            <span class="tool"><span class="ico" data-m="PI"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/pinterest.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Pinterest<small>Visual reference</small></span></span>
+          </div>
+        </div>
+
+        <div class="cap-set" data-r>
+          <p class="label">Build &amp; AI</p>
+          <div class="tools">
+            <span class="tool"><span class="ico" data-m="CL"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/claude.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">Claude<small>Figma MCP, first renders</small></span></span>
+            <span class="tool"><span class="ico" data-m="RN"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/react.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">React Native<small>Prototyping</small></span></span>
+            <span class="tool"><span class="ico" data-m="HT"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/html5.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">HTML<small>Working prototypes</small></span></span>
+            <span class="tool"><span class="ico" data-m="CS"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/css.svg" alt="" loading="lazy" onerror="this.remove()"></span><span class="tn">CSS<small>Layout, motion</small></span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PHOTO WALL ============ -->
+    <section class="wall wrap" aria-labelledby="ph-h">
+      <div class="wall-lead">
+        <h2 class="label" id="ph-h">I ♡ photography</h2>
+        <span class="label">Hover to colour</span>
+      </div>
+
+      <div class="gal">
+        <!-- row 1 -->
+        <figure>
+          <img src="assets/images/about/camera.jpg" alt="My first camera">
+          <figcaption>my 1st camera</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/chai.jpg" alt="A cup of chai">
+          <figcaption>chai-paglu</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/iit.jpg" alt="Class at IIT Roorkee">
+          <figcaption>class @ iit</figcaption>
+        </figure>
+        <figure class="wide">
+          <img src="assets/images/about/batchmates.jpg" alt="With my batchmates">
+          <figcaption>the bros</figcaption>
+        </figure>
+
+        <!-- row 2 -->
+        <figure class="wide">
+          <img src="assets/images/about/sunset3.jpg" alt="Sunset">
+          <figcaption>golden hour</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/desk.jpg" alt="My work setup">
+          <figcaption>work setup</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/buswork.jpg" alt="Working on a bus">
+          <figcaption>i work anywhere</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/tshirt.jpg" alt="A t-shirt I designed">
+          <figcaption>i make tshirts</figcaption>
+        </figure>
+
+        <!-- row 3 -->
+        <figure>
+          <img src="assets/images/about/presentation.jpg" alt="My design presentation">
+          <figcaption>my design presentation</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/gym.jpg" alt="At the gym">
+          <figcaption>trying to loose weight</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/bestfriend.jpg" alt="My best friend">
+          <figcaption>someone believed it first</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/cupwriting.jpg" alt="Writing on a cup">
+          <figcaption>cup notes</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/about/sunset1.jpg" alt="Sunset in Prayagraj">
+          <figcaption>प्रयागराज</figcaption>
+        </figure>
+      </div>
+    </section>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="process.html">Process</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

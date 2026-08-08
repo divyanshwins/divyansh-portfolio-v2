@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Vero Moda was losing users · Divyansh Srivastava</title>
+<meta name="description" content="634,884 sessions traced through GA4 and Lighthouse to find where users were vanishing.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="case.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html" class="on">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="chead wrap spine">
+      <div class="rail">
+        <p class="label">Performance investigation &middot; 2026</p>
+      </div>
+      <h1>Why Vero Moda was losing users before they even arrived</h1>
+    </header>
+
+    <section class="lede wrap spine">
+      <div class="rail"><p class="label">In brief</p></div>
+      <p class="body">
+        A deep-dive into Bestseller's product page performance, using GA4 funnel
+        analysis and Lighthouse diagnostics to trace 600k+ sessions and find
+        where &mdash; and why &mdash; users were vanishing.
+      </p>
+    </section>
+
+    <div class="facts wrap">
+      <div><span class="k">Company</span><span class="v">Bestseller / Vero Moda</span></div>
+      <div><span class="k">Tools</span><span class="v">GA4 &middot; Lighthouse &middot; PSI</span></div>
+      <div><span class="k">Sessions analysed</span><span class="v">634,884</span></div>
+      <div><span class="k">Role</span><span class="v">UX + performance research</span></div>
+    </div>
+
+    <div class="wrap" style="padding-top:clamp(28px,3.6vw,52px)">
+      <figure class="fig" style="margin-top:0" data-r>
+        <div class="frame"><img src="assets/images/case/veromoda-hero.jpg" alt="Vero Moda product page" loading="lazy"></div>
+        <figcaption>Bestseller's growth runs on performance marketing &mdash; which makes page speed a revenue metric, not an engineering one.</figcaption>
+      </figure>
+    </div>
+
+    <!-- ============ 01 BACKGROUND ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">01 &mdash; Background</p></div>
+      <div>
+        <h2>The company, and the <em>business problem</em></h2>
+        <p class="body" data-r>
+          Bestseller is a Danish fashion company behind global brands including
+          Vero Moda, Jack &amp; Jones, Only and Selected. Their growth is fuelled
+          by performance marketing campaigns that send users directly to product
+          pages &mdash; <b>making page speed a revenue-critical metric</b>.
+        </p>
+        <p class="body" data-r>
+          Performance marketing spend was not converting at expected rates. Users
+          arriving from paid ads were exiting immediately, before any meaningful
+          interaction. The hypothesis: the drop was a performance issue, not a
+          targeting issue.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 02 FUNNEL ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">02 &mdash; Funnel analysis</p></div>
+      <div>
+        <h2>Where do users <em>drop?</em></h2>
+        <p class="body" data-r>
+          634,884 sessions were traced through the purchase funnel in GA4. The
+          results revealed a catastrophic drop immediately after landing.
+        </p>
+
+        <div class="funnel" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="step">
+            <span class="bar" style="width:100%"></span>
+            <span class="row"><span class="lbl">Ad click<small>634,884 sessions</small></span><span class="pct">100%</span></span>
+          </div>
+          <div class="step">
+            <span class="bar" style="width:100%"></span>
+            <span class="row"><span class="lbl">Product page<small>634,884 sessions</small></span><span class="pct">100%</span></span>
+          </div>
+          <div class="step">
+            <span class="bar" style="width:11%"></span>
+            <span class="row"><span class="lbl">Add to cart<small>69,837</small></span><span class="pct">11%</span></span>
+          </div>
+          <div class="step">
+            <span class="bar" style="width:5%"></span>
+            <span class="row"><span class="lbl">Checkout<small>31,744</small></span><span class="pct">5%</span></span>
+          </div>
+          <div class="step">
+            <span class="bar" style="width:3%"></span>
+            <span class="row"><span class="lbl">Purchase<small>19,046</small></span><span class="pct">3%</span></span>
+          </div>
+        </div>
+
+        <p class="body" style="margin-top:clamp(16px,2vw,24px)" data-r>
+          <b>89% of users exited between the product page and Add to Cart</b>
+          &mdash; the single largest drop-off in the entire journey.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 03 USER FLOW ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">03 &mdash; User flow investigation</p></div>
+      <div>
+        <h2>Two dominant <em>entry journeys</em></h2>
+        <p class="body" data-r>
+          User flow analysis showed that almost no traffic entered via the
+          homepage. Ad campaigns were sending users directly into product
+          discovery surfaces &mdash; two patterns emerged.
+        </p>
+
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>Flow 01 — direct to PDP</h3>
+            <p><b>Ad click → product page → exit.</b> Users arriving directly on the product page frequently exited without scrolling or interacting. No dwell time was recorded.</p>
+          </article>
+          <article>
+            <h3>Flow 02 — product listing</h3>
+            <p><b>Ad click → PLP → exit.</b> Users who landed on the listing page left without discovering relevant products. Poor recommendation surfaces accelerated the drop.</p>
+          </article>
+        </div>
+
+        <div class="note-box" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <p class="body">
+            <b>Two root causes identified.</b> Ad→PDP drop: slow product page
+            loading causing abandonment before engagement. Ad→PLP drop:
+            ineffective product discovery due to poor recommendation and
+            filtering systems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 DISCOVERY ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; Critical discovery</p></div>
+      <div>
+        <h2>The bottleneck was <em>the page itself</em></h2>
+        <p class="body" data-r>
+          Deeper investigation confirmed the largest exit cluster was happening
+          <b>during page load</b> &mdash; before users could see any content at
+          all. This pointed to a performance bottleneck, not a campaign
+          targeting problem.
+        </p>
+
+        <div class="tl" data-r>
+          <div class="t"><p class="when">t = 0 ms</p><p class="what">Ad click</p></div>
+          <div class="t"><p class="when">~200 ms</p><p class="what">Page request</p></div>
+          <div class="t"><p class="when">9.1 s</p><p class="what">Heavy JS execution blocks the main thread</p></div>
+          <div class="t"><p class="when">3.6 s</p><p class="what">First paint</p></div>
+          <div class="t"><p class="when">8.0 s</p><p class="what">Largest Contentful Paint</p></div>
+          <div class="t warn"><p class="when">&mdash;</p><p class="what">User exits long before LCP</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 PSI ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">05 &mdash; PageSpeed Insights</p></div>
+      <div>
+        <h2>Performance <em>diagnostics</em></h2>
+        <p class="body" data-r>
+          The product page was tested using Lighthouse under Slow 4G on an
+          emulated Moto G Power. A score of <b>38/100</b> placed it firmly in the
+          "Poor" bracket. With LCP at 8 seconds, the page was effectively
+          invisible by the time it rendered &mdash; for mobile users arriving
+          from paid ads, a blank screen that never resolved.
+        </p>
+
+        <div class="metrics" data-r>
+          <div><p class="n">3.6<sup>s</sup></p><p class="l">First Contentful Paint</p></div>
+          <div><p class="n">8.0<sup>s</sup></p><p class="l">Largest Contentful Paint</p></div>
+          <div><p class="n">2,090<sup>ms</sup></p><p class="l">Total Blocking Time</p></div>
+          <div><p class="n">6.4<sup>s</sup></p><p class="l">Speed Index</p></div>
+        </div>
+
+        <div class="metrics" data-r>
+          <div><p class="n">7,223<sup>KB</sup></p><p class="l">Total network payload</p></div>
+          <div><p class="n">2,359<sup>KB</sup></p><p class="l">Image optimisation potential</p></div>
+          <div><p class="n">1,160<sup>KB</sup></p><p class="l">Unused JavaScript</p></div>
+          <div><p class="n">602<sup>KB</sup></p><p class="l">Cache lifetime savings</p></div>
+        </div>
+
+        <p class="label" style="margin-top:clamp(22px,2.6vw,34px);margin-bottom:9px">Root causes</p>
+        <div class="cards" data-r>
+          <article>
+            <h3>Heavy JavaScript execution</h3>
+            <p>Main thread blocked for 9.1 seconds. No user interaction could register during this window.</p>
+          </article>
+          <article>
+            <h3>Excessive main-thread work</h3>
+            <p>12.5 seconds of total main thread work — scripts, layout recalculation and style processing.</p>
+          </article>
+          <article>
+            <h3>Large network payload</h3>
+            <p>Over 7 MB transferred on initial load. On Slow 4G that alone adds seconds before any rendering.</p>
+          </article>
+          <article>
+            <h3>Critical request chains</h3>
+            <p>Dependency chains between requests introduced another 1.6 seconds of latency.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 06 UX ENGINEERING ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">06 &mdash; UX engineering</p></div>
+      <div>
+        <h2>Interface decisions <em>driving the bloat</em></h2>
+
+        <p class="label" style="margin-bottom:8px" data-r>Observation 01 &mdash; image navigation rendering</p>
+        <p class="body" data-r>
+          Every product page dynamically generated one DOM dot indicator per
+          product image. A product with 20 images created 20 dots, 20 click
+          handlers and 20 layout recalculations &mdash; multiplied across
+          hundreds of products viewed per session. <b>Fix:</b> replace dot
+          navigation with in-frame arrow controls, dramatically reducing DOM
+          complexity.
+        </p>
+
+        <p class="label" style="margin-top:clamp(20px,2.4vw,30px);margin-bottom:8px" data-r>Observation 02 &mdash; high-resolution product images</p>
+        <p class="body" data-r>
+          Fashion e-commerce demands image quality &mdash; fabric texture, colour
+          accuracy and garment detail are purchasing signals. As a result images
+          were uploaded at maximum resolution without format optimisation,
+          accounting for over 2 MB of avoidable payload. Reducing resolution
+          wasn't feasible, so the <b>fix was format</b>: convert to WebP, holding
+          visual quality while cutting file size by roughly 60% (~800 KB → ~300
+          KB).
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 07 RESOLUTION ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">07 &mdash; Project resolution</p></div>
+      <div>
+        <h2>What was <em>proposed and built</em></h2>
+        <p class="body" data-r>
+          With the bottlenecks mapped, a two-pronged solution was designed:
+          reduce time-to-interactive for users arriving from paid ads, and expand
+          the product discovery surface to catch non-converting visitors.
+        </p>
+
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>Lazy loading implementation</h3>
+            <p>Images and non-critical assets deferred until they enter the viewport — critical for the first 3-second window where abandonment is highest.</p>
+          </article>
+          <article>
+            <h3>Expanded product discovery</h3>
+            <p>Users who landed but didn't convert were shown additional products inline — routed into browse mode instead of exiting.</p>
+          </article>
+        </div>
+
+        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          The recommendation layout moved from a <b>3-column carousel</b> (only
+          one product visible per row on mobile; users rarely scrolled) to a
+          <b>2-column vertical grid</b> with progressive loading &mdash; more
+          visible product surface, simpler scroll interaction.
+        </p>
+        <p class="body" data-r>
+          By mapping the drop-off to a specific performance bottleneck rather
+          than a marketing problem, the investigation reframed the solution
+          entirely. The redesigned experience reduces friction in the critical
+          first seconds and creates secondary conversion opportunities for users
+          who don't immediately purchase &mdash; maximising the value of every ad
+          click.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ NEXT ============ -->
+    <nav class="next wrap" aria-label="Next case study">
+      <a href="rozinvest.html">
+        <span>
+          <span class="k">Next case study</span><br>
+          <span class="v">Rozinvest &mdash; Type &amp; Visual Identity</span>
+        </span>
+        <span class="go">&rarr;</span>
+      </a>
+    </nav>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

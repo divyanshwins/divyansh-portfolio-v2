@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Divyansh Srivastava — Product Designer</title>
+<meta name="description" content="Product designer. M.Des at IIT Roorkee, B.FTech at NIFT. Mathematics, data, psychology and the arts.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+
+<style>
+/* ---------- hero ---------- */
+/* the topbar is a lone Resume button here, so it collapses to the nav's own
+   row and the hero starts straight underneath */
+.topbar { justify-content: flex-end; }
+
+/* the name is sized off the page WIDTH, so the air around it is measured in
+   vw too — tie it to vh and the spacing drifts off the type on a short window */
+.hero {
+  padding-top: clamp(38px, 5.2vw, 90px);
+  padding-bottom: clamp(26px, 4vh, 52px);
+}
+
+/* ---------- the name ----------
+   DIVYANSH flush LEFT on line one, SRIVASTAVA flush RIGHT on line two, both
+   at one size — and that size is deliberately NOT the size that fills the
+   page. The composition is the stagger: the long line runs ~2/3 of the
+   measure, which leaves an open triangle of air top-right and bottom-left
+   and lets the two words overlap only through the middle. Set them wall to
+   wall and the counter-space disappears — it just reads as a solid block.
+
+   --name-span is that fraction. site.js measures the longest line and fits
+   it to exactly `span × page width`, so the right edge of SRIVASTAVA is
+   placed, not guessed. The vw value on .fit is the fallback if JS never
+   runs. On small screens the span opens to 1 — at 390px, two-thirds of the
+   measure is just a small word floating in a large empty hero. */
+.wordmark {
+  --name-span: 0.655;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.wordmark .ln { display: block; }
+.wordmark .ln + .ln { text-align: right; }
+.wordmark .fit {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 11vw;
+}
+
+/* stretch keeps the rail exactly as tall as the headline, so the note tops
+   out with the headline and "last updated" sits on its final baseline */
+.hero-lower {
+  margin-top: clamp(40px, 7.5vw, 130px);
+  display: grid;
+  grid-template-columns: 0.62fr 1fr;
+  gap: var(--spine-gap);
+  align-items: stretch;
+}
+.hero-rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+}
+.hero-rail .updated {
+  display: flex;
+  gap: 14px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--ink);
+}
+.hero-rail .updated span:first-child { color: var(--mute); }
+
+@media (max-width: 900px) {
+  .hero { padding-top: clamp(80px, 14vh, 120px); }
+  .hero-lower { grid-template-columns: 1fr; gap: 26px; }
+  .hero-rail { gap: 20px; }
+  /* less room to be generous with — the stagger tightens but survives */
+  .wordmark { --name-span: 0.84; }
+  .wordmark .fit { font-size: 14vw; }
+}
+@media (max-width: 560px) {
+  /* at phone width two-thirds of the measure is a small word in a big hero */
+  .wordmark { --name-span: 1; line-height: 0.98; }
+  .wordmark .fit { font-size: 16.5vw; }
+  .hero-lower { margin-top: 34px; }
+}
+
+/* ---------- work ---------- */
+.work { padding-top: clamp(50px, 8vw, 110px); }
+
+.work-lead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: clamp(16px, 2vw, 24px);
+}
+
+/* the work shots are ~4:3 dashboards — the grid matches that ratio so
+   nothing important gets cropped out of frame */
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(26px, 3.6vw, 50px) var(--gap);
+}
+.duo .shot { aspect-ratio: 4 / 3; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+/* awaiting artwork — a quiet ruled field, not a broken image */
+.shot-tbd {
+  background:
+    repeating-linear-gradient(-45deg,
+      transparent 0 13px,
+      rgba(19, 19, 19, 0.045) 13px 14px);
+  border: 1px solid var(--line);
+  position: relative;
+}
+.shot-tbd::after {
+  content: 'Artwork in progress';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  white-space: nowrap;
+}
+
+.work-foot { margin-top: clamp(22px, 3vw, 36px); }
+
+/* ---------- statement ---------- */
+.stmt { padding-top: clamp(80px, 13vw, 200px); }
+.stmt .rail ul { list-style: none; margin-top: 8px; }
+.stmt .rail li { font-size: 11px; line-height: 1.75; }
+
+.stmt-tail {
+  margin-top: clamp(26px, 3.6vw, 46px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stmt-tail .body { max-width: 62ch; }
+
+/* ---------- band ---------- */
+.band {
+  margin-top: clamp(70px, 11vw, 160px);
+  aspect-ratio: 16 / 6;
+  overflow: hidden;
+}
+@media (max-width: 760px) { .band { aspect-ratio: 4 / 3; } }
+
+/* ---------- ledgers ---------- */
+.led-block { padding-top: clamp(70px, 11vw, 165px); }
+.led-block + .led-block { padding-top: clamp(44px, 7vw, 100px); }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html" class="on" aria-current="page">Home</a>
+    <a href="work.html">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- no brand block on the home page: the wordmark 150px below IS the brand,
+       and your reference leaves this corner empty for exactly that reason.
+       The inner pages keep theirs — they have nothing else naming the site. -->
+  <div class="topbar wrap">
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <header class="hero wrap">
+      <h1 class="wordmark" data-fit>
+        <span class="ln"><span class="fit">Divyansh</span></span>
+        <span class="ln"><span class="fit">Srivastava</span></span>
+      </h1>
+
+      <div class="hero-lower">
+        <div class="hero-rail">
+          <p class="note" data-r>
+            M.Des at IIT Roorkee, B.FTech from NIFT, two years of work behind
+            me. I build interfaces for people who have to make decisions out of
+            numbers.
+          </p>
+          <p class="updated" data-r>
+            <span>Last updated</span>
+            <span>02 &mdash; 08 &mdash; 2026</span>
+          </p>
+        </div>
+
+        <p class="d-xl sentence" data-r>
+          Product designer working through mathematics, data,
+          psychology and the arts
+        </p>
+      </div>
+    </header>
+
+    <!-- ============ WORK ============ -->
+    <section class="work wrap" aria-labelledby="work-h">
+      <div class="work-lead">
+        <h2 class="label" id="work-h">Selected work</h2>
+        <span class="label">Five projects &mdash; 2025 to 2026</span>
+      </div>
+
+      <div class="duo">
+        <a class="card" href="arth.html" data-peek="View Arth ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Arth Dashboard — artwork in progress"></div>
+          <div class="cap">
+            <span class="t">Arth Dashboard</span>
+            <span class="m">E-commerce analytics</span>
+            <span class="m">2025</span>
+          </div>
+        </a>
+
+        <a class="card" href="fedex.html" data-peek="View FedEx ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="FedEx UX research — artwork in progress"></div>
+          <div class="cap">
+            <span class="t">FedEx</span>
+            <span class="m">Logistics &middot; UX research</span>
+            <span class="m">2026</span>
+          </div>
+        </a>
+
+        <a class="card" href="veromoda.html" data-peek="View Vero Moda ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Vero Moda performance research — artwork in progress"></div>
+          <div class="cap">
+            <span class="t">Vero Moda</span>
+            <span class="m">Performance research</span>
+            <span class="m">2026</span>
+          </div>
+        </a>
+
+        <a class="card" href="rozinvest.html" data-peek="View RozInvest ↗" data-r>
+          <div class="shot"><img src="assets/images/work/rozinvest.jpg" alt="RozInvest visual identity"></div>
+          <div class="cap">
+            <span class="t">RozInvest</span>
+            <span class="m">Fintech &middot; Visual identity</span>
+            <span class="m">2026</span>
+          </div>
+        </a>
+
+        <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
+          <div class="shot shot-tbd" role="img" aria-label="Lightning Leap Analytics — artwork in progress"></div>
+          <div class="cap">
+            <span class="t">Lightning Leap Analytics</span>
+            <span class="m">Analytics &middot; Data Visualization</span>
+            <span class="m">2026</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="work-foot">
+        <a class="pill-solid" href="work.html">All works</a>
+      </div>
+    </section>
+
+    <!-- ============ STATEMENT ============ -->
+    <section class="stmt wrap spine" aria-labelledby="stmt-h">
+      <div class="rail">
+        <span class="label">Worked with:</span>
+        <ul>
+          <li>Rare Rabbit</li>
+          <li>ShopDeck</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="d-l" id="stmt-h" data-r>
+          Studied fashion technology at
+          <span class="ring">NIFT</span>.
+          Now reading design at
+          <span class="ring">IIT Roorkee</span>.
+        </h2>
+
+        <div class="stmt-tail" data-r>
+          <p class="body">
+            My life revolves around mathematics, data, psychology and the arts
+            &mdash; the alchemy through which I become a product designer.
+            Two years of corporate work across consulting and influencer
+            marketing sat me next to the dashboards, and the problem was never
+            the data. It was that nobody could read it.
+          </p>
+          <a class="pill" href="about.html">Read more</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BAND ============ -->
+    <div class="band" data-r>
+      <img src="assets/images/about/desk.jpg" alt="Divyansh's desk setup">
+    </div>
+
+    <!-- ============ EDUCATION ============ -->
+    <section class="led-block wrap spine" aria-labelledby="edu-h">
+      <h2 class="label" id="edu-h">Education</h2>
+      <div class="ledger" data-r>
+        <div class="row">
+          <span class="t">M.Des, Indian Institute of Technology Roorkee</span>
+          <span class="v">25 &mdash; 27</span>
+        </div>
+        <div class="row">
+          <span class="t">B.FTech, National Institute of Fashion Technology</span>
+          <span class="v">24</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="led-block wrap spine" aria-labelledby="exp-h">
+      <h2 class="label" id="exp-h">Experience &mdash; 2 years</h2>
+      <div class="ledger" data-r>
+        <div class="row">
+          <span class="t">ShopDeck<small>Product design</small></span>
+          <span class="v">&#8599;</span>
+        </div>
+        <div class="row">
+          <span class="t">Rare Rabbit<small>Design</small></span>
+          <span class="v">&#8599;</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+    <p class="c3"><a href="work.html">Work</a><br><a href="process.html">Process</a><br><a href="about.html">About</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

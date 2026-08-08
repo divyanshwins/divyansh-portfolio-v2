@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Divyansh Srivastava</title>
+<meta name="description" content="Email, WhatsApp and phone. Based in Roorkee, India.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+
+<style>
+.chead {
+  padding-top: clamp(70px, 13vh, 130px);
+  padding-bottom: clamp(30px, 4.4vw, 60px);
+  align-items: end;
+}
+.chead .rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+}
+@media (max-width: 900px) { .chead .rail { margin-bottom: 22px; } }
+
+/* the email as the page's real headline */
+.mailto {
+  display: block;
+  padding: clamp(26px, 4vw, 60px) 0 clamp(30px, 4.4vw, 66px);
+  border-bottom: 1px solid var(--line);
+}
+.mailto a {
+  display: inline-block;
+  font-size: clamp(24px, 4.4vw, 118px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  word-break: break-word;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.45s var(--ease);
+}
+.mailto a:hover { border-color: var(--ink); }
+.mailto .label { margin-bottom: clamp(10px, 1.4vw, 18px); }
+
+/* channels */
+.chan { padding-top: clamp(44px, 6.5vw, 96px); }
+.chan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-top: clamp(14px, 2vw, 22px);
+}
+.chan-grid a,
+.chan-grid div {
+  background: var(--bg);
+  padding: clamp(20px, 2.4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  transition: background 0.35s var(--ease);
+}
+.chan-grid a:hover { background: #fff; }
+.chan-grid .k {
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+}
+.chan-grid .v {
+  font-size: clamp(16px, 1.15vw, 26px);
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+  word-break: break-word;
+}
+.chan-grid .go {
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chan-grid a:hover .go { color: var(--ink); }
+
+/* the WhatsApp cell reads as the primary action */
+.chan-grid a.hero-cell { background: var(--ink); color: var(--bg); }
+.chan-grid a.hero-cell .k,
+.chan-grid a.hero-cell .go { color: rgba(255, 255, 255, 0.6); }
+.chan-grid a.hero-cell:hover { background: #000; }
+.chan-grid a.hero-cell:hover .go { color: #fff; }
+
+/* availability strip */
+.avail { padding-top: clamp(44px, 6.5vw, 96px); align-items: start; }
+.avail .body { max-width: 52ch; }
+.dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="on" aria-current="page">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="chead wrap spine">
+      <div class="rail">
+        <p class="note">
+          Open to product design roles from 2027, and to interesting problems
+          before then. Fastest reply is WhatsApp.
+        </p>
+        <p class="label">Roorkee, Uttarakhand &middot; IST</p>
+      </div>
+      <h1 class="d-xl solo">Contact</h1>
+    </header>
+
+    <section class="mailto wrap">
+      <p class="label">Write to me</p>
+      <a href="mailto:divyanshbittu2002@gmail.com">divyanshbittu2002@gmail.com</a>
+    </section>
+
+    <section class="chan wrap" aria-labelledby="chan-h">
+      <h2 class="label" id="chan-h">Every other way</h2>
+
+      <div class="chan-grid">
+        <a class="hero-cell" id="waLink" href="#" target="_blank" rel="noopener" data-r>
+          <span class="k">WhatsApp</span>
+          <span class="v" id="waNum">Message me</span>
+          <span class="go">Open chat &#8599;</span>
+        </a>
+
+        <a id="telLink" href="#" data-r>
+          <span class="k">Phone</span>
+          <span class="v" id="telNum">Call</span>
+          <span class="go">Tap to dial &#8599;</span>
+        </a>
+
+        <a href="mailto:divyanshbittu2002@gmail.com" data-r>
+          <span class="k">Email</span>
+          <span class="v">divyanshbittu2002<wbr>@gmail.com</span>
+          <span class="go">Compose &#8599;</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/divyansh-srivastava" target="_blank" rel="noopener" data-r>
+          <span class="k">LinkedIn</span>
+          <span class="v">Professional</span>
+          <span class="go">Connect &#8599;</span>
+        </a>
+
+        <a href="https://www.behance.net/divyanshsrivastava" target="_blank" rel="noopener" data-r>
+          <span class="k">Behance</span>
+          <span class="v">Design work</span>
+          <span class="go">Browse &#8599;</span>
+        </a>
+
+        <a data-resume href="assets/resume.pdf" data-r>
+          <span class="k">Résumé</span>
+          <span class="v">PDF</span>
+          <span class="go">Open &amp; download &#8599;</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="avail wrap spine">
+      <h2 class="label">Availability</h2>
+      <div>
+        <p class="body" data-r>
+          <span class="dot" aria-hidden="true"></span>
+          Currently in the second year of my M.Des at IIT Roorkee, graduating
+          2027. I take on freelance brand and product work alongside it, and
+          I'm always happy to talk through a problem even if there's no project
+          attached to it.
+        </p>
+      </div>
+    </section>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="about.html">About</a></p>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   >>> DIVYANSH: PUT YOUR NUMBER HERE — this is the only place to edit.
+   Country code, no +, no spaces. e.g. '919876543210' for +91 98765 43210
+   Leave it as '' and the WhatsApp / Phone cells hide themselves rather
+   than shipping a dead link.
+   ===================================================================== */
+var PHONE = '';
+var PRESET = "Hi Divyansh — saw your portfolio.";
+
+(function () {
+  var wa = document.getElementById('waLink');
+  var tel = document.getElementById('telLink');
+
+  if (!PHONE) { wa.remove(); tel.remove(); return; }
+
+  var pretty = '+' + PHONE.replace(/^(\d{2})(\d{5})(\d{5})$/, '$1 $2 $3');
+  wa.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(PRESET);
+  document.getElementById('waNum').textContent = pretty;
+  tel.href = 'tel:+' + PHONE;
+  document.getElementById('telNum').textContent = pretty;
+})();
+</script>
+<script src="site.js"></script>
+</body>
+</html>

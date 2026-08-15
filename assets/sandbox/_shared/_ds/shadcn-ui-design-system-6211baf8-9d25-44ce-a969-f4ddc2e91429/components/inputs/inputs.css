@@ -1,0 +1,81 @@
+/* ============ Input OTP ============ */
+.ui-otp { display: inline-flex; align-items: center; gap: 8px; }
+.ui-otp__group { display: inline-flex; }
+.ui-otp__slot {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--input);
+  border-right-width: 0;
+  display: grid;
+  place-content: center;
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  background: var(--background);
+  color: var(--foreground);
+}
+.ui-otp__group .ui-otp__slot:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+.ui-otp__group .ui-otp__slot:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; border-right-width: 1px; }
+.ui-otp__slot[data-active="true"] { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 35%, transparent); z-index: 1; border-right-width: 1px; }
+.ui-otp__sep { color: var(--muted-foreground); }
+
+/* ============ Button Group ============ */
+.ui-buttongroup { display: inline-flex; }
+.ui-buttongroup > .ui-btn { border-radius: 0; border: 1px solid var(--border); border-left-width: 0; }
+.ui-buttongroup > .ui-btn:first-child { border-left-width: 1px; border-radius: var(--radius-md) 0 0 var(--radius-md); }
+.ui-buttongroup > .ui-btn:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.ui-buttongroup > .ui-btn--default { border-color: var(--primary); }
+
+/* ============ Input Group (addon + input) ============ */
+.ui-inputgroup {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  overflow: hidden;
+}
+.ui-inputgroup:focus-within { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 35%, transparent); }
+.ui-inputgroup__addon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  height: 36px;
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  background: var(--muted);
+  white-space: nowrap;
+}
+.ui-inputgroup__addon svg { width: 16px; height: 16px; }
+.ui-inputgroup__addon--text { background: transparent; }
+.ui-inputgroup input {
+  flex: 1;
+  height: 36px;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 12px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--foreground);
+  min-width: 0;
+}
+.ui-inputgroup input::placeholder { color: var(--muted-foreground); }
+
+/* ============ Kbd ============ */
+.ui-kbd {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--font-medium);
+  line-height: 1;
+}

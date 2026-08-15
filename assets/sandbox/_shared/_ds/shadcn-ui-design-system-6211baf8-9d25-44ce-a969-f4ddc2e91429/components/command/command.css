@@ -1,0 +1,80 @@
+/* ============ Command ============ */
+.ui-command {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.ui-command__input-wrap { display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid var(--border); }
+.ui-command__input-wrap svg { width: 16px; height: 16px; color: var(--muted-foreground); flex-shrink: 0; }
+.ui-command__input {
+  flex: 1;
+  height: 44px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--foreground);
+}
+.ui-command__input::placeholder { color: var(--muted-foreground); }
+.ui-command__list { max-height: 300px; overflow-y: auto; padding: 4px; }
+.ui-command__group-label { padding: 8px 8px 4px; font-size: var(--text-xs); color: var(--muted-foreground); font-weight: var(--font-medium); }
+.ui-command__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  text-align: left;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.ui-command__item svg { width: 16px; height: 16px; color: var(--muted-foreground); }
+.ui-command__item[data-active="true"], .ui-command__item:hover { background: var(--accent); color: var(--accent-foreground); }
+.ui-command__item .ui-command__shortcut { margin-left: auto; }
+.ui-command__shortcut { font-size: var(--text-xs); color: var(--muted-foreground); letter-spacing: 0.05em; }
+.ui-command__empty { padding: 28px 8px; text-align: center; font-size: var(--text-sm); color: var(--muted-foreground); }
+
+/* command in dialog */
+.ui-command__dialog .ui-command { border: none; }
+
+/* ============ Combobox ============ */
+.ui-combobox { position: relative; display: inline-flex; }
+.ui-combobox__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 220px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.ui-combobox__trigger[data-placeholder="true"] { color: var(--muted-foreground); }
+.ui-combobox__trigger svg { width: 16px; height: 16px; color: var(--muted-foreground); opacity: 0.6; }
+.ui-combobox__pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 220px;
+  z-index: 50;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-lg);
+}
+.ui-combobox__check { width: 16px; height: 16px; margin-left: auto; color: var(--foreground); }

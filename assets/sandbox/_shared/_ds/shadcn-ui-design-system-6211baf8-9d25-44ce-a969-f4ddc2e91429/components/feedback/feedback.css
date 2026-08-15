@@ -1,0 +1,95 @@
+/* ============ Alert ============ */
+.ui-alert {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+.ui-alert > svg { width: 16px; height: 16px; margin-top: 2px; color: currentColor; }
+.ui-alert__title { grid-column: 2; font-weight: var(--font-medium); font-size: var(--text-sm); line-height: 1.4; }
+.ui-alert__desc { grid-column: 2; font-size: var(--text-sm); color: var(--muted-foreground); line-height: 1.5; }
+.ui-alert--destructive { border-color: color-mix(in srgb, var(--destructive) 50%, transparent); color: var(--destructive); }
+.ui-alert--destructive .ui-alert__desc { color: color-mix(in srgb, var(--destructive) 90%, var(--foreground)); }
+
+/* ============ Tooltip ============ */
+.ui-tooltip { position: relative; display: inline-flex; }
+.ui-tooltip__content {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+  z-index: 50;
+  box-shadow: var(--shadow-md);
+}
+.ui-tooltip:hover .ui-tooltip__content,
+.ui-tooltip:focus-within .ui-tooltip__content { opacity: 1; }
+
+/* ============ Spinner ============ */
+.ui-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: ui-spin 0.6s linear infinite;
+}
+.ui-spinner--sm { width: 12px; height: 12px; border-width: 2px; }
+.ui-spinner--lg { width: 24px; height: 24px; border-width: 3px; }
+@keyframes ui-spin { to { transform: rotate(360deg); } }
+
+/* ============ Toast / Sonner ============ */
+.ui-toaster {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 80;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+}
+.ui-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 16px;
+  animation: ui-toast-in 0.22s ease;
+}
+.ui-toast__icon { margin-top: 1px; flex-shrink: 0; display: inline-flex; }
+.ui-toast__icon svg { width: 18px; height: 18px; }
+.ui-toast__body { flex: 1; min-width: 0; }
+.ui-toast__title { font-size: var(--text-sm); font-weight: var(--font-medium); line-height: 1.3; }
+.ui-toast__desc { font-size: var(--text-sm); color: var(--muted-foreground); margin-top: 2px; }
+.ui-toast__action { margin-top: 10px; }
+.ui-toast__close {
+  border: none; background: transparent; cursor: pointer;
+  color: var(--muted-foreground); font-size: 14px; line-height: 1;
+  padding: 2px; border-radius: var(--radius-sm); flex-shrink: 0;
+}
+.ui-toast__close:hover { background: var(--accent); color: var(--accent-foreground); }
+.ui-toast--success .ui-toast__icon { color: var(--green-600); }
+.ui-toast--error .ui-toast__icon { color: var(--destructive); }
+.ui-toast--info .ui-toast__icon { color: var(--chart-1); }
+@keyframes ui-toast-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }

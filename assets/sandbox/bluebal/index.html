@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB artists</title>
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/fonts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/fig-tokens.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/palette.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/typography.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/spacing.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/theme.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/forms/forms.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/inputs/inputs.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/data-display/data-display.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/disclosure/disclosure.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/feedback/feedback.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/navigation/navigation.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/command/command.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/calendar/calendar.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/charts/charts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/overlay/overlay.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/components.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/styles.css">
+<style>
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans, system-ui, sans-serif);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand .mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+  }
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .section-head h1 {
+    margin: 0 0 8px;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .section-head .sub {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted-foreground);
+  }
+  .rule {
+    height: 1px;
+    background: var(--border);
+    margin: 28px 0 32px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .pcard {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: box-shadow 140ms ease, border-color 140ms ease;
+  }
+  .pcard:hover {
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in oklab, var(--border) 60%, var(--foreground));
+  }
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+  }
+  .thumb .status {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .status.progress { background: rgba(255,255,255,0.92); color: #18181b; }
+  .status.complete { background: #dcfce7; color: #166534; }
+  .status.draft { background: #18181b; color: #fafafa; }
+
+  .pbody { padding: 18px 18px 20px; }
+  .pbody h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .pbody .meta {
+    margin: 0 0 18px;
+    font-size: 14px;
+    color: var(--muted-foreground);
+  }
+  .track {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--muted);
+    overflow: hidden;
+  }
+  .track > span { display: block; height: 100%; border-radius: 999px; }
+  .pbody .time {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: var(--muted-foreground);
+  }
+
+  .newcard {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-xl);
+    background: transparent;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+  }
+  .newcard:hover {
+    border-color: color-mix(in oklab, var(--border) 50%, var(--foreground));
+    background: var(--accent);
+    color: var(--foreground);
+  }
+  .newcard .plus {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--muted);
+    display: grid;
+    place-items: center;
+  }
+  .newcard span { font-size: 15px; font-weight: 500; }
+
+  .avatars {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .avatars .av {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 12px; font-weight: 600;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.92);
+    box-shadow: var(--shadow-sm);
+  }
+  .avatars .av + .av { margin-left: -9px; }
+  .avatars .av.more { background: rgba(24,24,27,0.72); }
+  .card-tools {
+    position: absolute;
+    top: 12px; right: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    z-index: 3;
+  }
+  .tool-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    color: #18181b;
+    border: none;
+    display: grid; place-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background 140ms ease;
+  }
+  .tool-btn:hover { background: #fff; }
+  .share-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    color: #18181b;
+    border: none;
+    font-size: 13px; font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background 140ms ease;
+  }
+  .share-btn:hover { background: #fff; }
+  .share-btn.shared { background: #18181b; color: #fafafa; }
+
+  .dlg-field { display: flex; flex-direction: column; gap: 6px; }
+  .dlg-row { display: flex; gap: 8px; align-items: flex-end; }
+  .dlg-row .grow { flex: 1; }
+  .collab-list { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+  .collab-item { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .collab-item .av {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 12px; font-weight: 600; color: #fff; flex: none;
+  }
+  .collab-item .nm { font-size: 14px; font-weight: 500; }
+  .collab-item .rl { font-size: 12px; color: var(--muted-foreground); }
+  .dlg-sep { height: 1px; background: var(--border); margin: 18px 0; }
+  .dlg-label { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 10px; }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .search-wrap { flex: 0 1 420px; }
+  .search-wrap .ui-inputgroup { width: 100%; }
+  .sort-wrap { margin-left: auto; }
+  .toolbar .ui-inputgroup__addon svg { color: var(--muted-foreground); }
+  .sort-ico { display: inline-flex; }
+  .menu-check { width: 16px; display: inline-flex; align-items: center; }
+
+  .empty {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-xl);
+    padding: 72px 24px;
+    text-align: center;
+    color: var(--muted-foreground);
+  }
+  .empty .ic {
+    width: 46px; height: 46px;
+    border-radius: var(--radius-md);
+    background: var(--muted);
+    display: grid; place-items: center;
+    margin: 0 auto 18px;
+    color: var(--muted-foreground);
+  }
+  .empty p { margin: 0; font-size: 15px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="../_shared/vendor/react.production.min.js"></script>
+<script src="../_shared/vendor/react-dom.production.min.js"></script>
+<script src="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/_ds_bundle.js"></script>
+
+<script>
+  const { Button, InputGroup, DropdownMenu, Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Input, Select } = window.ShadcnUiDesignSystem_6211ba;
+  const Icon = window.Icon;
+  const e = React.createElement;
+  const HOUR = 3600e3, DAY = 24 * HOUR;
+
+  const AV_COLORS = ["#6366f1", "#0e7490", "#16a34a", "#d97706", "#db2777", "#7c3aed", "#dc2626", "#0891b2"];
+  function mkMember(name, i) {
+    const parts = name.trim().split(/\s+/);
+    const initials = (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+    return { name: name, initials: initials, color: AV_COLORS[i % AV_COLORS.length] };
+  }
+  const glyph = (d) => e("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", dangerouslySetInnerHTML: { __html: d } });
+  const G = {
+    edit: '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>',
+    rename: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
+    userPlus: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>',
+    copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
+    share: '<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'
+  };
+
+  const now = Date.now();
+  const PROJECTS = [
+    {
+      title: "The Lantern Boy",
+      meta: "32 pages · Storybook Illustration",
+      pages: 32, bookType: "Storybook Illustration",
+      author: "Mira Okonkwo", tags: ["fantasy", "adventure", "night"],
+      status: "In Progress", statusClass: "progress",
+      gradient: "linear-gradient(165deg, #2b1769 0%, #6d28d9 42%, #7a1f4d 72%, #4a1717 100%)",
+      progress: 74, bar: "#6366f1", time: "2 hours ago",
+      editedTs: now - 2 * HOUR, createdTs: now - 30 * DAY,
+      members: ["Mira Okonkwo", "Sam Keller", "Jo Lin", "Aria Pace"], shared: true
+    },
+    {
+      title: "Ocean Dreams",
+      meta: "24 pages · Watercolor",
+      pages: 24, bookType: "Watercolor",
+      author: "Theo Vance", tags: ["nature", "calm", "sea"],
+      status: "Complete", statusClass: "complete",
+      gradient: "linear-gradient(180deg, #1d4ed8 0%, #0e7490 48%, #eab308 100%)",
+      progress: 100, bar: "#16a34a", time: "Yesterday",
+      editedTs: now - 1 * DAY, createdTs: now - 62 * DAY,
+      members: ["Theo Vance", "Nina Ruiz"], shared: true
+    },
+    {
+      title: "Forest Friends",
+      meta: "16 pages · Flat Vector",
+      pages: 16, bookType: "Flat Vector",
+      author: "Priya Anand", tags: ["animals", "friendship", "forest"],
+      status: "In Progress", statusClass: "progress",
+      gradient: "linear-gradient(150deg, #052e2b 0%, #0f5132 55%, #14532d 80%, #052015 100%)",
+      progress: 38, bar: "#6366f1", time: "3 days ago",
+      editedTs: now - 3 * DAY, createdTs: now - 11 * DAY,
+      members: ["Priya Anand", "Dan Mercer", "Kai Tan"], shared: false
+    },
+    {
+      title: "Night Sky Tales",
+      meta: "48 pages · Digital Painting",
+      pages: 48, bookType: "Digital Painting",
+      author: "Leo Marsh", tags: ["space", "bedtime", "stars"],
+      status: "Draft", statusClass: "draft",
+      gradient: "linear-gradient(180deg, #0a0f24 0%, #1e1b4b 65%, #312e81 100%)",
+      progress: 12, bar: "#6366f1", time: "1 week ago",
+      editedTs: now - 7 * DAY, createdTs: now - 90 * DAY,
+      members: ["Leo Marsh"], shared: false
+    }
+  ];
+
+  const SORT_OPTIONS = [
+    { key: "az", label: "Alphabetical (A–Z)" },
+    { key: "za", label: "Alphabetical (Z–A)" },
+    { key: "edited-desc", label: "Recently Edited" },
+    { key: "edited-asc", label: "Oldest Edited" },
+    { key: "created-desc", label: "Newest Created" },
+    { key: "created-asc", label: "Oldest Created" },
+    { key: "pages-desc", label: "Most Pages" },
+    { key: "pages-asc", label: "Fewest Pages" },
+    { key: "status-progress", label: "Status: In Progress" },
+    { key: "status-complete", label: "Status: Complete" }
+  ];
+
+  const num = (v) => (typeof v === "number" && !isNaN(v)) ? v : 0;
+  function normalize(p) {
+    const o = Object.assign({}, p);
+    if (o.pages == null) { const m = /(\d+)\s*pages/i.exec(o.meta || ""); o.pages = m ? +m[1] : 0; }
+    if (o.bookType == null && o.meta) { const parts = o.meta.split("·"); o.bookType = (parts[1] || "").trim(); }
+    o.tags = Array.isArray(o.tags) ? o.tags : [];
+    o.members = Array.isArray(o.members) ? o.members : [];
+    o.shared = !!o.shared;
+    o.author = o.author || "";
+    o.editedTs = num(o.editedTs);
+    o.createdTs = num(o.createdTs);
+    return o;
+  }
+
+  function sortProjects(list, key) {
+    const arr = list.slice();
+    const byTitle = (a, b) => (a.title || "").localeCompare(b.title || "", undefined, { sensitivity: "base" });
+    switch (key) {
+      case "az": return arr.sort(byTitle);
+      case "za": return arr.sort((a, b) => byTitle(b, a));
+      case "edited-desc": return arr.sort((a, b) => b.editedTs - a.editedTs);
+      case "edited-asc": return arr.sort((a, b) => a.editedTs - b.editedTs);
+      case "created-desc": return arr.sort((a, b) => b.createdTs - a.createdTs);
+      case "created-asc": return arr.sort((a, b) => a.createdTs - b.createdTs);
+      case "pages-desc": return arr.sort((a, b) => b.pages - a.pages);
+      case "pages-asc": return arr.sort((a, b) => a.pages - b.pages);
+      case "status-progress": return arr.sort((a, b) => (b.status === "In Progress") - (a.status === "In Progress") || b.editedTs - a.editedTs);
+      case "status-complete": return arr.sort((a, b) => (b.status === "Complete") - (a.status === "Complete") || b.editedTs - a.editedTs);
+      default: return arr;
+    }
+  }
+
+  function ProjectCard(p) {
+    const members = (p.members || []).map(mkMember);
+    const shown = members.slice(0, 3);
+    const extra = members.length - shown.length;
+    const stop = (ev) => ev.stopPropagation();
+
+    const menuItems = [
+      { label: "Edit Project", icon: glyph(G.edit), onSelect: () => p.onMenu(p, "edit") },
+      { label: "Rename Project", icon: glyph(G.rename), onSelect: () => p.onMenu(p, "rename") },
+      { label: "Add Team Member", icon: glyph(G.userPlus), onSelect: () => p.onCollab(p) },
+      { label: "Duplicate Project", icon: glyph(G.copy), onSelect: () => p.onMenu(p, "duplicate") },
+      { separator: true },
+      { label: "Delete Project", icon: glyph(G.trash), destructive: true, onSelect: () => p.onMenu(p, "delete") }
+    ];
+
+    return e("div", { className: "pcard", onClick: p.onClick || null },
+      e("div", { className: "thumb", style: { background: p.gradient } },
+        e("span", { className: "status " + p.statusClass }, p.status),
+        members.length ? e("div", { className: "avatars", onClick: (ev) => { stop(ev); p.onCollab(p); } },
+          shown.map((m, i) => e("span", { key: i, className: "av", style: { background: m.color }, title: m.name }, m.initials)),
+          extra > 0 ? e("span", { className: "av more", title: extra + " more" }, "+" + extra) : null
+        ) : null,
+        e("div", { className: "card-tools", onClick: stop },
+          e(DropdownMenu, {
+            align: "end",
+            trigger: e("button", { className: "tool-btn", "aria-label": "More options", type: "button" }, e(Icon, { name: "more-vertical", size: 18 })),
+            items: menuItems
+          }),
+          e("button", { className: "share-btn" + (p.shared ? " shared" : ""), type: "button", "aria-label": p.shared ? "Shared" : "Share", title: p.shared ? "Shared" : "Share", onClick: (ev) => { stop(ev); p.onShare(p); } },
+            glyph(G.share)
+          )
+        )
+      ),
+      e("div", { className: "pbody" },
+        e("h3", null, p.title),
+        e("p", { className: "meta" }, p.meta),
+        e("div", { className: "track" },
+          e("span", { style: { width: p.progress + "%", background: p.bar } })
+        ),
+        e("p", { className: "time" }, p.time)
+      )
+    );
+  }
+
+  function Roster({ project }) {
+    const members = (project.members || []).map(mkMember);
+    return members.map((m, i) => ({ name: m.name, initials: m.initials, color: m.color, role: i === 0 ? "Owner" : "Can Edit" }));
+  }
+
+  const PERMS = ["Can View", "Can Comment", "Can Edit"];
+  const PermSelect = (value, onChange) => e("div", { style: { width: 150, flex: "none" } }, e(Select, { value: value, onChange: onChange, options: PERMS }));
+
+  function ShareDialog({ project, onClose }) {
+    const [email, setEmail] = React.useState("");
+    const [perm, setPerm] = React.useState("Can View");
+    const [linkPerm, setLinkPerm] = React.useState("Can View");
+    const [people, setPeople] = React.useState(() => Roster({ project: project }));
+    const [copied, setCopied] = React.useState(false);
+    const link = "https://bbartists.app/p/" + project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const invite = () => {
+      const v = email.trim();
+      if (!v) return;
+      const nm = v.split("@")[0];
+      setPeople(list => list.concat([{ name: v, initials: (nm[0] || "?").toUpperCase(), color: AV_COLORS[list.length % AV_COLORS.length], role: perm }]));
+      setEmail("");
+    };
+    const copy = () => { try { navigator.clipboard && navigator.clipboard.writeText(link); } catch (e) {} setCopied(true); setTimeout(() => setCopied(false), 1600); };
+    return e(Dialog, { open: true, onOpenChange: (v) => { if (!v) onClose(); } },
+      e(DialogHeader, null,
+        e(DialogTitle, null, "Share “" + project.title + "”"),
+        e(DialogDescription, null, project.shared ? "This project is shared. Invite more people or copy the link." : "Invite collaborators by email or share a link.")
+      ),
+      e("div", { className: "dlg-row" },
+        e("div", { className: "grow" }, e(Input, { type: "email", placeholder: "Email address", value: email, onChange: (ev) => setEmail(ev.target.value), onKeyDown: (ev) => { if (ev.key === "Enter") invite(); } })),
+        PermSelect(perm, (ev) => setPerm(ev.target.value)),
+        e(Button, { onClick: invite }, "Invite")
+      ),
+      e("div", { className: "dlg-sep" }),
+      e("div", { className: "dlg-label" }, "People with access"),
+      e("div", { className: "collab-list" },
+        people.map((m, i) => e("div", { key: i, className: "collab-item" },
+          e("span", { className: "av", style: { background: m.color } }, m.initials),
+          e("div", { style: { flex: 1 } }, e("div", { className: "nm" }, m.name), e("div", { className: "rl" }, m.role))
+        ))
+      ),
+      e("div", { className: "dlg-sep" }),
+      e("div", { className: "dlg-label" }, "Share link"),
+      e("div", { className: "dlg-row" },
+        e("div", { className: "grow" }, e(Input, { readOnly: true, value: link })),
+        PermSelect(linkPerm, (ev) => setLinkPerm(ev.target.value)),
+        e(Button, { variant: "outline", onClick: copy }, copied ? e(Icon, { name: "check", size: 16 }) : glyph(G.link), copied ? "Copied" : "Copy link")
+      ),
+      e(DialogFooter, null,
+        e(Button, { variant: "outline", onClick: onClose }, "Done")
+      )
+    );
+  }
+
+  function CollabDialog({ project, onClose, onManage }) {
+    const people = Roster({ project: project });
+    return e(Dialog, { open: true, onOpenChange: (v) => { if (!v) onClose(); } },
+      e(DialogHeader, null,
+        e(DialogTitle, null, "Collaborators"),
+        e(DialogDescription, null, people.length + (people.length === 1 ? " person" : " people") + " on “" + project.title + "”")
+      ),
+      e("div", { className: "collab-list" },
+        people.map((m, i) => e("div", { key: i, className: "collab-item" },
+          e("span", { className: "av", style: { background: m.color } }, m.initials),
+          e("div", { style: { flex: 1 } }, e("div", { className: "nm" }, m.name), e("div", { className: "rl" }, m.role))
+        ))
+      ),
+      e(DialogFooter, null,
+        e(Button, { variant: "outline", onClick: onClose }, "Close"),
+        e(Button, { onClick: onManage }, glyph(G.userPlus), "Add team member")
+      )
+    );
+  }
+
+  function Home() {
+    const [query, setQuery] = React.useState("");
+    const [sortKey, setSortKey] = React.useState("edited-desc");
+    const [shareProj, setShareProj] = React.useState(null);
+    const [collabProj, setCollabProj] = React.useState(null);
+    let saved = [];
+    try { saved = JSON.parse(localStorage.getItem("bb_projects") || "[]"); } catch (e) {}
+    const openWs = (id) => { try { localStorage.setItem("bb_current", id); } catch (e) {} window.location.href = "Workspace.html"; };
+    const savedCards = saved.map(p => Object.assign(normalize(p), { onClick: () => openWs(p.id) }));
+    const ALL = savedCards.concat(PROJECTS.map(normalize));
+    const inProgress = ALL.filter(p => p.status === "In Progress").length;
+    const countText = ALL.length + (ALL.length === 1 ? " project" : " projects") + " · " + inProgress + " in progress";
+
+    const onShare = (p) => setShareProj(p);
+    const onCollab = (p) => setCollabProj(p);
+    const onMenu = (p, action) => {
+      if (action === "edit") { (p.onClick || (() => { window.location.href = "Workspace.html"; }))(); return; }
+      if (action === "rename") { window.prompt("Rename project", p.title); return; }
+      if (action === "duplicate") { window.alert("“" + p.title + "” duplicated."); return; }
+      if (action === "delete") { window.confirm("Delete “" + p.title + "”? This can’t be undone."); return; }
+    };
+
+    const q = query.trim().toLowerCase();
+    const filtered = q ? ALL.filter(p => {
+      const hay = [p.title, p.bookType, p.author, (p.tags || []).join(" ")].join(" ").toLowerCase();
+      return hay.indexOf(q) !== -1;
+    }) : ALL;
+    const visible = sortProjects(filtered, sortKey);
+
+    const sortItems = SORT_OPTIONS.map(opt => ({
+      label: opt.label,
+      icon: e("span", { className: "menu-check" }, sortKey === opt.key ? e(Icon, { name: "check", size: 16 }) : null),
+      onSelect: () => setSortKey(opt.key)
+    }));
+
+    const sortGlyph = e("span", { className: "sort-ico" },
+      e("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" },
+        e("path", { d: "m3 16 4 4 4-4" }), e("path", { d: "M7 20V4" }),
+        e("path", { d: "m21 8-4-4-4 4" }), e("path", { d: "M17 4v16" })
+      )
+    );
+
+    return e(React.Fragment, null,
+      e("header", { className: "topbar" },
+        e("div", { className: "brand" },
+          e("span", { className: "mark" }, "BB"),
+          "BB artists"
+        ),
+        e("div", { className: "topbar-actions" },
+          e(Button, { variant: "ghost", size: "icon", "aria-label": "Profile", onClick: () => { window.location.href = "Profile.html"; } },
+            e(Icon, { name: "user", size: 18 })
+          ),
+          e(Button, { variant: "ghost", size: "icon", "aria-label": "Settings", onClick: () => { window.location.href = "Settings.html"; } },
+            e(Icon, { name: "settings", size: 18 })
+          )
+        )
+      ),
+      e("main", { className: "container" },
+        e("div", { className: "section-head" },
+          e("div", null,
+            e("h1", null, "Your Projects"),
+            e("p", { className: "sub" }, countText)
+          ),
+          e(Button, { onClick: () => { window.location.href = "New Project.html"; } },
+            e(Icon, { name: "plus", size: 16 }),
+            "New Project"
+          )
+        ),
+        e("div", { className: "rule" }),
+        e("div", { className: "toolbar" },
+          e("div", { className: "search-wrap" },
+            e(InputGroup, {
+              prefix: e(Icon, { name: "search", size: 16 }),
+              placeholder: "Search projects...",
+              "aria-label": "Search projects",
+              value: query,
+              onChange: (ev) => setQuery(ev.target.value)
+            })
+          ),
+          e("div", { className: "sort-wrap" },
+            e(DropdownMenu, {
+              align: "end",
+              trigger: e(Button, { variant: "outline" }, sortGlyph, "Sort"),
+              items: sortItems
+            })
+          )
+        ),
+        visible.length === 0
+          ? e("div", { className: "empty" },
+              e("div", { className: "ic" }, e(Icon, { name: "search", size: 20 })),
+              e("p", null, "No projects found. Try another search.")
+            )
+          : e("div", { className: "grid" },
+              visible.map((p, i) => e(React.Fragment, { key: p.id || i }, ProjectCard(Object.assign({}, p, { onShare: onShare, onCollab: onCollab, onMenu: onMenu })))),
+              !q ? e("div", { className: "newcard", onClick: () => { window.location.href = "New Project.html"; } },
+                e("div", { className: "plus" }, e(Icon, { name: "plus", size: 22 })),
+                e("span", null, "Create new storybook")
+              ) : null
+            )
+      ),
+      shareProj ? e(ShareDialog, { key: "share", project: shareProj, onClose: () => setShareProj(null) }) : null,
+      collabProj ? e(CollabDialog, { key: "collab", project: collabProj, onClose: () => setCollabProj(null), onManage: () => { setShareProj(collabProj); setCollabProj(null); } }) : null
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(e(Home));
+</script>
+</body>
+</html>

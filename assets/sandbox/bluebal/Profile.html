@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account · BB artists</title>
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/fonts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/fig-tokens.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/palette.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/typography.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/spacing.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/theme.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/forms/forms.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/inputs/inputs.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/data-display/data-display.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/disclosure/disclosure.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/feedback/feedback.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/navigation/navigation.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/command/command.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/calendar/calendar.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/charts/charts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/overlay/overlay.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/components.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/styles.css">
+<style>
+  html, body { margin:0; min-height:100%; background:var(--background); color:var(--foreground); font-family:var(--font-sans, system-ui, sans-serif); }
+  *, *::before, *::after { box-sizing:border-box; }
+  a { color:var(--foreground); }
+  a:hover { color:var(--foreground); }
+
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 32px; border-bottom:1px solid var(--border); position:sticky; top:0; background:color-mix(in oklab, var(--background) 88%, transparent); backdrop-filter:blur(8px); z-index:20; }
+  .brand { font-size:16px; font-weight:600; letter-spacing:-0.01em; display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand .mark { width:26px; height:26px; border-radius:7px; background:linear-gradient(150deg,#2563eb,#4f46e5); color:#fff; display:grid; place-items:center; font-size:13px; font-weight:700; }
+  .topbar-actions { display:flex; align-items:center; gap:4px; }
+
+  .layout { max-width:1080px; margin:0 auto; padding:44px 32px 96px; display:grid; grid-template-columns:216px 1fr; gap:56px; align-items:start; }
+  @media (max-width:880px){ .layout{ grid-template-columns:1fr; gap:28px; } .sidenav{ position:static !important; } }
+
+  .page-head h1 { margin:0 0 6px; font-size:30px; font-weight:700; letter-spacing:-0.02em; }
+  .page-head p { margin:0; font-size:15px; color:var(--muted-foreground); }
+
+  .sidenav { position:sticky; top:96px; display:flex; flex-direction:column; gap:1px; }
+  .sidenav a { display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:var(--radius-md); font-size:14px; font-weight:500; color:var(--muted-foreground); text-decoration:none; transition:background 120ms ease, color 120ms ease; }
+  .sidenav a:hover { background:var(--accent); color:var(--foreground); }
+  .sidenav a.active { background:var(--accent); color:var(--foreground); }
+  .sidenav a svg { opacity:0.85; }
+  .sidenav .navsep { height:1px; background:var(--border); margin:8px 4px; }
+  .sidenav a.danger { color:var(--destructive); }
+  .sidenav a.danger:hover { background:color-mix(in oklab, var(--destructive) 12%, transparent); }
+
+  .content { display:flex; flex-direction:column; gap:36px; min-width:0; }
+  section[id] { scroll-margin-top:96px; }
+  .sec-title { display:flex; align-items:center; gap:10px; margin:0 0 4px; font-size:19px; font-weight:600; letter-spacing:-0.01em; }
+  .sec-sub { margin:0 0 18px; font-size:14px; color:var(--muted-foreground); }
+
+  .ui-card { padding:0; }
+  .card-pad { padding:22px 24px; }
+
+  /* profile hero */
+  .hero { display:flex; align-items:center; gap:22px; padding:24px; flex-wrap:wrap; }
+  .avatar-xl { width:88px; height:88px; border-radius:50%; flex:none; display:grid; place-items:center; color:#fff; font-size:30px; font-weight:600; background:linear-gradient(150deg,#2563eb,#4f46e5,#7c3aed); box-shadow:var(--shadow-sm); position:relative; }
+  .avatar-xl .cam { position:absolute; right:-2px; bottom:-2px; width:28px; height:28px; border-radius:50%; background:var(--background); border:1px solid var(--border); display:grid; place-items:center; color:var(--foreground); cursor:pointer; }
+  .hero-main { flex:1; min-width:220px; }
+  .hero-name { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .hero-name h2 { margin:0; font-size:22px; font-weight:700; letter-spacing:-0.01em; }
+  .hero-uname { margin:2px 0 8px; font-size:14px; color:var(--muted-foreground); }
+  .hero-bio { margin:0; font-size:14px; line-height:1.55; color:var(--foreground); max-width:52ch; }
+  .hero-contact { display:flex; flex-wrap:wrap; gap:16px; margin-top:14px; }
+  .hero-contact span { display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--muted-foreground); }
+
+  /* definition rows */
+  .drows { display:grid; grid-template-columns:1fr; }
+  .drow { display:flex; align-items:center; gap:16px; padding:15px 24px; border-top:1px solid var(--border); }
+  .drow:first-child { border-top:none; }
+  .drow .dk { display:flex; align-items:center; gap:11px; width:230px; flex:none; font-size:14px; color:var(--muted-foreground); }
+  .drow .dk .di { width:32px; height:32px; border-radius:var(--radius-md); background:var(--muted); display:grid; place-items:center; color:var(--foreground); flex:none; }
+  .drow .dv { flex:1; font-size:14px; font-weight:500; min-width:0; }
+  .drow .dv .mono { font-family:var(--font-mono, ui-monospace, monospace); font-weight:500; }
+  .drow .dv small { display:block; font-weight:400; color:var(--muted-foreground); margin-top:2px; }
+  .drow .da { margin-left:auto; flex:none; display:flex; align-items:center; gap:10px; }
+
+  /* stat tiles */
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+  .stat { padding:20px 24px; border-left:1px solid var(--border); }
+  .stat:first-child { border-left:none; }
+  .stat .sl { display:flex; align-items:center; gap:7px; font-size:12px; font-weight:500; letter-spacing:0.02em; text-transform:uppercase; color:var(--muted-foreground); }
+  .stat .sv { margin-top:8px; font-size:26px; font-weight:700; letter-spacing:-0.02em; }
+  .stat .sv small { font-size:14px; font-weight:500; color:var(--muted-foreground); }
+  @media (max-width:640px){ .stats{ grid-template-columns:repeat(2,1fr); } .stat{ border-left:none; border-top:1px solid var(--border); } .stat:nth-child(-n+2){ border-top:none; } .stat:nth-child(odd){ border-left:none; } .stat:nth-child(even){ border-left:1px solid var(--border); } }
+
+  .plan-bar { padding:20px 24px; border-top:1px solid var(--border); }
+  .plan-bar .pb-head { display:flex; align-items:baseline; justify-content:space-between; font-size:13px; color:var(--muted-foreground); margin-bottom:10px; }
+  .plan-bar .pb-head b { color:var(--foreground); font-weight:600; }
+  .track { height:8px; border-radius:999px; background:var(--muted); overflow:hidden; }
+  .track > span { display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,#2563eb,#4f46e5); }
+
+  .plan-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 24px; flex-wrap:wrap; }
+  .plan-head .ph-left { display:flex; align-items:center; gap:14px; }
+  .plan-head .ph-ic { width:44px; height:44px; border-radius:var(--radius-md); background:linear-gradient(150deg,#2563eb,#4f46e5); color:#fff; display:grid; place-items:center; flex:none; }
+  .plan-head h3 { margin:0; font-size:17px; font-weight:600; }
+  .plan-head p { margin:2px 0 0; font-size:13px; color:var(--muted-foreground); }
+
+  /* connected accounts / action rows */
+  .arow { display:flex; align-items:center; gap:14px; padding:16px 24px; border-top:1px solid var(--border); }
+  .arow:first-child { border-top:none; }
+  .arow .ai { width:38px; height:38px; border-radius:var(--radius-md); display:grid; place-items:center; flex:none; border:1px solid var(--border); background:var(--background); }
+  .arow .am { flex:1; min-width:0; }
+  .arow .am .t { font-size:14px; font-weight:600; }
+  .arow .am .d { font-size:13px; color:var(--muted-foreground); margin-top:1px; }
+  .arow .aa { margin-left:auto; flex:none; display:flex; align-items:center; gap:10px; }
+
+  .dot { width:7px; height:7px; border-radius:50%; display:inline-block; }
+  .dot.on { background:#16a34a; } .dot.off { background:var(--muted-foreground); opacity:0.55; }
+
+  .danger-card { border-color:color-mix(in oklab, var(--destructive) 40%, var(--border)); }
+  .danger-card .arow { border-top-color:color-mix(in oklab, var(--destructive) 22%, var(--border)); }
+
+  .dlg-field { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  .dlg-field label { font-size:13px; font-weight:500; }
+  .dlg-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .del-warn { display:flex; gap:12px; padding:14px; border-radius:var(--radius-md); background:color-mix(in oklab, var(--destructive) 9%, transparent); border:1px solid color-mix(in oklab, var(--destructive) 25%, transparent); font-size:13px; line-height:1.5; color:var(--foreground); margin-bottom:18px; }
+  .del-warn svg { color:var(--destructive); flex:none; margin-top:1px; }
+  .code-pill { font-family:var(--font-mono, monospace); font-weight:600; }
+
+  .toast-msg { position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px); background:var(--foreground); color:var(--background); font-size:13.5px; font-weight:500; padding:11px 18px; border-radius:var(--radius-md); box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:opacity 160ms ease, transform 160ms ease; z-index:60; display:flex; align-items:center; gap:9px; }
+  .toast-msg.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="../_shared/vendor/react.production.min.js"></script>
+<script src="../_shared/vendor/react-dom.production.min.js"></script>
+<script src="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/_ds_bundle.js"></script>
+
+<script>
+const NS = window.ShadcnUiDesignSystem_6211ba;
+const { Button, Badge, Card, Switch, Input, Label, Textarea, Separator, Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter, AlertDialog, DropdownMenu } = NS;
+const Icon = window.Icon;
+const e = React.createElement;
+
+/* raw lucide glyphs not in the bundle icon set */
+const g = (d, size) => e("svg", { width: size||16, height: size||16, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round", dangerouslySetInnerHTML:{ __html:d } });
+const P = {
+  camera:'<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+  phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  atSign:'<circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>',
+  fingerprint:'<path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+  key:'<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>',
+  monitor:'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+  smartphone:'<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>',
+  history:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
+  bug:'<path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/>',
+  lightbulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  helpCircle:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+  trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
+  google:'<path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2c2.7 0 5.15 1.07 6.95 2.8l-2.82 2.82A6 6 0 1 0 17.9 13H12v-3.4h9.4c.13.7.2 1.4.2 2.4 0 5.8-3.9 10-9.6 10z"/>',
+  apple:'<path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/>',
+  microsoft:'<rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/>'
+};
+
+function toast(msg){
+  let el = document.getElementById("__toast");
+  if(!el){ el = document.createElement("div"); el.id="__toast"; el.className="toast-msg"; document.body.appendChild(el); }
+  el.innerHTML = "";
+  el.appendChild(Object.assign(document.createElement("span"),{textContent:msg}));
+  el.classList.add("show");
+  clearTimeout(el.__t); el.__t = setTimeout(()=>el.classList.remove("show"), 2200);
+}
+
+const DRow = ({icon, k, children, action}) => e("div",{className:"drow"},
+  e("div",{className:"dk"}, icon?e("span",{className:"di"},icon):null, k),
+  e("div",{className:"dv"}, children),
+  action?e("div",{className:"da"}, action):null
+);
+
+const SecTitle = (icon, title, sub) => e("div",null,
+  e("h2",{className:"sec-title"}, icon, title),
+  sub?e("p",{className:"sec-sub"}, sub):null
+);
+
+function EditProfileDialog({ user, onClose, onSave }){
+  const [f, setF] = React.useState(user);
+  const up = (k)=>(ev)=>setF(s=>Object.assign({},s,{[k]:ev.target.value}));
+  return e(Dialog,{ open:true, onOpenChange:(v)=>{ if(!v) onClose(); } },
+    e(DialogHeader,null,
+      e(DialogTitle,null,"Edit profile"),
+      e(DialogDescription,null,"Make changes to your profile here. Click save when you're done.")
+    ),
+    e("div",{className:"dlg-grid"},
+      e("div",{className:"dlg-field"}, e(Label,null,"Full name"), e(Input,{value:f.name, onChange:up("name")})),
+      e("div",{className:"dlg-field"}, e(Label,null,"Username"), e(Input,{value:f.username, onChange:up("username")}))
+    ),
+    e("div",{className:"dlg-grid"},
+      e("div",{className:"dlg-field"}, e(Label,null,"Email"), e(Input,{type:"email", value:f.email, onChange:up("email")})),
+      e("div",{className:"dlg-field"}, e(Label,null,"Phone (optional)"), e(Input,{value:f.phone, onChange:up("phone")}))
+    ),
+    e("div",{className:"dlg-field"}, e(Label,null,"Bio"), e(Textarea,{rows:3, value:f.bio, onChange:up("bio")})),
+    e(DialogFooter,null,
+      e(Button,{variant:"outline", onClick:onClose},"Cancel"),
+      e(Button,{onClick:()=>{ onSave(f); toast("Profile updated"); }},"Save changes")
+    )
+  );
+}
+
+function DeleteAccountDialog({ user, onClose }){
+  const [txt, setTxt] = React.useState("");
+  const ok = txt.trim() === user.username;
+  return e(Dialog,{ open:true, onOpenChange:(v)=>{ if(!v) onClose(); } },
+    e(DialogHeader,null,
+      e(DialogTitle,null,"Delete account"),
+      e(DialogDescription,null,"This permanently deletes your account, workspaces, and all books you own. This action cannot be undone.")
+    ),
+    e("div",{className:"del-warn"}, g(P.trash,18),
+      e("div",null,"All ",e("b",null,"12 books")," and ",e("b",null,"4 active projects")," you own will be permanently removed. Team members will lose access immediately.")
+    ),
+    e("div",{className:"dlg-field"},
+      e(Label,null,"Type ",e("span",{className:"code-pill"},user.username)," to confirm"),
+      e(Input,{value:txt, onChange:(ev)=>setTxt(ev.target.value), placeholder:user.username, autoFocus:true})
+    ),
+    e(DialogFooter,null,
+      e(Button,{variant:"outline", onClick:onClose},"Cancel"),
+      e("button",{ className:"ui-btn ui-btn--destructive ui-btn--default", disabled:!ok, style:!ok?{opacity:.5, pointerEvents:"none"}:null, onClick:()=>{ onClose(); toast("Account scheduled for deletion"); } },"Delete account")
+    )
+  );
+}
+
+function ConnRow({ icon, name, sub, connected, onToggle }){
+  return e("div",{className:"arow"},
+    e("span",{className:"ai"}, icon),
+    e("div",{className:"am"},
+      e("div",{className:"t"}, name),
+      e("div",{className:"d"}, connected ? sub : "Not connected")
+    ),
+    e("div",{className:"aa"},
+      e(Badge,{variant: connected?"secondary":"outline"}, connected?"Connected":"Not connected"),
+      connected
+        ? e(Button,{variant:"outline", size:"sm", onClick:onToggle},"Disconnect")
+        : e(Button,{variant:"outline", size:"sm", onClick:onToggle},"Connect")
+    )
+  );
+}
+
+function Profile(){
+  const [user, setUser] = React.useState({
+    name:"Amara Bello", username:"amarabello", email:"amara@blueballoon.studio",
+    phone:"+1 (415) 555-0134",
+    bio:"Children's book author & illustrator. Building gentle bedtime stories with a small, mighty team at Blue Balloon."
+  });
+  const [editing, setEditing] = React.useState(false);
+  const [del, setDel] = React.useState(false);
+  const [signOut, setSignOut] = React.useState(false);
+  const [twoFA, setTwoFA] = React.useState(true);
+  const [conns, setConns] = React.useState({ google:true, apple:false, microsoft:false, github:true });
+  const initials = user.name.split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
+  const toggleConn = (k, provider) => setConns(s=>{ const v=!s[k]; toast(v?(provider+" connected"):(provider+" disconnected")); return Object.assign({},s,{[k]:v}); });
+
+  return e(React.Fragment,null,
+    e("header",{className:"topbar"},
+      e("a",{className:"brand", href:"Home.html"}, e("span",{className:"mark"},"BB"), "BB artists"),
+      e("div",{className:"topbar-actions"},
+        e(Button,{variant:"ghost", size:"sm", onClick:()=>{ window.location.href="index.html"; }}, e(Icon,{name:"chevron-left", size:16}), "Projects"),
+        e(Button,{variant:"ghost", size:"icon", "aria-label":"Notifications"}, e(Icon,{name:"bell", size:18}))
+      )
+    ),
+    e("main",{className:"layout", "data-screen-label":"Account"},
+      e("nav",{className:"sidenav"},
+        e("a",{href:"#personal", className:"active"}, e(Icon,{name:"user",size:16}), "Personal"),
+        e("a",{href:"#account"}, e(Icon,{name:"circle-user",size:16}), "Account"),
+        e("a",{href:"#workspace"}, e(Icon,{name:"users",size:16}), "Workspace"),
+        e("a",{href:"#subscription"}, e(Icon,{name:"credit-card",size:16}), "Subscription"),
+        e("a",{href:"#security"}, g(P.shield,16), "Security"),
+        e("a",{href:"#connected"}, e(Icon,{name:"command",size:16}), "Connected"),
+        e("a",{href:"#data"}, e(Icon,{name:"download",size:16}), "Data"),
+        e("a",{href:"#help"}, g(P.helpCircle,16), "Help"),
+        e("div",{className:"navsep"}),
+        e("a",{href:"#danger", className:"danger"}, g(P.trash,16), "Danger zone")
+      ),
+      e("div",{className:"content"},
+        e("div",{className:"page-head"},
+          e("h1",null,"Account"),
+          e("p",null,"Manage your profile, workspace access, and account preferences.")
+        ),
+
+        /* PERSONAL */
+        e("section",{id:"personal"},
+          e(Card,null,
+            e("div",{className:"hero"},
+              e("div",{className:"avatar-xl"}, initials, e("span",{className:"cam", title:"Change photo", onClick:()=>toast("Photo picker opened")}, g(P.camera,15))),
+              e("div",{className:"hero-main"},
+                e("div",{className:"hero-name"},
+                  e("h2",null,user.name),
+                  e(Badge,{variant:"secondary"},"Owner")
+                ),
+                e("div",{className:"hero-uname"},"@"+user.username),
+                e("p",{className:"hero-bio"}, user.bio),
+                e("div",{className:"hero-contact"},
+                  e("span",null, g(P.atSign,14), user.email),
+                  user.phone?e("span",null, g(P.phone,14), user.phone):null
+                )
+              ),
+              e(Button,{variant:"outline", onClick:()=>setEditing(true)}, e(Icon,{name:"user",size:15}), "Edit profile")
+            )
+          )
+        ),
+
+        /* ACCOUNT */
+        e("section",{id:"account"},
+          SecTitle(e(Icon,{name:"circle-user",size:18}), "Account information", "Read-only details about your BB artists account."),
+          e(Card,null, e("div",{className:"drows"},
+            e(DRow,{k:"User ID"}, e("span",{className:"mono"},"usr_8fJ2kQ7bLm09")),
+            e(DRow,{k:"Account created"}, "January 14, 2024", e("small",null,"2 years ago")),
+            e(DRow,{k:"Account status", action:e(Badge,{variant:"secondary"},"Active")}, "In good standing"),
+            e(DRow,{k:"Email verification", action:e(Badge,{variant:"secondary"}, e(Icon,{name:"check",size:12}), "Verified")}, user.email)
+          ))
+        ),
+
+        /* WORKSPACE */
+        e("section",{id:"workspace"},
+          SecTitle(e(Icon,{name:"users",size:18}), "Workspace role", "Your access within your current organization."),
+          e(Card,null, e("div",{className:"drows"},
+            e(DRow,{icon:e(Icon,{name:"folder",size:16}), k:"Current workspace", action:e(Button,{variant:"ghost", size:"sm", onClick:()=>{window.location.href="Workspace.html";}},"Open", e(Icon,{name:"arrow-up-right",size:14}))}, "Blue Balloon Studio"),
+            e(DRow,{icon:g(P.key,16), k:"Role", action:e(Badge,{variant:"secondary"},"Owner")}, "Full administrative access"),
+            e(DRow,{icon:e(Icon,{name:"home",size:16}), k:"Organization"}, "Blue Balloon Books, Inc.")
+          ))
+        ),
+
+        /* SUBSCRIPTION */
+        e("section",{id:"subscription"},
+          SecTitle(e(Icon,{name:"credit-card",size:18}), "Subscription", "Your plan, usage, and limits."),
+          e(Card,null,
+            e("div",{className:"plan-head"},
+              e("div",{className:"ph-left"},
+                e("span",{className:"ph-ic"}, e(Icon,{name:"star",size:22})),
+                e("div",null, e("h3",null,"Studio plan"), e("p",null,"$29 / month · renews August 1, 2026"))
+              ),
+              e(Button,{onClick:()=>toast("Opening plans…")}, e(Icon,{name:"trending-up",size:15}), "Upgrade plan")
+            ),
+            e("div",{className:"stats"},
+              e("div",{className:"stat"}, e("div",{className:"sl"}, e(Icon,{name:"file-text",size:13}),"Books"), e("div",{className:"sv"},"12")),
+              e("div",{className:"stat"}, e("div",{className:"sl"}, e(Icon,{name:"folder",size:13}),"Active projects"), e("div",{className:"sv"},"4")),
+              e("div",{className:"stat"}, e("div",{className:"sl"}, e(Icon,{name:"users",size:13}),"Team members"), e("div",{className:"sv"},"8",e("small",null," / 10")),
+              ),
+              e("div",{className:"stat"}, e("div",{className:"sl"}, e(Icon,{name:"package",size:13}),"Storage"), e("div",{className:"sv"},"6.2",e("small",null," / 20 GB")))
+            ),
+            e("div",{className:"plan-bar"},
+              e("div",{className:"pb-head"}, e("span",null,"Storage used"), e("span",null,e("b",null,"6.2 GB")," of 20 GB")),
+              e("div",{className:"track"}, e("span",{style:{width:"31%"}}))
+            )
+          )
+        ),
+
+        /* SECURITY */
+        e("section",{id:"security"},
+          SecTitle(g(P.shield,18), "Security", "Keep your account safe."),
+          e(Card,null, e("div",{className:"drows"},
+            e(DRow,{icon:g(P.key,16), k:"Password", action:e(Button,{variant:"outline", size:"sm", onClick:()=>toast("Password reset link sent")},"Change")}, "Last changed 3 months ago"),
+            e(DRow,{icon:g(P.fingerprint,16), k:"Two-factor auth", action:e(Switch,{checked:twoFA, onChange:(ev)=>{ setTwoFA(ev.target.checked); toast(ev.target.checked?"2FA enabled":"2FA disabled"); }})}, twoFA?"Enabled · authenticator app":"Disabled"),
+            e(DRow,{icon:e(Icon,{name:"activity",size:16}), k:"Active sessions", action:e(Button,{variant:"outline", size:"sm", onClick:()=>toast("Signed out other sessions")},"Manage")}, "3 active sessions"),
+            e(DRow,{icon:g(P.smartphone,16), k:"Connected devices", action:e(Button,{variant:"ghost", size:"sm"},"View", e(Icon,{name:"chevron-right",size:14}))}, "MacBook Pro · iPhone 15 · iPad Air"),
+            e(DRow,{icon:g(P.history,16), k:"Login history", action:e(Button,{variant:"ghost", size:"sm"},"View", e(Icon,{name:"chevron-right",size:14}))}, "Last login today, 9:24 AM · San Francisco, CA")
+          ))
+        ),
+
+        /* CONNECTED */
+        e("section",{id:"connected"},
+          SecTitle(e(Icon,{name:"command",size:18}), "Connected accounts", "Sign in faster and sync with linked services."),
+          e(Card,null,
+            e(ConnRow,{icon:g(P.google,20), name:"Google", sub:"amara@gmail.com", connected:conns.google, onToggle:()=>toggleConn("google","Google")}),
+            e(ConnRow,{icon:g(P.apple,20), name:"Apple", sub:"Apple ID", connected:conns.apple, onToggle:()=>toggleConn("apple","Apple")}),
+            e(ConnRow,{icon:g(P.microsoft,18), name:"Microsoft", sub:"Work or school account", connected:conns.microsoft, onToggle:()=>toggleConn("microsoft","Microsoft")}),
+            e(ConnRow,{icon:e(Icon,{name:"github",size:20}), name:"GitHub", sub:"@amarabello", connected:conns.github, onToggle:()=>toggleConn("github","GitHub")})
+          )
+        ),
+
+        /* DATA */
+        e("section",{id:"data"},
+          SecTitle(e(Icon,{name:"download",size:18}), "Data", "Export or manage your data."),
+          e(Card,null, e("div",{className:"drows"},
+            e(DRow,{icon:e(Icon,{name:"download",size:16}), k:"Personal data", action:e(Button,{variant:"outline", size:"sm", onClick:()=>toast("Preparing your data export…")},"Download")}, "Profile, account & activity as JSON"),
+            e(DRow,{icon:e(Icon,{name:"package",size:16}), k:"Export projects", action:e(Button,{variant:"outline", size:"sm", onClick:()=>toast("Preparing project export…")},"Export")}, "All books & assets as a .zip archive"),
+            e(DRow,{icon:g(P.trash,16), k:"Downloaded sessions", action:e(Button,{variant:"outline", size:"sm", onClick:()=>toast("Local downloads cleared")},"Clear")}, "142 MB cached on this device")
+          ))
+        ),
+
+        /* HELP */
+        e("section",{id:"help"},
+          SecTitle(g(P.helpCircle,18), "Help & support", "We're here when you need us."),
+          e(Card,null, e("div",{className:"drows"},
+            e(DRow,{icon:e(Icon,{name:"life-buoy",size:16}), k:"Contact support", action:e(Button,{variant:"ghost", size:"sm", onClick:()=>toast("Opening support…")},"Contact", e(Icon,{name:"arrow-up-right",size:14}))}, "Get help from our team"),
+            e(DRow,{icon:e(Icon,{name:"file-text",size:16}), k:"Help center", action:e(Button,{variant:"ghost", size:"sm", onClick:()=>toast("Opening help center…")},"Browse", e(Icon,{name:"arrow-up-right",size:14}))}, "Guides, FAQs & tutorials"),
+            e(DRow,{icon:g(P.bug,16), k:"Report a bug", action:e(Button,{variant:"ghost", size:"sm", onClick:()=>toast("Bug report form opened")},"Report", e(Icon,{name:"arrow-up-right",size:14}))}, "Something not working right?"),
+            e(DRow,{icon:g(P.lightbulb,16), k:"Feature requests", action:e(Button,{variant:"ghost", size:"sm", onClick:()=>toast("Opening feedback board…")},"Suggest", e(Icon,{name:"arrow-up-right",size:14}))}, "Tell us what to build next")
+          ))
+        ),
+
+        /* SIGN OUT */
+        e("section",null,
+          e(Card,null, e("div",{className:"arow"},
+            e("span",{className:"ai"}, g(P.smartphone,18)),
+            e("div",{className:"am"}, e("div",{className:"t"},"Sign out"), e("div",{className:"d"},"Sign out of BB artists on this device")),
+            e("div",{className:"aa"}, e(Button,{variant:"outline", onClick:()=>setSignOut(true)}, e(Icon,{name:"log-out",size:15}), "Sign out"))
+          ))
+        ),
+
+        /* DANGER */
+        e("section",{id:"danger"},
+          SecTitle(g(P.trash,18), "Danger zone", "Irreversible actions. Proceed with care."),
+          e(Card,{className:"danger-card"}, e("div",{className:"arow"},
+            e("span",{className:"ai", style:{borderColor:"color-mix(in oklab, var(--destructive) 40%, var(--border))", color:"var(--destructive)"}}, g(P.trash,18)),
+            e("div",{className:"am"}, e("div",{className:"t"},"Delete account"), e("div",{className:"d"},"Permanently delete your account and all associated data")),
+            e("div",{className:"aa"}, e("button",{className:"ui-btn ui-btn--destructive ui-btn--default", onClick:()=>setDel(true)},"Delete account"))
+          ))
+        )
+      )
+    ),
+    editing ? e(EditProfileDialog,{ user:user, onClose:()=>setEditing(false), onSave:(f)=>{ setUser(f); setEditing(false); } }) : null,
+    del ? e(DeleteAccountDialog,{ user:user, onClose:()=>setDel(false) }) : null,
+    e(AlertDialog,{ open:signOut, onOpenChange:setSignOut, title:"Sign out?", description:"You'll need to sign in again to access your projects.", cancelText:"Cancel", actionText:"Sign out", onAction:()=>{ toast("Signed out"); } })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(e(Profile));
+</script>
+</body>
+</html>

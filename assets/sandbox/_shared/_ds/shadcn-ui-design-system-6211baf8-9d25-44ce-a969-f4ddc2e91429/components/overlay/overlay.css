@@ -1,0 +1,185 @@
+/* ============ Dialog ============ */
+.ui-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+  animation: ui-fade-in 0.15s ease;
+}
+.ui-dialog__content {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: ui-dialog-in 0.16s ease;
+}
+.ui-dialog__header { display: flex; flex-direction: column; gap: 6px; }
+.ui-dialog__title { font-size: var(--text-lg); font-weight: var(--font-semibold); letter-spacing: -0.01em; }
+.ui-dialog__desc { font-size: var(--text-sm); color: var(--muted-foreground); line-height: 1.5; }
+.ui-dialog__footer { display: flex; justify-content: flex-end; gap: 8px; }
+.ui-dialog__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-content: center;
+  border: none;
+  background: transparent;
+  color: var(--muted-foreground);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.ui-dialog__close:hover { background: var(--accent); color: var(--accent-foreground); }
+@keyframes ui-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ui-dialog-in { from { opacity: 0; transform: translateY(6px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+/* ============ Popover / Dropdown menu (shared surface) ============ */
+.ui-popover { position: relative; display: inline-flex; }
+.ui-popover__content {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 220px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 12px;
+  z-index: 50;
+  animation: ui-dialog-in 0.14s ease;
+}
+.ui-popover__content--end { left: auto; right: 0; }
+
+.ui-menu {
+  min-width: 200px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 4px;
+}
+.ui-menu__label { padding: 6px 8px; font-size: var(--text-xs); color: var(--muted-foreground); font-weight: var(--font-medium); }
+.ui-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  text-align: left;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+.ui-menu__item svg { width: 16px; height: 16px; color: var(--muted-foreground); }
+.ui-menu__item:hover, .ui-menu__item[data-highlighted="true"] { background: var(--accent); color: var(--accent-foreground); }
+.ui-menu__item--destructive { color: var(--destructive); }
+.ui-menu__item--destructive svg { color: var(--destructive); }
+.ui-menu__shortcut { margin-left: auto; font-size: var(--text-xs); color: var(--muted-foreground); letter-spacing: 0.05em; }
+.ui-menu__separator { height: 1px; background: var(--border); margin: 4px -4px; }
+
+/* ============ Alert Dialog ============ */
+.ui-alertdialog__content { max-width: 420px; }
+.ui-alertdialog__content .ui-dialog__close { display: none; }
+
+/* ============ Sheet (side panel) ============ */
+.ui-sheet__panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 360px;
+  max-width: 90vw;
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 51;
+}
+.ui-sheet__panel--right { right: 0; border-left: 1px solid var(--border); animation: ui-slide-right 0.22s ease; }
+.ui-sheet__panel--left { left: 0; border-right: 1px solid var(--border); animation: ui-slide-left 0.22s ease; }
+.ui-sheet__title { font-size: var(--text-lg); font-weight: var(--font-semibold); }
+.ui-sheet__desc { font-size: var(--text-sm); color: var(--muted-foreground); }
+@keyframes ui-slide-right { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes ui-slide-left { from { transform: translateX(-100%); } to { transform: none; } }
+
+/* ============ Drawer (bottom sheet) ============ */
+.ui-drawer__overlay { align-items: flex-end; }
+.ui-drawer__panel {
+  width: 100%;
+  max-width: 560px;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: ui-slide-up 0.24s ease;
+}
+.ui-drawer__handle { width: 44px; height: 5px; border-radius: 9999px; background: var(--border); margin: -8px auto 4px; }
+@keyframes ui-slide-up { from { transform: translateY(100%); } to { transform: none; } }
+
+/* ============ Context Menu trigger surface ============ */
+.ui-contextzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+  user-select: none;
+  text-align: center;
+}
+.ui-contextmenu__floating { position: fixed; z-index: 60; }
+
+/* ============ Menubar ============ */
+.ui-menubar {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  padding: 3px;
+}
+.ui-menubar__trigger {
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--foreground);
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.ui-menubar__trigger:hover, .ui-menubar__trigger[data-open="true"] { background: var(--accent); color: var(--accent-foreground); }

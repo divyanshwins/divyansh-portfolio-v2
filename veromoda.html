@@ -41,34 +41,27 @@
 
   <main id="main">
 
-    <header class="chead wrap spine">
-      <div class="rail">
+    <header class="chero wrap">
+      <div class="chero-media"><img src="assets/images/work/veromoda.jpg" alt="Vero Moda technical UX analysis"></div>
+      <div class="chero-text">
         <p class="label">Performance investigation &middot; 2026</p>
+        <h1 data-words>Why Vero Moda was losing users before they even arrived</h1>
+        <div class="chero-brief">
+          <p class="label">In brief</p>
+          <p class="body">
+          A deep-dive into Bestseller's product page performance, using GA4 funnel
+          analysis and Lighthouse diagnostics to trace 600k+ sessions and find
+          where &mdash; and why &mdash; users were vanishing.
+          </p>
+        </div>
       </div>
-      <h1>Why Vero Moda was losing users before they even arrived</h1>
     </header>
-
-    <section class="lede wrap spine">
-      <div class="rail"><p class="label">In brief</p></div>
-      <p class="body">
-        A deep-dive into Bestseller's product page performance, using GA4 funnel
-        analysis and Lighthouse diagnostics to trace 600k+ sessions and find
-        where &mdash; and why &mdash; users were vanishing.
-      </p>
-    </section>
 
     <div class="facts wrap">
       <div><span class="k">Company</span><span class="v">Bestseller / Vero Moda</span></div>
       <div><span class="k">Tools</span><span class="v">GA4 &middot; Lighthouse &middot; PSI</span></div>
       <div><span class="k">Sessions analysed</span><span class="v">634,884</span></div>
       <div><span class="k">Role</span><span class="v">UX + performance research</span></div>
-    </div>
-
-    <div class="wrap" style="padding-top:clamp(28px,3.6vw,52px)">
-      <figure class="fig" style="margin-top:0" data-r>
-        <div class="frame"><img src="assets/images/case/veromoda-hero.jpg" alt="Vero Moda product page" loading="lazy"></div>
-        <figcaption>Bestseller's growth runs on performance marketing &mdash; which makes page speed a revenue metric, not an engineering one.</figcaption>
-      </figure>
     </div>
 
     <!-- ============ 01 BACKGROUND ============ -->
@@ -110,15 +103,16 @@
             <span class="bar" style="width:100%"></span>
             <span class="row"><span class="lbl">Product page<small>634,884 sessions</small></span><span class="pct">100%</span></span>
           </div>
-          <div class="step">
+          <p class="cliff">&minus;89% &mdash; 565,047 sessions lost here</p>
+          <div class="step drop">
             <span class="bar" style="width:11%"></span>
             <span class="row"><span class="lbl">Add to cart<small>69,837</small></span><span class="pct">11%</span></span>
           </div>
-          <div class="step">
+          <div class="step drop">
             <span class="bar" style="width:5%"></span>
             <span class="row"><span class="lbl">Checkout<small>31,744</small></span><span class="pct">5%</span></span>
           </div>
-          <div class="step">
+          <div class="step drop">
             <span class="bar" style="width:3%"></span>
             <span class="row"><span class="lbl">Purchase<small>19,046</small></span><span class="pct">3%</span></span>
           </div>

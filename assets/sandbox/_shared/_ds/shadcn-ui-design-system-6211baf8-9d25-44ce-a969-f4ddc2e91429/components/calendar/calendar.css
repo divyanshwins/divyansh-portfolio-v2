@@ -1,0 +1,55 @@
+/* ============ Calendar ============ */
+.ui-calendar {
+  display: inline-block;
+  width: 268px;
+  padding: 12px;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.ui-calendar__header { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 10px; }
+.ui-calendar__title { font-size: var(--text-sm); font-weight: var(--font-medium); }
+.ui-calendar__nav {
+  width: 28px; height: 28px;
+  display: grid; place-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  color: var(--foreground);
+  cursor: pointer;
+}
+.ui-calendar__nav:hover { background: var(--accent); }
+.ui-calendar__nav svg { width: 16px; height: 16px; }
+.ui-calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.ui-calendar__dow { text-align: center; font-size: var(--text-xs); color: var(--muted-foreground); padding: 6px 0; font-weight: var(--font-normal); }
+.ui-calendar__day {
+  width: 32px; height: 32px;
+  display: grid; place-content: center;
+  border: none; background: transparent;
+  font-family: var(--font-sans); font-size: var(--text-sm);
+  color: var(--foreground); border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.ui-calendar__day:hover { background: var(--accent); }
+.ui-calendar__day--muted { color: var(--muted-foreground); opacity: 0.5; }
+.ui-calendar__day--today { border: 1px solid var(--border); }
+.ui-calendar__day--selected, .ui-calendar__day--selected:hover { background: var(--primary); color: var(--primary-foreground); }
+.ui-calendar__day--in-range { background: var(--accent); border-radius: 0; }
+.ui-calendar__day:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ============ Date Picker ============ */
+.ui-datepicker__trigger {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-width: 240px; height: 36px; padding: 0 12px;
+  border: 1px solid var(--input); border-radius: var(--radius-md);
+  background: var(--background); color: var(--foreground);
+  font-family: var(--font-sans); font-size: var(--text-sm);
+  cursor: pointer; text-align: left;
+}
+.ui-datepicker__trigger[data-placeholder="true"] { color: var(--muted-foreground); }
+.ui-datepicker__trigger svg { width: 16px; height: 16px; color: var(--muted-foreground); }
+.ui-datepicker__pop {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 50;
+  box-shadow: var(--shadow-md); border-radius: var(--radius-lg);
+}

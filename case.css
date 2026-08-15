@@ -20,9 +20,12 @@
    left edge instead of floating to its own centre.
    ========================================================================== */
 :root {
-  --prose:    620px;    /* the reading measure — every line starts here */
-  --case-max: 1180px;   /* plate width — imagery breaks out to this */
-  --fig-max:  var(--case-max);  /* one number, so the two can't drift apart */
+  --prose:    760px;    /* the reading measure — every line starts here */
+  --case-max: 1180px;   /* plate width — the masthead band only */
+  /* Figures share the prose column. An editorial page reads as one column:
+     when a screenshot is twice the width of the paragraph above it, the eye
+     stops reading a document and starts reading two unrelated things. */
+  --fig-max:  var(--prose);
 }
 
 /* every top-level band of a case page is centred on the page */
@@ -41,7 +44,72 @@ main > .wrap {
 .chead.spine > *,
 .lede.spine > * { grid-column: 2; }
 
-/* ---------- masthead ---------- */
+/* ---------- masthead ----------
+   The one place the page is NOT a single centred column. Thumbnail left,
+   title and brief right, both halves of one plate-wide band that sits above
+   the article proper — so the reader meets the work before the argument. */
+.chero {
+  padding-top: clamp(64px, 11vh, 118px);
+  padding-bottom: clamp(26px, 3.4vw, 46px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  gap: clamp(24px, 3.4vw, 56px);
+  align-items: center;
+}
+.chero-media {
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.chero-media img { width: 100%; height: auto; display: block; }
+/* awaiting artwork — a quiet ruled field, not a broken image */
+.chero-media.tbd {
+  aspect-ratio: 3 / 2;
+  position: relative;
+  background:
+    repeating-linear-gradient(-45deg,
+      transparent 0 13px,
+      rgba(19, 19, 19, 0.045) 13px 14px);
+}
+.chero-media.tbd::after {
+  content: 'Artwork in progress';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  white-space: nowrap;
+}
+.chero-text > .label { display: block; margin-bottom: clamp(12px, 1.4vw, 18px); }
+.chero h1 {
+  font-size: clamp(28px, 3vw, 47px);
+  font-weight: 400;
+  line-height: 1.07;
+  letter-spacing: -0.028em;
+}
+.chero-brief {
+  margin-top: clamp(18px, 2.2vw, 30px);
+  padding-top: clamp(15px, 1.8vw, 22px);
+  border-top: 1px solid var(--line);
+}
+/* ---- word-by-word reveal ----
+   Moved to core.css. The home page's hero wordmark now runs the same
+   animation, and core.css is the only stylesheet both pages load — one copy
+   there is what stops the two from drifting apart. */
+
+.chero-brief .label { display: block; margin-bottom: 9px; }
+.chero-brief .body { max-width: 54ch; font-size: clamp(14.5px, 0.78vw, 19px); }
+
+@media (max-width: 860px) {
+  .chero { grid-template-columns: 1fr; gap: clamp(20px, 4vw, 32px); }
+}
+
+/* ---------- legacy centred masthead (kept for any page not yet migrated) --- */
 .chead {
   padding-top: clamp(70px, 13vh, 130px);
   padding-bottom: clamp(24px, 3.4vw, 44px);
@@ -152,6 +220,19 @@ main > .wrap {
   margin-bottom: 8px;
 }
 
+/* ---------- inline code ----------
+   Package names and resolution chains are literals — they have to be
+   copy-exact and visually distinct from prose, without shouting. */
+code {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+               'Liberation Mono', monospace;
+  font-size: 0.88em;
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+  background: rgba(19, 19, 19, 0.055);
+  border: 1px solid var(--line);
+}
+
 /* a quiet disclosure block */
 .note-box {
   padding: clamp(18px, 2vw, 28px);
@@ -215,6 +296,13 @@ main > .wrap {
   background: var(--bg-2);
 }
 .fig .frame img { width: 100%; height: auto; display: block; object-fit: fill; }
+
+/* awaiting artwork — the frame itself becomes the ruled field. `.fig .frame`
+   sets a background, so the hatch has to be re-declared at this specificity
+   or it loses the cascade and the placeholder reads as an empty grey box. */
+.fig .frame.shot-tbd,
+.fig-row .frame.shot-tbd { background: var(--tbd-hatch); }
+.fig-row .frame.shot-tbd { aspect-ratio: 1 / 1; }   /* icon studies are square */
 .fig figcaption {
   margin-top: 11px;
   font-size: clamp(11.5px, 0.52vw, 14px);
@@ -240,19 +328,15 @@ main > .wrap {
 .fig-row figcaption b { color: var(--ink); font-weight: 500; }
 
 /* ==========================================================================
-   PRODUCT SHOTS BREAK OUT OF THE MEASURE
+   ONE COLUMN, INCLUDING THE PICTURES
 
-   Prose wants ~620px; a dashboard screenshot you are meant to actually read
-   wants every pixel available. Because the argument column is a
-   `1fr min(--prose,100%) 1fr` grid, a figure only has to claim all three
-   tracks to widen to the full plate — no negative margins, no percentage
-   arithmetic, and it stays centred on the same axis as the text at every
-   viewport. On narrow screens the 1fr tracks collapse to zero and the rule
-   quietly becomes a no-op.
+   Figures stay in the same track as the prose. They get more air above and
+   below instead of more width — the rhythm carries the emphasis a breakout
+   used to carry, and every left and right edge on the page still lines up.
    ========================================================================== */
 .sec > div:not(.rail) > figure.fig,
 .sec > div:not(.rail) > .fig-row {
-  grid-column: 1 / -1;
+  grid-column: 2;
   margin-top: clamp(28px, 3.6vw, 54px);
 }
 .sec > div:not(.rail) > figure.fig + figure.fig {
@@ -279,22 +363,381 @@ figure.fig > figcaption {
   max-width: min(92ch, 100%);
 }
 
-/* a row of small studies reads better spread across the full plate width
-   than capped and floated, so it takes the break-out but not the cap */
-.sec > div:not(.rail) > .fig-row { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+/* a row of four small studies has to fit four across inside the measure,
+   so the track floor drops to suit the column rather than the plate */
+.sec > div:not(.rail) > .fig-row { grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); }
 .fig-row figcaption { text-align: left; }
+@media (max-width: 620px) {
+  .sec > div:not(.rail) > .fig-row,
+  .fig-row { grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); }
+}
 
-/* ---------- funnel ---------- */
-.funnel { border-top: 1px solid var(--line); }
+/* ==========================================================================
+   COMPONENT SANDBOX
+
+   A specimen of the real product UI, shown on its own artboard rather than
+   cropped out of a screenshot. Two separate visual systems are running here
+   and they must not bleed into each other:
+
+     · the PAGE is General Sans on warm grey — editorial
+     · the SPECIMEN is shadcn/ui: system UI stack, near-white surfaces,
+       #e5e5e5 hairlines, 8px radii, colour reserved for severity
+
+   So everything product-side is namespaced under `.ui` with its own tokens.
+   The artboard's dot grid is what signals "this is a component, not a
+   screenshot" without needing a caption to say so.
+   ========================================================================== */
+.lab {
+  margin-top: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--bg);
+}
+.lab-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px clamp(14px, 1.6vw, 20px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.5);
+}
+.lab-top .k {
+  font-size: clamp(11px, 0.5vw, 13px);
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+}
+.lab-top .t {
+  font-size: clamp(10.5px, 0.46vw, 12px);
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.lab-stage {
+  padding: clamp(20px, 2.8vw, 40px) clamp(14px, 2vw, 28px);
+  display: flex;
+  justify-content: center;
+  background-color: #f7f7f7;
+  background-image: radial-gradient(rgba(19, 19, 19, 0.13) 1px, transparent 1px);
+  background-size: 13px 13px;
+  background-position: -1px -1px;
+}
+/* graph specimens get the full width and no floating card — the canvas IS
+   the component, so a second frame around it would be one frame too many */
+.lab-stage.flush { padding: 0; display: block; background-image: none; background-color: #fff; }
+.lab-stage.flush svg { display: block; width: 100%; height: auto; }
+.lab + figcaption,
+.lab-cap {
+  margin-top: 11px;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  line-height: 1.5;
+}
+.lab-cap b { color: var(--ink); font-weight: 500; }
+
+/* ---------- shadcn/ui specimen kit ---------- */
+.ui {
+  --u-bg:   #ffffff;
+  --u-fg:   #0a0a0a;
+  --u-mut:  #737373;
+  --u-bd:   #e5e5e5;
+  --u-sec:  #f5f5f5;
+  --u-ring: #a3a3a3;
+  --u-r:    8px;
+  --u-green: #16a34a;
+  --u-amber: #b45309;
+  --u-red:   #b91c1c;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+               'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--u-fg);
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+.ui *, .ui *::before, .ui *::after { box-sizing: border-box; }
+.ui .mono {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+/* surface — the floating card a component sits on */
+.ui-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--u-bg);
+  border: 1px solid var(--u-bd);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 12px 28px -18px rgba(0, 0, 0, 0.28);
+}
+.ui-card.wide { max-width: 100%; }
+.ui-pad { padding: 12px; }
+.ui-sep { height: 1px; background: var(--u-bd); }
+
+/* label + trigger */
+.ui-lab {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--u-mut);
+  margin-bottom: 6px;
+}
+.ui-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--u-bd);
+  border-radius: var(--u-r);
+  background: var(--u-bg);
+  font-size: 12.5px;
+}
+.ui-trigger.on { box-shadow: 0 0 0 2px rgba(10, 10, 10, 0.08); border-color: var(--u-ring); }
+.ui-trigger .caret { color: var(--u-mut); }
+
+/* search field inside a popover */
+.ui-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--u-bd);
+  color: var(--u-mut);
+  font-size: 12.5px;
+}
+
+/* option rows */
+.ui-opt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 9px;
+  border-radius: 6px;
+}
+.ui-opt.hl { background: var(--u-sec); }
+.ui-opt .box {
+  flex: 0 0 auto;
+  width: 15px; height: 15px;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  background: var(--u-bg);
+}
+.ui-opt .box.on { background: #0a0a0a; border-color: #0a0a0a; }
+.ui-opt .box svg { display: block; }
+.ui-opt .nm { flex: 1 1 auto; min-width: 0; font-size: 12.5px; }
+.ui-opt .sub { display: block; font-size: 11px; color: var(--u-mut); margin-top: 1px; }
+.ui-opt .cnt { flex: 0 0 auto; font-size: 11px; color: var(--u-mut); font-variant-numeric: tabular-nums; }
+
+.ui-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-top: 1px solid var(--u-bd);
+  font-size: 11.5px;
+  color: var(--u-mut);
+}
+.ui-link { color: var(--u-fg); font-weight: 500; }
+
+/* chips */
+.ui-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 7px 0 8px;
+  border: 1px solid var(--u-bd);
+  border-radius: 6px;
+  background: var(--u-bg);
+  font-size: 11.5px;
+}
+.ui-chip .dot { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
+.ui-chip .x { color: var(--u-mut); font-size: 13px; line-height: 1; }
+
+/* segmented control */
+.ui-seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--u-sec);
+  border: 1px solid var(--u-bd);
+  border-radius: 9px;
+}
+.ui-seg > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--u-mut);
+  white-space: nowrap;
+}
+.ui-seg > span.on {
+  background: var(--u-bg);
+  color: var(--u-fg);
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+}
+.ui-seg svg { display: block; }
+
+/* stepper — depth 1 / 2 / 3 / all */
+.ui-step {
+  display: inline-flex;
+  border: 1px solid var(--u-bd);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--u-bg);
+}
+.ui-step > span {
+  min-width: 40px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: var(--u-mut);
+  border-left: 1px solid var(--u-bd);
+}
+.ui-step > span:first-child { border-left: 0; }
+.ui-step > span.on { background: var(--u-sec); color: var(--u-fg); font-weight: 500; }
+
+/* toolbar row */
+.ui-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ui-bar .spacer { flex: 1 1 auto; }
+.ui-bar .meta { font-size: 11.5px; color: var(--u-mut); font-variant-numeric: tabular-nums; }
+
+/* badges — the ONLY coloured things in the kit */
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 21px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid;
+}
+.ui-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.b-ok   { color: var(--u-green); background: rgba(34,197,94,0.10);  border-color: rgba(34,197,94,0.30); }
+.b-warn { color: var(--u-amber); background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.36); }
+.b-bad  { color: var(--u-red);   background: #fee2e2;               border-color: #fecaca; }
+.b-off  { color: #525252;        background: #f5f5f5;               border-color: #e5e5e5; }
+
+/* data rows */
+.ui-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-top: 1px solid var(--u-bd);
+}
+.ui-row:first-child { border-top: 0; }
+.ui-row .nm { min-width: 0; }
+.ui-row .nm b { font-weight: 500; }
+.ui-row .nm .sub { display: block; font-size: 11px; color: var(--u-mut); margin-top: 2px; }
+.ui-row .ver { font-size: 11.5px; color: var(--u-mut); font-variant-numeric: tabular-nums; }
+
+/* buttons */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--u-r);
+  border: 1px solid var(--u-bd);
+  background: var(--u-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.ui-btn.solid { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.ui-btn.ghost { border-color: transparent; background: transparent; color: var(--u-mut); font-weight: 400; }
+.ui-btn[aria-disabled='true'] { opacity: 0.45; }
+
+/* acknowledgement gate */
+.ui-ack {
+  display: flex;
+  gap: 9px;
+  padding: 10px 11px;
+  border: 1px solid var(--u-bd);
+  border-radius: var(--u-r);
+  background: var(--u-bg);
+}
+.ui-ack + .ui-ack { margin-top: 7px; }
+.ui-ack .box {
+  flex: 0 0 auto;
+  width: 15px; height: 15px;
+  margin-top: 1px;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+}
+.ui-ack .box.on { background: #0a0a0a; border-color: #0a0a0a; }
+.ui-ack .tx { min-width: 0; }
+.ui-ack .tt { font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.ui-ack .dd { font-size: 11.5px; color: var(--u-mut); margin-top: 3px; line-height: 1.42; }
+
+/* graph legend, shown under a canvas specimen */
+.ui-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 9px clamp(12px, 1.6vw, 18px);
+  border-top: 1px solid var(--u-bd);
+  font-size: 11px;
+  color: var(--u-mut);
+}
+.ui-key span { display: inline-flex; align-items: center; gap: 5px; }
+.ui-key i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+@media (max-width: 560px) {
+  .ui { font-size: 12.5px; }
+  .lab-stage { padding: 18px 12px; }
+}
+
+/* ---------- funnel ----------
+   Each step is a track the full width of the measure; only the FILL carries
+   colour, and its width is the step's share of the funnel. Two tones tell
+   the story without a legend: warm tan while the funnel is intact, the
+   terracotta the rest of the page already uses for a warning once it
+   collapses. Labels sit inside the track with real padding so they never
+   look pinned to the page edge. */
+.funnel {
+  --step-ok:   #c9a882;   /* warm tan — the healthy part of the funnel */
+  --step-ok-2: #7a5a33;
+  --step-bad:  #b4472b;   /* the same terracotta the timeline flags with */
+  display: grid;
+  gap: 7px;
+}
 .funnel .step {
   position: relative;
-  padding: clamp(14px, 1.5vw, 22px) 0;
-  border-bottom: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(19, 19, 19, 0.045);
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 .funnel .bar {
   position: absolute;
   left: 0; top: 0; bottom: 0;
-  background: rgba(19, 19, 19, 0.055);
+  background: color-mix(in srgb, var(--step-ok) 62%, transparent);
   z-index: 0;
 }
 .funnel .row {
@@ -304,14 +747,45 @@ figure.fig > figcaption {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding-right: 6px;
+  padding: clamp(13px, 1.4vw, 19px) clamp(14px, 1.6vw, 22px);
 }
 .funnel .lbl { font-size: clamp(13.5px, 0.68vw, 17px); }
-.funnel .lbl small { color: var(--mute); margin-left: 8px; font-size: 0.85em; }
+.funnel .lbl small { color: var(--ink-2); margin-left: 8px; font-size: 0.85em; }
 .funnel .pct {
   font-size: clamp(15px, 1vw, 24px);
   letter-spacing: -0.01em;
   white-space: nowrap;
+  color: var(--step-ok-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* everything after the cliff */
+.funnel .step.drop .bar {
+  background: color-mix(in srgb, var(--step-bad) 42%, transparent);
+}
+.funnel .step.drop .pct { color: var(--step-bad); }
+
+/* the cliff itself — a ruled gap that names the number the section is about */
+.funnel .cliff {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(6px, 0.9vw, 11px) clamp(14px, 1.6vw, 22px);
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--step-bad);
+}
+.funnel .cliff::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+/* no color-mix (older Safari): fall back to flat tints */
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .funnel .bar { background: #e3d0b8; }
+  .funnel .step.drop .bar { background: #eccec4; }
 }
 
 /* ---------- timeline ---------- */
@@ -362,33 +836,56 @@ figure.fig > figcaption {
   line-height: 1.4;
 }
 
-/* ---------- swatches ---------- */
+/* ---------- swatches ----------
+   One pill per colour: the pill IS the colour, and its hex sits dead centre
+   inside it. The old build put the hex on a white strip below an empty
+   `<span class="chip">` — an inline element, so `aspect-ratio` never applied
+   and every chip collapsed to zero height. Hence: no colours.
+
+   Label ink is chosen per swatch in the markup (white or near-black,
+   whichever wins the contrast ratio against that specific background). */
 .swatch-set + .swatch-set { margin-top: clamp(18px, 2.2vw, 30px); }
 .swatch-set .label { margin-bottom: 9px; }
-.swatches { display: flex; flex-wrap: wrap; gap: var(--gap); }
-.swatches div {
-  flex: 1 1 92px;
-  min-width: 82px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--line);
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: var(--gap);
 }
-.swatches .chip { aspect-ratio: 3 / 2; }
+.swatches .sw {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(19, 19, 19, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
 .swatches .hex {
-  padding: 7px 9px;
-  font-size: clamp(10.5px, 0.48vw, 12.5px);
-  color: var(--ink-2);
-  background: var(--bg);
-  text-align: center;
-  letter-spacing: 0.01em;
+  font-size: clamp(10.5px, 0.5vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: inherit;          /* set per-swatch for contrast */
+  font-variant-numeric: tabular-nums;
 }
 
-/* ---------- typeface specimen ---------- */
+/* ---------- typeface specimen ----------
+   A specimen set in the page font is not a specimen. Each card declares the
+   face it is describing and every glyph inside it — heading, alphabet and
+   the paragraph arguing for it — inherits that face.
+
+   Guton is loaded from a webfont CDN. SF Pro can't be legally served as a
+   webfont, so it comes from the system stack: on macOS and iOS that resolves
+   to the real SF Pro; elsewhere it degrades to the nearest UI grotesque. */
 .spec {
   padding: clamp(20px, 2.4vw, 34px);
   border: 1px solid var(--line);
   border-radius: var(--r);
   background: rgba(255, 255, 255, 0.45);
+}
+.spec.f-guton { font-family: 'Guton', var(--sans); }
+.spec.f-sf {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+               'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue',
+               Arial, sans-serif;
 }
 .spec + .spec { margin-top: var(--gap); }
 .spec .who {

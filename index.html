@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
 <link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="sandbox.css">
 
 <style>
 /* ---------- hero ---------- */
@@ -113,28 +114,26 @@
 .duo .shot { aspect-ratio: 4 / 3; }
 @media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
 
-/* awaiting artwork — a quiet ruled field, not a broken image */
-.shot-tbd {
-  background:
-    repeating-linear-gradient(-45deg,
-      transparent 0 13px,
-      rgba(19, 19, 19, 0.045) 13px 14px);
-  border: 1px solid var(--line);
-  position: relative;
+/* .shot-tbd (awaiting-artwork field) now lives in core.css */
+
+/* ---------- work groups ----------
+   Two kinds of work, and the distinction is worth making before the reader
+   starts judging: paid client work and self-directed projects are not the
+   same claim. The rule + row heading is the lightest way to draw the line
+   without introducing a second, louder heading level — the group titles sit
+   in ink while their counts stay muted, so the pair reads as one line. */
+.work-group + .work-group { margin-top: clamp(48px, 6.5vw, 96px); }
+
+.group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(12px, 1.5vw, 18px);
+  margin-bottom: clamp(18px, 2.4vw, 30px);
 }
-.shot-tbd::after {
-  content: 'Artwork in progress';
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 7px 16px;
-  border-radius: 999px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  font-size: clamp(11.5px, 0.52vw, 14px);
-  color: var(--mute);
-  white-space: nowrap;
-}
+.group-head h3 { color: var(--ink); font-weight: 400; }
 
 .work-foot { margin-top: clamp(22px, 3vw, 36px); }
 
@@ -196,7 +195,11 @@
 
     <!-- ============ HERO ============ -->
     <header class="hero wrap">
-      <h1 class="wordmark" data-fit>
+      <!-- data-words-fit runs the case-study heading reveal on these two
+           lines as the page loads; data-fit then sizes them. The order the
+           two run in matters — site.js enforces it, see the hero wordmark
+           block there. -->
+      <h1 class="wordmark" data-fit data-words-fit>
         <span class="ln"><span class="fit">Divyansh</span></span>
         <span class="ln"><span class="fit">Srivastava</span></span>
       </h1>
@@ -225,55 +228,156 @@
     <section class="work wrap" aria-labelledby="work-h">
       <div class="work-lead">
         <h2 class="label" id="work-h">Selected work</h2>
-        <span class="label">Five projects &mdash; 2025 to 2026</span>
+        <span class="label">Eight projects &mdash; 2025 to 2026</span>
       </div>
 
-      <div class="duo">
-        <a class="card" href="arth.html" data-peek="View Arth ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="Arth Dashboard — artwork in progress"></div>
-          <div class="cap">
-            <span class="t">Arth Dashboard</span>
-            <span class="m">E-commerce analytics</span>
-            <span class="m">2025</span>
-          </div>
-        </a>
+      <!-- ---- group 01: internship & work ----
+           The four newest cards carry a live MacBook (see sandbox.css /
+           sandbox.js): the machine's screen runs the project's real build,
+           scrollable and hoverable, with every click routed to the case
+           study instead of into the app. Vero Moda keeps a flat still —
+           it is a research write-up, there is no product to run. -->
+      <div class="work-group">
+        <div class="group-head">
+          <h3 class="label">Internship &amp; work</h3>
+          <span class="label">Five projects</span>
+        </div>
 
-        <a class="card" href="fedex.html" data-peek="View FedEx ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="FedEx UX research — artwork in progress"></div>
-          <div class="cap">
-            <span class="t">FedEx</span>
-            <span class="m">Logistics &middot; UX research</span>
-            <span class="m">2026</span>
-          </div>
-        </a>
+        <div class="duo">
+          <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
+            <div class="mac-scene" data-app="assets/sandbox/lightning/index.html"
+                 style="--s1:#272f3d; --s2:#0f1116; --glow:rgba(120,150,235,0.22)">
+              <div class="mac">
+                <div class="mac-lid">
+                  <div class="mac-screen">
+                    <img class="mac-poster" src="assets/images/posters/lightning.jpg" alt="Lightning Leap Analytics dependency console">
+                    <iframe class="mac-live" title="Lightning Leap — live preview"
+                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                  </div>
+                </div>
+                <div class="mac-deck"></div>
+              </div>
+              <span class="mac-badge"><i></i>Live build</span>
+            </div>
+            <div class="cap">
+              <span class="t">Lightning Leap Analytics</span>
+              <span class="m">DevTools &middot; data visualisation</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
 
-        <a class="card" href="veromoda.html" data-peek="View Vero Moda ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="Vero Moda performance research — artwork in progress"></div>
-          <div class="cap">
-            <span class="t">Vero Moda</span>
-            <span class="m">Performance research</span>
-            <span class="m">2026</span>
-          </div>
-        </a>
+          <a class="card" href="lineage.html" data-peek="View Schema &amp; Lineage ↗" data-r>
+            <div class="mac-scene" data-app="assets/sandbox/lineage/index.html"
+                 style="--s1:#242832; --s2:#0d0e11; --glow:rgba(96,165,250,0.20)">
+              <div class="mac">
+                <div class="mac-lid">
+                  <div class="mac-screen">
+                    <img class="mac-poster" src="assets/images/posters/lineage.jpg" alt="Connection map showing schema lineage across four projects">
+                    <iframe class="mac-live" title="Schema &amp; Lineage — live preview"
+                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                  </div>
+                </div>
+                <div class="mac-deck"></div>
+              </div>
+              <span class="mac-badge"><i></i>Live build</span>
+            </div>
+            <div class="cap">
+              <span class="t">Schema &amp; Lineage</span>
+              <span class="m">Data infrastructure</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
 
-        <a class="card" href="rozinvest.html" data-peek="View RozInvest ↗" data-r>
-          <div class="shot"><img src="assets/images/work/rozinvest.jpg" alt="RozInvest visual identity"></div>
-          <div class="cap">
-            <span class="t">RozInvest</span>
-            <span class="m">Fintech &middot; Visual identity</span>
-            <span class="m">2026</span>
-          </div>
-        </a>
+          <a class="card" href="verjson.html" data-peek="View Verjson ↗" data-r>
+            <div class="mac-scene" data-app="assets/sandbox/verjson/index.html"
+                 style="--s1:#3a3733; --s2:#171614; --glow:rgba(232,213,183,0.20)">
+              <div class="mac">
+                <div class="mac-lid">
+                  <div class="mac-screen">
+                    <img class="mac-poster" src="assets/images/posters/verjson.jpg" alt="verJSON website landing page">
+                    <iframe class="mac-live" title="Verjson — live preview"
+                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                  </div>
+                </div>
+                <div class="mac-deck"></div>
+              </div>
+              <span class="mac-badge"><i></i>Live build</span>
+            </div>
+            <div class="cap">
+              <span class="t">Verjson</span>
+              <span class="m">Website development</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
 
-        <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="Lightning Leap Analytics — artwork in progress"></div>
-          <div class="cap">
-            <span class="t">Lightning Leap Analytics</span>
-            <span class="m">Analytics &middot; Data Visualization</span>
-            <span class="m">2026</span>
-          </div>
-        </a>
+          <a class="card" href="bluebal.html" data-peek="View Blue Balloon ↗" data-r>
+            <div class="mac-scene" data-app="assets/sandbox/bluebal/index.html"
+                 style="--s1:#2e2a3d; --s2:#131118; --glow:rgba(167,139,250,0.22)">
+              <div class="mac">
+                <div class="mac-lid">
+                  <div class="mac-screen">
+                    <img class="mac-poster" src="assets/images/posters/bluebal.jpg" alt="Blue Balloon illustration workspace project board">
+                    <iframe class="mac-live" title="Blue Balloon — live preview"
+                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                  </div>
+                </div>
+                <div class="mac-deck"></div>
+              </div>
+              <span class="mac-badge"><i></i>Live build</span>
+            </div>
+            <div class="cap">
+              <span class="t">Blue Balloon</span>
+              <span class="m">Creative tooling</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
 
+          <a class="card" href="veromoda.html" data-peek="View Vero Moda ↗" data-r>
+            <div class="shot"><img src="assets/images/work/veromoda.jpg" alt="Vero Moda technical UX analysis — mobile and desktop storefront"></div>
+            <div class="cap">
+              <span class="t">Vero Moda</span>
+              <span class="m">Performance research</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ---- group 02: personal projects ---- -->
+      <div class="work-group">
+        <div class="group-head">
+          <h3 class="label">Personal projects</h3>
+          <span class="label">Three projects</span>
+        </div>
+
+        <div class="duo">
+          <a class="card" href="arth.html" data-peek="View Arth ↗" data-r>
+            <div class="shot"><img src="assets/images/work/arth.jpg" alt="Arth shipping analytics dashboard on a laptop"></div>
+            <div class="cap">
+              <span class="t">Arth Dashboard</span>
+              <span class="m">E-commerce analytics</span>
+              <span class="m">2025</span>
+            </div>
+          </a>
+
+          <a class="card" href="fedex.html" data-peek="View FedEx ↗" data-r>
+            <div class="shot"><img src="assets/images/work/fedex.jpg" alt="FedEx territory workspace dashboard on tablet"></div>
+            <div class="cap">
+              <span class="t">FedEx</span>
+              <span class="m">Logistics &middot; UX research</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
+
+          <a class="card" href="rozinvest.html" data-peek="View RozInvest ↗" data-r>
+            <div class="shot"><img src="assets/images/work/rozinvest.jpg" alt="RozInvest visual identity"></div>
+            <div class="cap">
+              <span class="t">RozInvest</span>
+              <span class="m">Fintech &middot; Visual identity</span>
+              <span class="m">2026</span>
+            </div>
+          </a>
+        </div>
       </div>
 
       <div class="work-foot">
@@ -373,5 +477,6 @@
 </footer>
 
 <script src="site.js"></script>
+<script src="sandbox.js"></script>
 </body>
 </html>

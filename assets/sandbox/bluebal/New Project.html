@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New storybook</title>
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/fonts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/fig-tokens.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/palette.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/typography.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/spacing.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/theme.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/forms/forms.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/inputs/inputs.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/data-display/data-display.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/disclosure/disclosure.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/feedback/feedback.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/navigation/navigation.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/command/command.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/calendar/calendar.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/charts/charts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/overlay/overlay.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/components.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/styles.css">
+<style>
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--muted, #f4f4f5);
+    color: var(--foreground);
+    font-family: var(--font-sans, system-ui, sans-serif);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  .shell { max-width: 680px; margin: 0 auto; padding: 28px 24px 56px; }
+
+  /* Header */
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .head-left { display: flex; align-items: flex-start; gap: 12px; }
+  .backbtn {
+    flex: 0 0 auto;
+    width: 36px; height: 36px; margin-top: 2px;
+    border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--card); color: var(--foreground); cursor: pointer;
+    display: grid; place-items: center;
+    transition: background 120ms ease;
+  }
+  .backbtn:hover { background: var(--accent); }
+  .head h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .head .sub { margin: 4px 0 0; font-size: 13.5px; color: var(--muted-foreground); }
+  .team-pill { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted-foreground); margin-right: 4px; }
+  .team-ava {
+    width: 24px; height: 24px; border-radius: 50%;
+    color: #fff; font-size: 10px; font-weight: 600; display: grid; place-items: center;
+    border: 2px solid var(--card); margin-left: -8px;
+  }
+  .team-ava:first-child { margin-left: 0; }
+
+  /* Sections */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .sec-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+  .field-label { font-size: 13px; font-weight: 500; margin: 0 0 7px; display: block; }
+  .formats { font-size: 11px; letter-spacing: 0.04em; color: var(--muted-foreground); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .divider { height: 1px; background: var(--border); margin: 18px 0; }
+  .subhead { font-size: 13px; font-weight: 500; margin: 0 0 10px; }
+
+  /* Manuscript dropzone */
+  .dz {
+    border: 1.5px dashed color-mix(in oklab, var(--primary) 35%, var(--border));
+    background: color-mix(in oklab, var(--primary) 5%, var(--card));
+    border-radius: var(--radius-lg);
+    padding: 26px 16px;
+    text-align: center; cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+  .dz.drag { background: color-mix(in oklab, var(--primary) 12%, var(--card)); border-color: var(--primary); }
+  .dz .dzicon {
+    width: 40px; height: 40px; border-radius: 10px; margin: 0 auto 10px;
+    background: var(--card); border: 1px solid var(--border);
+    display: grid; place-items: center; color: var(--primary);
+  }
+  .dz .dztitle { font-size: 14px; font-weight: 500; }
+  .dz .dztitle b { color: var(--primary); font-weight: 600; }
+  .dz .dzhint { font-size: 12px; color: var(--muted-foreground); margin-top: 4px; }
+  .dz input[type=file] { display: none; }
+
+  /* Page size segmented */
+  .sizes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .size {
+    border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--card); padding: 14px 4px 10px; text-align: center;
+    cursor: pointer; transition: all 120ms ease;
+  }
+  .size:hover { background: var(--accent); }
+  .size .ico { color: var(--muted-foreground); display: grid; place-items: center; height: 26px; margin-bottom: 7px; }
+  .size .nm { font-size: 12px; font-weight: 600; }
+  .size[data-active="true"] {
+    border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary);
+    background: color-mix(in oklab, var(--primary) 6%, var(--card));
+  }
+  .size[data-active="true"] .ico { color: var(--primary); }
+
+  /* Orientation toggle */
+  .seg {
+    display: inline-flex; background: var(--muted); border-radius: var(--radius-md);
+    padding: 3px; gap: 3px;
+  }
+  .seg button {
+    border: 0; background: transparent; cursor: pointer;
+    font-size: 13px; font-weight: 500; color: var(--muted-foreground);
+    padding: 7px 16px; border-radius: calc(var(--radius-md) - 3px);
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: all 120ms ease;
+  }
+  .seg button[data-active="true"] { background: var(--card); color: var(--foreground); box-shadow: var(--shadow-sm); }
+
+  /* checkbox row */
+  .checkrow { display: flex; gap: 11px; align-items: flex-start; cursor: pointer; }
+  .checkrow .ct { font-size: 13.5px; font-weight: 600; }
+  .checkrow .cs { font-size: 12.5px; color: var(--muted-foreground); margin-top: 2px; }
+
+  /* Typography */
+  .typo-row { display: grid; grid-template-columns: 1fr 1fr 60px 30px; gap: 10px; align-items: center; margin-bottom: 9px; }
+  .typo-row .ui-input { text-align: center; }
+  .typo-head { display: grid; grid-template-columns: 1fr 1fr 60px 30px; gap: 10px; margin-bottom: 7px; }
+  .micro { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-foreground); }
+  .xbtn {
+    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--card); color: var(--muted-foreground); cursor: pointer; display: grid; place-items: center;
+  }
+  .xbtn:hover { background: var(--accent); color: var(--foreground); }
+  .typo-foot { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 6px; }
+  .ghost-dash {
+    border: 1px dashed var(--border); border-radius: var(--radius-md); background: transparent;
+    font-size: 13px; color: var(--muted-foreground); padding: 9px; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .ghost-dash:hover { background: var(--accent); color: var(--foreground); }
+
+  /* Palette */
+  .swatches { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .swatch {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 11px 5px 6px;
+    font-size: 12.5px; font-variant-numeric: tabular-nums;
+  }
+  .swatch .dot { width: 17px; height: 17px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.1); }
+  .swatch .rm { cursor: pointer; color: var(--muted-foreground); display: inline-flex; }
+  .swatch .rm:hover { color: var(--destructive); }
+  .add-swatch {
+    border: 1px dashed var(--border); border-radius: 999px; padding: 6px 13px;
+    font-size: 12.5px; color: var(--muted-foreground); background: transparent; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .add-swatch:hover { background: var(--accent); color: var(--foreground); }
+  .hidden-file { display: none; }
+
+  /* Aesthetic */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip {
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px;
+    font-size: 12.5px; background: var(--card); cursor: pointer; color: var(--foreground);
+  }
+  .chip:hover { background: var(--accent); }
+
+  /* Footer next button */
+  .form-foot { margin-top: 22px; }
+  .form-foot .ui-btn { width: 100%; }
+
+  /* teammates dialog */
+  .tm-list { display: flex; flex-direction: column; gap: 2px; max-height: 280px; overflow: auto; margin-top: 8px; }
+  .tm-item { display: flex; align-items: center; gap: 11px; padding: 9px 8px; border-radius: var(--radius-md); cursor: pointer; }
+  .tm-item:hover { background: var(--accent); }
+  .tm-ava { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; color: #fff; flex: 0 0 auto; }
+  .tm-name { font-size: 14px; font-weight: 500; }
+  .tm-role { font-size: 12.5px; color: var(--muted-foreground); }
+  .tm-grow { flex: 1 1 auto; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="../_shared/vendor/react.production.min.js"></script>
+<script src="../_shared/vendor/react-dom.production.min.js"></script>
+<script src="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/_ds_bundle.js"></script>
+
+<script>
+  const DS = window.ShadcnUiDesignSystem_6211ba;
+  const { Button, Input, Textarea, Select, Checkbox, Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } = DS;
+  const Icon = window.Icon;
+  const e = React.createElement;
+  const { useState, useRef } = React;
+
+  const PAGE_SIZES = ["A3", "A4", "A5", "Letter", "Square"];
+  const STYLES = ["Storybook Illustration", "Watercolor", "Flat Vector", "Digital Painting", "Line Art", "3D Render"];
+  const LENGTHS = ["16 pages", "24 pages", "32 pages", "48 pages", "64 pages"];
+  const FONTS = ["Geist", "Geist Mono", "Lora", "Inter", "Merriweather", "Playfair Display"];
+  const ROLES = ["Heading", "Subheading", "Body Text", "Caption", "Quote"];
+
+  const TEAMMATES = [
+    { id: "ava",  name: "Ava Mitchell",   role: "Illustrator",  color: "#6366f1" },
+    { id: "leo",  name: "Leo Park",       role: "Art Director", color: "#0e7490" },
+    { id: "maya", name: "Maya Rodriguez", role: "Writer",       color: "#b91c1c" },
+    { id: "noah", name: "Noah Bennett",   role: "Editor",       color: "#15803d" },
+    { id: "sara", name: "Sara Lindqvist", role: "Designer",     color: "#a16207" },
+    { id: "tom",  name: "Tom Okafor",     role: "Animator",     color: "#7c3aed" }
+  ];
+  const initials = (n) => n.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
+
+  function App() {
+    const [name, setName] = useState("Untitled storybook");
+    const [file, setFile] = useState(null);
+    const [drag, setDrag] = useState(false);
+    const [size, setSize] = useState("A4");
+    const [orientation, setOrientation] = useState("Vertical");
+    const [pageNums, setPageNums] = useState(true);
+    const [style, setStyle] = useState(STYLES[0]);
+    const [length, setLength] = useState("32 pages");
+    const [fonts, setFonts] = useState([
+      { family: "Geist", role: "Heading", size: 32 },
+      { family: "Lora", role: "Subheading", size: 20 },
+      { family: "Geist", role: "Body Text", size: 14 }
+    ]);
+    const [palette, setPalette] = useState(["#1F3A5F", "#E8A84B", "#7C2D12", "#F3E5C8"]);
+    const [restrict, setRestrict] = useState(false);
+    const [aesthetic, setAesthetic] = useState("");
+
+    const [teamOpen, setTeamOpen] = useState(false);
+    const [team, setTeam] = useState([]);
+    const [draftTeam, setDraftTeam] = useState([]);
+
+    const fileRef = useRef(null);
+    const colorRef = useRef(null);
+
+    const pickFile = (f) => { if (f) setFile(f.name); };
+    const setFont = (i, key, val) => setFonts(fs => fs.map((f, j) => j === i ? { ...f, [key]: val } : f));
+    const addFont = () => setFonts(fs => [...fs, { family: "Geist", role: "Body Text", size: 16 }]);
+    const removeFont = (i) => setFonts(fs => fs.filter((_, j) => j !== i));
+    const removeSwatch = (i) => setPalette(p => p.filter((_, j) => j !== i));
+    const addSwatch = (hex) => setPalette(p => [...p, hex.toUpperCase()]);
+    const addChip = (t) => setAesthetic(a => a ? a + (a.endsWith(" ") ? "" : ", ") + t : t);
+
+    const openTeam = () => { setDraftTeam(team); setTeamOpen(true); };
+    const toggleDraft = (id) => setDraftTeam(d => d.includes(id) ? d.filter(x => x !== id) : [...d, id]);
+    const confirmTeam = () => { setTeam(draftTeam); setTeamOpen(false); };
+
+    // ---------- Header ----------
+    const header = e("div", { className: "head" },
+      e("div", { className: "head-left" },
+        e("button", { className: "backbtn", "aria-label": "Back", title: "Back", onClick: () => location.href = "Home.html" },
+          e(Icon, { name: "arrow-right", size: 18, style: { transform: "rotate(180deg)" } })
+        ),
+        e("div", null,
+          e("h1", null, "New storybook"),
+          e("p", { className: "sub" }, "Upload your manuscript and set how the AI should illustrate it. Everything here can be changed later.")
+        )
+      ),
+      e("div", { style: { display: "flex", alignItems: "center" } },
+        team.length > 0 && e("div", { className: "team-pill", title: team.map(id => TEAMMATES.find(t => t.id === id).name).join(", ") },
+          e("div", { style: { display: "flex" } },
+            team.slice(0, 3).map(id => {
+              const t = TEAMMATES.find(x => x.id === id);
+              return e("div", { key: id, className: "team-ava", style: { background: t.color } }, initials(t.name));
+            })
+          ),
+          team.length + (team.length === 1 ? " added" : " added")
+        ),
+        e(Button, { variant: "outline", size: "sm", onClick: openTeam },
+          e(Icon, { name: "users", size: 15 }), "Add teammates"
+        )
+      )
+    );
+
+    // ---------- Sections ----------
+    const secName = e("div", { className: "section" },
+      e("label", { className: "field-label", htmlFor: "pname" }, "Project name"),
+      e(Input, { id: "pname", value: name, onChange: ev => setName(ev.target.value), placeholder: "Untitled storybook" })
+    );
+
+    const secManuscript = e("div", { className: "section" },
+      e("div", { className: "sec-head" },
+        e("p", { className: "sec-title" }, "Manuscript"),
+        e("span", { className: "formats" }, "PDF · DOCX · TXT")
+      ),
+      e("div", {
+          className: "dz" + (drag ? " drag" : ""),
+          onClick: () => fileRef.current.click(),
+          onDragOver: ev => { ev.preventDefault(); setDrag(true); },
+          onDragLeave: () => setDrag(false),
+          onDrop: ev => { ev.preventDefault(); setDrag(false); pickFile(ev.dataTransfer.files[0]); }
+        },
+        e("div", { className: "dzicon" }, e(Icon, { name: "download", size: 19, style: { transform: "rotate(180deg)" } })),
+        file
+          ? e("div", { className: "dztitle" }, e("b", null, file))
+          : e("div", { className: "dztitle" }, "Drop your manuscript or ", e("b", null, "browse files")),
+        e("div", { className: "dzhint" }, file ? "Ready to process — click to replace" : "We'll read every chapter and pull out characters, scenes and mood."),
+        e("input", { type: "file", ref: fileRef, accept: ".pdf,.docx,.txt", onChange: ev => pickFile(ev.target.files[0]) })
+      )
+    );
+
+    const secPage = e("div", { className: "section" },
+      e("p", { className: "sec-title", style: { marginBottom: 14 } }, "Page setup"),
+      e("p", { className: "subhead" }, "Page size"),
+      e("div", { className: "sizes" },
+        PAGE_SIZES.map(s => e("div", { key: s, className: "size", "data-active": size === s, onClick: () => setSize(s) },
+          e("div", { className: "ico" }, e("div", {
+            style: { width: s === "Square" ? 18 : 15, height: s === "Letter" ? 22 : 19, border: "2px solid currentColor", borderRadius: 3 }
+          })),
+          e("div", { className: "nm" }, s)
+        ))
+      ),
+      e("div", { className: "divider" }),
+      e("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 } },
+        e("p", { className: "subhead", style: { margin: 0 } }, "Orientation"),
+        e("div", { className: "seg" },
+          e("button", { "data-active": orientation === "Vertical", onClick: () => setOrientation("Vertical") },
+            e("div", { style: { width: 11, height: 14, border: "1.5px solid currentColor", borderRadius: 2 } }), "Vertical"),
+          e("button", { "data-active": orientation === "Horizontal", onClick: () => setOrientation("Horizontal") },
+            e("div", { style: { width: 14, height: 11, border: "1.5px solid currentColor", borderRadius: 2 } }), "Horizontal")
+        )
+      ),
+      e("div", { className: "divider" }),
+      e("label", { className: "checkrow", htmlFor: "pnum" },
+        e(Checkbox, { id: "pnum", checked: pageNums, onChange: ev => setPageNums(ev.target.checked) }),
+        e("div", null,
+          e("div", { className: "ct" }, "Include page numbers"),
+          e("div", { className: "cs" }, "Add page numbers to the bottom of each storybook page.")
+        )
+      )
+    );
+
+    const secStyle = e("div", { className: "section" },
+      e("div", { className: "row2" },
+        e("div", null,
+          e("label", { className: "field-label" }, "Illustration style"),
+          e(Select, { value: style, onChange: ev => setStyle(ev.target.value), options: STYLES })
+        ),
+        e("div", null,
+          e("label", { className: "field-label" }, "Book length"),
+          e(Select, { value: length, onChange: ev => setLength(ev.target.value), options: LENGTHS })
+        )
+      )
+    );
+
+    const secTypo = e("div", { className: "section" },
+      e("div", { className: "sec-head" },
+        e("p", { className: "sec-title" }, "Typography"),
+        e("span", { className: "micro" }, fonts.length + " fonts")
+      ),
+      e("div", { className: "typo-head micro" },
+        e("span", null, "Font family"), e("span", null, "Role"), e("span", { style: { textAlign: "center" } }, "Size"), e("span")
+      ),
+      fonts.map((f, i) => e("div", { className: "typo-row", key: i },
+        e(Select, { value: f.family, onChange: ev => setFont(i, "family", ev.target.value), options: FONTS }),
+        e(Select, { value: f.role, onChange: ev => setFont(i, "role", ev.target.value), options: ROLES }),
+        e(Input, { type: "number", value: f.size, onChange: ev => setFont(i, "size", ev.target.value) }),
+        e("button", { className: "xbtn", title: "Remove font", onClick: () => removeFont(i) }, e(Icon, { name: "x", size: 14 }))
+      )),
+      e("div", { className: "typo-foot" },
+        e("button", { className: "ghost-dash", onClick: addFont }, e(Icon, { name: "plus", size: 14 }), "Add font"),
+        e("button", { className: "ghost-dash", onClick: () => alert("Upload a font file (.ttf, .otf, .woff2)") }, e(Icon, { name: "download", size: 14, style: { transform: "rotate(180deg)" } }), "Upload font")
+      )
+    );
+
+    const secColor = e("div", { className: "section" },
+      e("div", { className: "sec-head" },
+        e("p", { className: "sec-title" }, "Color palette"),
+        e("span", { className: "micro" }, "HEX")
+      ),
+      e("div", { className: "swatches" },
+        palette.map((hex, i) => e("span", { className: "swatch", key: i },
+          e("span", { className: "dot", style: { background: hex } }),
+          hex,
+          e("span", { className: "rm", title: "Remove", onClick: () => removeSwatch(i) }, e(Icon, { name: "x", size: 12 }))
+        )),
+        e("button", { className: "add-swatch", onClick: () => colorRef.current.click() }, e(Icon, { name: "plus", size: 12 }), "Add"),
+        e("input", { type: "color", ref: colorRef, className: "hidden-file", onChange: ev => addSwatch(ev.target.value) })
+      ),
+      e("label", { className: "checkrow", htmlFor: "restrict", style: { marginTop: 16 } },
+        e(Checkbox, { id: "restrict", checked: restrict, onChange: ev => setRestrict(ev.target.checked) }),
+        e("div", null,
+          e("div", { className: "ct" }, "Restrict generation strictly to this palette"),
+          e("div", { className: "cs" }, restrict ? "On: the AI will only use these colors." : "Off: use as primary palette but allow creative flexibility.")
+        )
+      )
+    );
+
+    const secAes = e("div", { className: "section" },
+      e("div", { className: "sec-head" },
+        e("p", { className: "sec-title" }, "Desired aesthetic"),
+        e("span", { className: "micro", style: { textTransform: "none", letterSpacing: 0 } }, "optional")
+      ),
+      e(Textarea, {
+        value: aesthetic, onChange: ev => setAesthetic(ev.target.value), rows: 3,
+        placeholder: "Describe the mood, palette and feel you're after — e.g. warm hand-painted dusk, dust in the lantern light, deep indigo skies."
+      }),
+      e("div", { className: "chips" },
+        ["Ghibli-warm dusk", "Dark fantasy", "Modern picture book"].map(c =>
+          e("button", { className: "chip", key: c, onClick: () => addChip(c) }, "+ ", c))
+      )
+    );
+
+    const footer = e("div", { className: "form-foot" },
+      e(Button, { size: "lg", onClick: () => {
+        try {
+          const teamNames = team.map(id => (TEAMMATES.find(t => t.id === id) || {}).name).filter(Boolean);
+          localStorage.setItem("bb_draft", JSON.stringify({
+            name, style, length, size, orientation, palette, aesthetic,
+            pageNums, fonts, manuscript: file || null, team: teamNames
+          }));
+        } catch (e) {}
+        location.href = "Characters.html";
+      } }, "Next", e(Icon, { name: "arrow-right", size: 16 }))
+    );
+
+    // ---------- Teammates dialog ----------
+    const dialog = e(Dialog, { open: teamOpen, onOpenChange: setTeamOpen },
+      e(DialogHeader, null,
+        e(DialogTitle, null, "Add teammates"),
+        e(DialogDescription, null, "Select the people who should have access to this project.")
+      ),
+      e("div", { style: { margin: "4px 0 2px" } },
+        e("label", { className: "field-label" }, "Teammates"),
+        e(Select, {
+            value: "",
+            onChange: ev => { if (ev.target.value) toggleDraft(ev.target.value); ev.target.value = ""; }
+          },
+          e("option", { value: "" }, draftTeam.length ? draftTeam.length + " selected — add another…" : "Select teammates…"),
+          TEAMMATES.map(t => e("option", { key: t.id, value: t.id },
+            (draftTeam.includes(t.id) ? "✓ " : "") + t.name + " · " + t.role))
+        )
+      ),
+      e("div", { className: "tm-list" },
+        TEAMMATES.map(t => e("div", { className: "tm-item", key: t.id, onClick: () => toggleDraft(t.id) },
+          e("div", { className: "tm-ava", style: { background: t.color } }, initials(t.name)),
+          e("div", { className: "tm-grow" },
+            e("div", { className: "tm-name" }, t.name),
+            e("div", { className: "tm-role" }, t.role)
+          ),
+          e(Checkbox, { checked: draftTeam.includes(t.id), readOnly: true, onChange: () => {} })
+        ))
+      ),
+      e(DialogFooter, null,
+        e(Button, { variant: "outline", onClick: () => setTeamOpen(false) }, "Cancel"),
+        e(Button, { onClick: confirmTeam }, "Confirm", draftTeam.length ? " (" + draftTeam.length + ")" : "")
+      )
+    );
+
+    return e("div", { className: "shell" },
+      header,
+      secName, secManuscript, secPage, secStyle, secTypo, secColor, secAes,
+      footer,
+      dialog
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(e(App));
+</script>
+</body>
+</html>

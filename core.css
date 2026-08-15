@@ -33,6 +33,12 @@
   --r-page: clamp(20px, 3vw, 40px);    /* page bottom radius over footer */
 
   --ease: cubic-bezier(0.25, 1, 0.35, 1);
+
+  /* the awaiting-artwork field, as a value so any surface can re-apply it
+     without losing to a more specific background rule */
+  --tbd-hatch: repeating-linear-gradient(-45deg,
+      transparent 0 13px,
+      rgba(19, 19, 19, 0.045) 13px 14px);
 }
 
 /* ---------- reset ---------- */
@@ -162,6 +168,58 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-size: clamp(14px, 0.64vw, 17px);
   line-height: 1.6;
   color: var(--ink-2);
+}
+
+/* ==========================================================================
+   WORD-BY-WORD REVEAL
+   The heading lift used on every case-study masthead ([data-words]) and, on
+   the home page, on the hero wordmark ([data-words-fit] — see site.js).
+   It lives in core.css rather than case.css because both stylesheets' pages
+   now need it, and one definition means the two can never drift apart.
+
+   `.w` is the mask, `.wi` is what moves. The mask is padded and negatively
+   margined by the SAME amount, so `overflow: clip` can hide the word below
+   the baseline without shearing descenders off the g, y and p once it lands
+   — and so the padding costs the fitted wordmark no measured width.
+   ========================================================================== */
+[data-words] .w,
+[data-words-fit] .w {
+  display: inline-block;
+  overflow: clip;
+  padding: 0.16em 0.06em 0.2em 0;
+  margin: -0.16em -0.06em -0.2em 0;
+  vertical-align: top;
+}
+[data-words] .wi,
+[data-words-fit] .wi {
+  display: inline-block;
+  transform: translateY(105%) rotate(2.4deg);
+  opacity: 0;
+  filter: blur(7px);
+  transition:
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   0.72s cubic-bezier(0.33, 1, 0.68, 1),
+    filter    0.86s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform, opacity, filter;
+}
+[data-words].lit .wi,
+[data-words-fit].lit .wi {
+  transform: none;
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* the one deliberate difference: a case heading is ~40px type, where 7px of
+   blur is most of a letter; the wordmark is ~150px, where the same 7px is
+   barely a smudge. Scaling it off the em keeps the GESTURE identical at both
+   sizes instead of keeping the number identical and losing the effect. */
+[data-words-fit] .wi { filter: blur(0.055em); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-words] .wi,
+  [data-words-fit] .wi {
+    transform: none; opacity: 1; filter: none; transition: none;
+  }
 }
 
 /* ---------- pills inside a headline ----------
@@ -318,6 +376,29 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: transform 1.1s var(--ease), filter 0.7s var(--ease);
 }
 .card { display: block; }
+
+/* awaiting artwork — a quiet ruled field, not a broken image.
+   Lives here rather than in a page's <style> because three different pages
+   need it: work cards, case-study figures and a case masthead. */
+.shot-tbd {
+  aspect-ratio: 3 / 2;
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--tbd-hatch);
+}
+.shot-tbd::after {
+  content: 'Artwork in progress';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  white-space: nowrap;
+}
 
 /* the image lifts and warms, the frame tightens */
 .card:hover .shot img,

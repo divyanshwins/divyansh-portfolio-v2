@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in</title>
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/fonts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/fig-tokens.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/palette.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/typography.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/spacing.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/tokens/theme.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/forms/forms.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/inputs/inputs.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/data-display/data-display.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/disclosure/disclosure.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/feedback/feedback.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/navigation/navigation.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/command/command.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/calendar/calendar.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/charts/charts.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/overlay/overlay.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/components/components.css">
+<link rel="stylesheet" href="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/styles.css">
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans, system-ui, sans-serif);
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  #root {
+    width: 100%;
+    max-width: 380px;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="../_shared/vendor/react.production.min.js"></script>
+<script src="../_shared/vendor/react-dom.production.min.js"></script>
+<script src="../_shared/_ds/shadcn-ui-design-system-6211baf8-9d25-44ce-a969-f4ddc2e91429/_ds_bundle.js"></script>
+
+<script>
+  const {
+    Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
+    Label, Input, Button
+  } = window.ShadcnUiDesignSystem_6211ba;
+  const e = React.createElement;
+
+  function LoginScreen() {
+    return e(Card, null,
+      e(CardHeader, null,
+        e(CardTitle, null, "Log in"),
+        e(CardDescription, null, "Enter your email and password to continue.")
+      ),
+      e(CardContent, { style: { display: "flex", flexDirection: "column", gap: "16px" } },
+        e("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } },
+          e(Label, { htmlFor: "email" }, "Email"),
+          e(Input, { id: "email", type: "email", placeholder: "m@example.com" })
+        ),
+        e("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } },
+          e("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" } },
+            e(Label, { htmlFor: "password" }, "Password"),
+            e(Button, { variant: "link", size: "sm", style: { height: "auto", padding: 0 } }, "Forgot password?")
+          ),
+          e(Input, { id: "password", type: "password" })
+        )
+      ),
+      e(CardFooter, null,
+        e(Button, { style: { width: "100%" }, onClick: () => { window.location.href = "Home.html"; } }, "Log in")
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(e(LoginScreen));
+</script>
+</body>
+</html>

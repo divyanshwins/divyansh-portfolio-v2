@@ -24,6 +24,114 @@
     nodes.forEach(function (n) { n.classList.add('in'); });
   }
 
+  /* ------------------------------------------------------ word-by-word reveal
+     Splits a heading into words and lifts each one out from behind a mask on
+     a stagger. Two things make it read as motion design rather than a CSS
+     fade: every word carries a blur that resolves as it settles, and the
+     stagger is eased — later words follow more quickly than the first few, so
+     the line arrives as one gesture instead of a metronome.
+
+     The split is done on a clone measured against the live layout, so the
+     wrapping is whatever the browser chose; nothing is hard-coded. Each word
+     also keeps its trailing space as a real text node, so selecting and
+     copying the heading still yields normal text. */
+  document.querySelectorAll('[data-words]').forEach(function (el) {
+    if (el.dataset.split === '1') return;
+    var text = el.textContent.replace(/\s+/g, ' ').trim();
+    if (!text) return;
+
+    el.dataset.split = '1';
+    el.textContent = '';
+    var words = text.split(' ');
+
+    words.forEach(function (word, i) {
+      var mask = document.createElement('span');
+      mask.className = 'w';
+      var inner = document.createElement('span');
+      inner.className = 'wi';
+      inner.textContent = word;
+      /* eased stagger: the gap between words shrinks as the line fills */
+      inner.style.transitionDelay = Math.round(Math.pow(i, 0.82) * 62) + 'ms';
+      mask.appendChild(inner);
+      el.appendChild(mask);
+      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+    });
+
+    if (reduce) { el.classList.add('lit'); return; }
+
+    var light = function () {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { el.classList.add('lit'); });
+      });
+    };
+    /* a heading below the fold waits until it is actually looked at */
+    if ('IntersectionObserver' in window) {
+      var wo = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { light(); wo.disconnect(); } });
+      }, { threshold: 0.2 });
+      wo.observe(el);
+    } else { light(); }
+  });
+
+  /* --------------------------------------------------- hero wordmark reveal
+     The same lift as a case-study heading, run on the hero name at page load.
+
+     It needs its own pass rather than just borrowing [data-words], for two
+     reasons. First, the wordmark's markup is structural — .ln lines wrapping
+     .fit spans that the fit-to-width code below measures — and [data-words]
+     flattens an element to its textContent, which would destroy that. So the
+     split happens INSIDE each .fit instead, leaving the scaffolding intact.
+     Second, the mask/inner pair has to exist before the fitter measures,
+     which is why this block sits above it: the transforms live on .wi, and a
+     child's transform never feeds back into its parent's layout box, so the
+     width the fitter reads is the same one it read before the split.
+
+     Each .fit line is one word here, so the line index IS the stagger index —
+     same eased curve as the heading split, so the two read as one system. */
+  document.querySelectorAll('[data-words-fit]').forEach(function (el) {
+    if (el.dataset.split === '1') return;
+    var fitLines = el.querySelectorAll('.fit');
+    if (!fitLines.length) return;
+    el.dataset.split = '1';
+
+    fitLines.forEach(function (line, i) {
+      var text = line.textContent.replace(/\s+/g, ' ').trim();
+      if (!text) return;
+      line.textContent = '';
+      var mask = document.createElement('span');
+      mask.className = 'w';
+      var inner = document.createElement('span');
+      inner.className = 'wi';
+      inner.textContent = text;
+      inner.style.transitionDelay = Math.round(Math.pow(i, 0.82) * 62) + 'ms';
+      mask.appendChild(inner);
+      line.appendChild(mask);
+    });
+
+    if (reduce) { el.classList.add('lit'); return; }
+
+    var isLit = false;
+    var lightUp = function () {
+      if (isLit) return;
+      isLit = true;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { el.classList.add('lit'); });
+      });
+    };
+
+    /* Hold the reveal until the type has landed at its FINAL size. The fitter
+       re-measures on fonts.ready, and a word that resizes halfway through the
+       lift reads as a glitch rather than a gesture. The setTimeout(…, 0) is
+       load-bearing: it defers past every fonts.ready microtask — including the
+       refit registered below — instead of racing it. */
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { setTimeout(lightUp, 0); });
+      setTimeout(lightUp, 1400);   // font never resolves → show the name anyway
+    } else {
+      lightUp();
+    }
+  });
+
   /* ------------------------------------------------------- fit-to-width name
      Sets every line of a [data-fit] block to ONE size — the size at which its
      LONGEST line spans exactly `--name-span × page width`. The span is a

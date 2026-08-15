@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Work — Divyansh Srivastava</title>
-<meta name="description" content="Arth Dashboard, FedEx, Vero Moda and RozInvest.">
+<meta name="description" content="Internship and client work — Vero Moda, Lightning Leap, Verjson, schema &amp; lineage — alongside personal projects: Arth, FedEx and RozInvest.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
 <link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="sandbox.css">
 
 <style>
 .whead {
@@ -32,7 +33,26 @@
   padding-top: clamp(56px, 8.5vw, 120px);
   align-items: start;
 }
-.proj:first-of-type { padding-top: 0; }
+/* a group heading now sets the top of each run, so the first project under
+   one sits straight beneath it instead of pushing another 120px down */
+.wgroup + .proj { padding-top: clamp(26px, 3.4vw, 44px); }
+
+/* ---------- group heading ----------
+   Paid work and self-directed projects are different claims, and the reader
+   is better served knowing which is which before they start judging. A rule
+   and a two-part row is the lightest way to say it — the title in ink, the
+   count muted, so the pair still reads as one line. */
+.wgroup {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: clamp(66px, 10vw, 140px);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(12px, 1.5vw, 18px);
+}
+.wgroup:first-of-type { margin-top: 0; }
+.wgroup h2 { color: var(--ink); font-weight: 400; }
 
 .proj .rail {
   display: flex;
@@ -56,20 +76,7 @@
 
 .proj .shot { aspect-ratio: 4 / 3; }
 
-.shot-tbd {
-  background: repeating-linear-gradient(-45deg, transparent 0 13px,
-              rgba(19,19,19,.045) 13px 14px);
-  border: 1px solid var(--line);
-  position: relative;
-}
-.shot-tbd::after {
-  content: 'Artwork in progress';
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%,-50%);
-  padding: 7px 16px; border-radius: 999px;
-  background: var(--bg); border: 1px solid var(--line);
-  font-size: clamp(11.5px, .52vw, 14px); color: var(--mute); white-space: nowrap;
-}
+/* .shot-tbd (awaiting-artwork field) now lives in core.css */
 
 .proj-body {
   margin-top: clamp(16px, 2.2vw, 26px);
@@ -138,69 +145,181 @@
           Analytics, logistics, performance and identity. Different sectors,
           the same problem underneath.
         </p>
-        <p class="label">05 projects</p>
+        <p class="label">08 projects</p>
       </div>
       <h1 class="d-xl solo">Work</h1>
     </header>
 
-    <!-- ============ 01 ============ -->
+    <!-- ===================================================================
+         GROUP 01 — internship & work
+
+         The first four carry a live MacBook rather than a screenshot: the
+         machine's screen runs the project's real build (see sandbox.css and
+         sandbox.js). It scrolls and hovers; clicks are routed to the case
+         study so the card keeps behaving like a card. Vero Moda closes the
+         group on a flat still — it is a research write-up, there is no
+         product to run.
+         =================================================================== -->
+    <header class="wgroup wrap">
+      <h2 class="label">Internship &amp; work</h2>
+      <span class="label">Five projects</span>
+    </header>
+
     <article class="proj wrap spine">
       <div class="rail">
-        <p class="idx"><b>01</b><span>2025</span></p>
-        <div class="tags"><span>Product design</span><span>IBM Carbon</span><span>Figma</span></div>
+        <p class="idx"><b>01</b><span>2026</span></p>
+        <div class="tags"><span>Analytics</span><span>Data Vis</span><span>Dashboard</span></div>
       </div>
 
       <div>
-        <a class="card" href="arth.html" data-peek="View Arth ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="Arth Dashboard — artwork in progress"></div>
+        <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
+          <div class="mac-scene" data-app="assets/sandbox/lightning/index.html"
+               style="--s1:#272f3d; --s2:#0f1116; --glow:rgba(120,150,235,0.22)">
+            <div class="mac">
+              <div class="mac-lid">
+                <div class="mac-screen">
+                  <img class="mac-poster" src="assets/images/posters/lightning.jpg" alt="Dependency Management console showing the governed package catalogue">
+                  <iframe class="mac-live" title="Lightning Leap — live preview"
+                          tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                </div>
+              </div>
+              <div class="mac-deck"></div>
+            </div>
+            <span class="mac-badge"><i></i>Live build</span>
+          </div>
         </a>
         <div class="proj-body">
           <div>
-            <h2 class="d-m">Arth Dashboard</h2>
+            <h2 class="d-m">Lightning Leap Analytics</h2>
             <p class="body">
-              E-commerce analytics. Logistics, marketing and SKU data unified
-              into one source of truth.
+              DevTools &middot; data visualisation. A dependency console for
+              engineering orgs &mdash; blast radius, version drift, and a gated
+              change-request flow.
             </p>
           </div>
-          <a class="pill proj-cta" href="arth.html">View case</a>
+          <a class="pill proj-cta" href="lightning.html">View case</a>
         </div>
       </div>
     </article>
 
-    <!-- ============ 02 ============ -->
     <article class="proj wrap spine">
       <div class="rail">
         <p class="idx"><b>02</b><span>2026</span></p>
-        <div class="tags"><span>UX research</span><span>Dashboard</span><span>Systems</span></div>
+        <div class="tags"><span>Data infrastructure</span><span>Systems</span><span>Tooling</span></div>
       </div>
 
       <div>
-        <a class="card" href="fedex.html" data-peek="View FedEx ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="FedEx UX research — artwork in progress"></div>
+        <a class="card" href="lineage.html" data-peek="View Schema &amp; Lineage ↗" data-r>
+          <div class="mac-scene" data-app="assets/sandbox/lineage/index.html"
+               style="--s1:#242832; --s2:#0d0e11; --glow:rgba(96,165,250,0.20)">
+            <div class="mac">
+              <div class="mac-lid">
+                <div class="mac-screen">
+                  <img class="mac-poster" src="assets/images/posters/lineage.jpg" alt="Connection map showing four projects and how their layers wire together">
+                  <iframe class="mac-live" title="Schema &amp; Lineage — live preview"
+                          tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                </div>
+              </div>
+              <div class="mac-deck"></div>
+            </div>
+            <span class="mac-badge"><i></i>Live build</span>
+          </div>
         </a>
         <div class="proj-body">
           <div>
-            <h2 class="d-m">FedEx</h2>
+            <h2 class="d-m">Schema &amp; Lineage</h2>
             <p class="body">
-              Logistics &middot; UX research. Four fragmented systems folded
-              into one territory workspace.
+              Data infrastructure. One-line summary of what the system tracks
+              and who has to read it &mdash; placeholder copy, to be replaced.
             </p>
           </div>
-          <a class="pill proj-cta" href="fedex.html">View case</a>
+          <a class="pill proj-cta" href="lineage.html">View case</a>
         </div>
       </div>
     </article>
 
-    <!-- ============ 03 ============ -->
     <article class="proj wrap spine">
       <div class="rail">
         <p class="idx"><b>03</b><span>2026</span></p>
+        <div class="tags"><span>Web development</span><span>Front-end</span><span>Figma</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="verjson.html" data-peek="View Verjson ↗" data-r>
+          <div class="mac-scene" data-app="assets/sandbox/verjson/index.html"
+               style="--s1:#3a3733; --s2:#171614; --glow:rgba(232,213,183,0.20)">
+            <div class="mac">
+              <div class="mac-lid">
+                <div class="mac-screen">
+                  <img class="mac-poster" src="assets/images/posters/verjson.jpg" alt="verJSON website hero — we build intelligence infrastructure">
+                  <iframe class="mac-live" title="Verjson — live preview"
+                          tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                </div>
+              </div>
+              <div class="mac-deck"></div>
+            </div>
+            <span class="mac-badge"><i></i>Live build</span>
+          </div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">Verjson</h2>
+            <p class="body">
+              Website development. One-line summary of the site, who it was
+              for and what it had to do &mdash; placeholder copy, to be replaced.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="verjson.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>04</b><span>2026</span></p>
+        <div class="tags"><span>Product design</span><span>Creative tools</span><span>AI</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="bluebal.html" data-peek="View Blue Balloon ↗" data-r>
+          <div class="mac-scene" data-app="assets/sandbox/bluebal/index.html"
+               style="--s1:#2e2a3d; --s2:#131118; --glow:rgba(167,139,250,0.22)">
+            <div class="mac">
+              <div class="mac-lid">
+                <div class="mac-screen">
+                  <img class="mac-poster" src="assets/images/posters/bluebal.jpg" alt="Blue Balloon project board — storybook illustration projects in progress">
+                  <iframe class="mac-live" title="Blue Balloon — live preview"
+                          tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+                </div>
+              </div>
+              <div class="mac-deck"></div>
+            </div>
+            <span class="mac-badge"><i></i>Live build</span>
+          </div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">Blue Balloon</h2>
+            <p class="body">
+              Creative tooling. An illustration workspace for storybook artists
+              &mdash; placeholder copy, to be replaced.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="bluebal.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 05 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>05</b><span>2026</span></p>
         <div class="tags"><span>GA4</span><span>Lighthouse</span><span>Research</span></div>
       </div>
 
       <div>
         <a class="card" href="veromoda.html" data-peek="View Vero Moda ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="Vero Moda performance research — artwork in progress"></div>
+          <div class="shot"><img src="assets/images/work/veromoda.jpg" alt="Vero Moda technical UX analysis — mobile and desktop storefront"></div>
         </a>
         <div class="proj-body">
           <div>
@@ -215,10 +334,66 @@
       </div>
     </article>
 
-    <!-- ============ 04 ============ -->
+    <!-- ===================================================================
+         GROUP 02 — personal projects
+         =================================================================== -->
+    <header class="wgroup wrap">
+      <h2 class="label">Personal projects</h2>
+      <span class="label">Three projects</span>
+    </header>
+
+    <!-- ============ 06 ============ -->
     <article class="proj wrap spine">
       <div class="rail">
-        <p class="idx"><b>04</b><span>2026</span></p>
+        <p class="idx"><b>06</b><span>2025</span></p>
+        <div class="tags"><span>Product design</span><span>IBM Carbon</span><span>Figma</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="arth.html" data-peek="View Arth ↗" data-r>
+          <div class="shot"><img src="assets/images/work/arth.jpg" alt="Arth shipping analytics dashboard on a laptop"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">Arth Dashboard</h2>
+            <p class="body">
+              E-commerce analytics. Logistics, marketing and SKU data unified
+              into one source of truth.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="arth.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 07 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>07</b><span>2026</span></p>
+        <div class="tags"><span>UX research</span><span>Dashboard</span><span>Systems</span></div>
+      </div>
+
+      <div>
+        <a class="card" href="fedex.html" data-peek="View FedEx ↗" data-r>
+          <div class="shot"><img src="assets/images/work/fedex.jpg" alt="FedEx territory workspace dashboard on tablet"></div>
+        </a>
+        <div class="proj-body">
+          <div>
+            <h2 class="d-m">FedEx</h2>
+            <p class="body">
+              Logistics &middot; UX research. Four fragmented systems folded
+              into one territory workspace.
+            </p>
+          </div>
+          <a class="pill proj-cta" href="fedex.html">View case</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============ 08 ============ -->
+    <article class="proj wrap spine">
+      <div class="rail">
+        <p class="idx"><b>08</b><span>2026</span></p>
         <div class="tags"><span>Brand</span><span>Type</span><span>Iconography</span></div>
       </div>
 
@@ -235,29 +410,6 @@
             </p>
           </div>
           <a class="pill proj-cta" href="rozinvest.html">View case</a>
-        </div>
-      </div>
-    </article>
-
-    <!-- ============ 05 ============ -->
-    <article class="proj wrap spine">
-      <div class="rail">
-        <p class="idx"><b>05</b><span>2026</span></p>
-        <div class="tags"><span>Analytics</span><span>Data Vis</span><span>Dashboard</span></div>
-      </div>
-
-      <div>
-        <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
-          <div class="shot shot-tbd" role="img" aria-label="Lightning Leap Analytics — artwork in progress"></div>
-        </a>
-        <div class="proj-body">
-          <div>
-            <h2 class="d-m">Lightning Leap Analytics</h2>
-            <p class="body">
-              Analytics &middot; Data Visualization. Real-time performance metrics and intelligent telemetry dashboards.
-            </p>
-          </div>
-          <a class="pill proj-cta" href="lightning.html">View case</a>
         </div>
       </div>
     </article>
@@ -300,5 +452,6 @@
 </footer>
 
 <script src="site.js"></script>
+<script src="sandbox.js"></script>
 </body>
 </html>

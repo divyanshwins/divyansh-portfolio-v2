@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verjson — Website Development · Divyansh Srivastava</title>
+<meta name="description" content="PLACEHOLDER — one-sentence summary of the Verjson website build.">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="core.css">
+<link rel="stylesheet" href="case.css">
+<link rel="stylesheet" href="sandbox.css">
+</head>
+
+<!--
+  ============================================================================
+  TEMPLATE — Verjson case study
+  ============================================================================
+  This page is scaffolding, not content. Everything marked PLACEHOLDER is
+  there to be overwritten; the structure around it is the same one arth.html
+  and fedex.html use, so the styling is already solved and you only ever
+  swap text.
+
+  What each part is for:
+    .chero          masthead — artwork left, title + "in brief" right.
+                    The h1 carries data-words: site.js splits it into words
+                    and lifts them on a stagger. Keep the attribute.
+    .facts          the four-up meta strip. Keep it to four; five wraps badly.
+    .sec.spine      a numbered section — .rail holds "0N — Name", the second
+                    child holds the content. Add or delete whole <section>s
+                    freely, but renumber the rails when you do.
+    .hmw            the "How might we" box — one per case study, in Overview.
+    .olist          numbered list of research themes.
+    .cards          2-up grid of short titled notes.
+    figure.fig      full-bleed screen plate + caption. Swap .shot-tbd on the
+                    .frame for <img src="..." alt="..."> when artwork lands.
+    .metrics        three headline numbers at the end.
+    .note-box       a quiet aside — ongoing-work notes, caveats, credits.
+
+  Artwork drops at assets/images/work/verjson.jpg (masthead) and
+  assets/images/work/verjson-01.jpg … for the plates.
+  ============================================================================
+-->
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-pill">
+    <a href="index.html">Home</a>
+    <a href="work.html" class="on">Work</a>
+    <a href="process.html">Process</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="topbar wrap">
+    <p class="brand">
+      <b>Divyansh Srivastava</b>
+      <span>Roorkee, India</span>
+    </p>
+    <a class="resume" data-resume href="assets/resume.pdf">
+      Resume
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+    </a>
+  </div>
+
+  <main id="main">
+
+    <header class="chero wrap">
+      <!-- swap for: <div class="chero-media"><img src="assets/images/work/verjson.jpg" alt="..."></div> -->
+      <div class="chero-media"><img src="assets/images/posters/verjson.jpg" alt="verJSON website hero — we build intelligence infrastructure"></div>
+      <div class="chero-text">
+        <p class="label">Case study &middot; 2026 &middot; Website development</p>
+        <h1 data-words>Verjson &mdash; PLACEHOLDER one-line framing of the build</h1>
+        <div class="chero-brief">
+          <p class="label">In brief</p>
+          <p class="body">
+            PLACEHOLDER &mdash; three or four sentences. Who the site was for,
+            what was wrong with what they had, and what the new site does
+            differently. Write the outcome here, not the process; the sections
+            below are where the process goes.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div class="facts wrap">
+      <div><span class="k">Client</span><span class="v">PLACEHOLDER</span></div>
+      <div><span class="k">Role</span><span class="v">PLACEHOLDER &mdash; e.g. design &amp; front-end</span></div>
+      <div><span class="k">Stack</span><span class="v">PLACEHOLDER</span></div>
+      <div><span class="k">Year</span><span class="v">2026</span></div>
+    </div>
+
+    <!-- ============ 01 OVERVIEW ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">01 &mdash; Overview</p></div>
+      <div>
+        <h2>The problem <em>as it arrived</em></h2>
+        <p class="body" data-r>
+          PLACEHOLDER &mdash; what the brief was, and what the real problem
+          underneath it turned out to be. Two short paragraphs beat one long
+          one here.
+        </p>
+        <p class="body" data-r>
+          PLACEHOLDER &mdash; the constraint that shaped everything after it:
+          timeline, existing stack, someone else's brand guidelines, whatever
+          it actually was.
+        </p>
+        <div class="hmw" data-r>
+          <span>How might we</span>
+          PLACEHOLDER &mdash; one sentence, phrased as a question, that the
+          rest of this page answers.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 RESEARCH ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">02 &mdash; Research</p></div>
+      <div>
+        <h2>PLACEHOLDER &mdash; what you looked at</h2>
+        <p class="body" data-r>
+          PLACEHOLDER &mdash; competitor audit, analytics on the old site,
+          stakeholder conversations, content inventory. Say what you did and
+          what it changed.
+        </p>
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x">PLACEHOLDER finding</span></div>
+          <div class="o"><span class="n">02</span><span class="x">PLACEHOLDER finding</span></div>
+          <div class="o"><span class="n">03</span><span class="x">PLACEHOLDER finding</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 APPROACH ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">03 &mdash; Approach</p></div>
+      <div>
+        <h2>PLACEHOLDER &mdash; <em>the decisions</em></h2>
+        <p class="body" data-r>
+          PLACEHOLDER &mdash; information architecture, the type and colour
+          system, how the page templates were factored. One paragraph of
+          intent, then the four notes below.
+        </p>
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>PLACEHOLDER decision</h3>
+            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+          </article>
+          <article>
+            <h3>PLACEHOLDER decision</h3>
+            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+          </article>
+          <article>
+            <h3>PLACEHOLDER decision</h3>
+            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+          </article>
+          <article>
+            <h3>PLACEHOLDER decision</h3>
+            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 THE BUILD ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; The build</p></div>
+      <div>
+        <h2>The site, <em>running</em></h2>
+        <p class="body" data-r>
+          The shipped front end, embedded. Scroll the whole thing, work through
+          the navigation, and try the light/dark toggle in the header &mdash; the
+          type ramp and the section rhythm were tuned against both themes rather
+          than one being an afterthought.
+        </p>
+        <p class="body" data-r>
+          PLACEHOLDER &mdash; replace with the paragraph pointing at what you
+          want looked at: the scroll choreography, the research index, whichever
+          part of the build carried the argument.
+        </p>
+
+        <div class="sandbox" data-r>
+          <div class="sb-head">
+            <span class="sb-title">verJSON website</span>
+            <span class="sb-sub">Full site — hero, research index, products and contact.</span>
+          </div>
+
+          <div class="sb-win">
+            <!-- Browser chrome is not ornament here. It is the single fastest
+                 signal that what follows accepts input; a bare rectangle on a
+                 portfolio page reads as an image no matter what the caption
+                 underneath it claims. -->
+            <div class="sb-bar">
+              <div class="sb-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="sb-url"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4.5" y="10" width="15" height="10.5" rx="2.2"/></svg>verjson.ai</span>
+              <div class="sb-tools">
+                <span class="sb-live"><i></i>Live</span>
+                <button class="sb-tool" type="button" data-sb-reset>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg><span class="sb-label">Reset</span>
+                </button>
+                <a class="sb-tool" data-sb-open target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Full screen</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="sb-stage" data-app="assets/sandbox/verjson/index.html">
+              <img class="sb-poster" src="assets/images/posters/verjson.jpg" alt="verJSON website hero — we build intelligence infrastructure">
+              <iframe title="verJSON website — live build" loading="lazy"></iframe>
+              <button class="sb-launch" type="button">
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5 19 12 8 18.5z"/></svg>Launch the live build</span>
+              </button>
+              <span class="sb-hint" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11V5.6a1.6 1.6 0 0 1 3.2 0V11"/><path d="M9.2 10.4V4.3a1.6 1.6 0 0 1 3.2 0v6"/><path d="M12.4 10.6V6.2a1.6 1.6 0 0 1 3.2 0v5.4"/><path d="M15.6 11.6V9a1.6 1.6 0 0 1 3.2 0v5.6c0 3.5-2.5 6.4-6.2 6.4-3.4 0-4.9-1.6-6.6-4.6l-2-3.5a1.6 1.6 0 0 1 2.7-1.7l1.3 2"/></svg>Scroll it, toggle the theme — it is the live site.</span>
+            </div>
+          </div>
+
+          <p class="sb-foot">
+            <span>The production front end, running from this page with no backend attached.</span>
+            <span class="sb-mobile">Built for a desktop viewport &mdash; open it full screen on a phone.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 CONCLUSION ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">05 &mdash; Conclusion</p></div>
+      <div>
+        <h2>What it <em>achieves</em></h2>
+        <p class="body" data-r>
+          PLACEHOLDER &mdash; the outcome in plain terms. If you have numbers,
+          they go in the metrics row; if you don't, say what changed
+          qualitatively rather than inventing a figure.
+        </p>
+
+        <div class="metrics" data-r>
+          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
+          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
+          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
+        </div>
+
+        <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          <p class="body">
+            <b>Template page.</b> This case study is scaffolded and waiting on
+            copy and artwork. Delete this box once the page is written.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NEXT ============ -->
+    <nav class="next wrap" aria-label="Next case study">
+      <a href="lineage.html">
+        <span>
+          <span class="k">Next case study</span><br>
+          <span class="v">Schema &amp; Lineage</span>
+        </span>
+        <span class="go">&rarr;</span>
+      </a>
+    </nav>
+
+  </main>
+</div><!-- /.page -->
+
+<footer class="foot">
+  <div class="foot-meta">
+    <span>Portfolio 2025 &mdash; 2026</span>
+    <span>Divyansh Srivastava</span>
+    <span>29.8543&deg; N, 77.8880&deg; E</span>
+  </div>
+  <div class="foot-mid">
+    <p class="label">Have a nice project?</p>
+    <a href="mailto:divyanshbittu2002@gmail.com">Get in touch</a>
+  </div>
+  <div class="foot-end">
+    <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
+    <div class="c2">
+      <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+    </div>
+    <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script src="sandbox.js"></script>
+</body>
+</html>

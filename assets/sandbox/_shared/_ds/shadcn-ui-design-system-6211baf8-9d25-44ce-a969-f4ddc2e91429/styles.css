@@ -1,0 +1,39 @@
+/* shadcn/ui Design System — global stylesheet entry point.
+   Consumers link this single file. It is a manifest of @imports only. */
+
+/* Webfonts (must come first) */
+@import "./tokens/fonts.css";
+
+/* Complete materialized Figma variable system (raw scales + every theme mode).
+   Imported first; the curated semantic tokens below intentionally override
+   the unitless float values for clean component authoring. */
+@import "./components/fig-tokens.css";
+
+/* Foundations (take precedence) */
+@import "./tokens/palette.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/theme.css";
+
+/* Component styles */
+@import "./components/components.css";
+
+/* Base element defaults */
+html {
+  font-family: var(--font-sans);
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

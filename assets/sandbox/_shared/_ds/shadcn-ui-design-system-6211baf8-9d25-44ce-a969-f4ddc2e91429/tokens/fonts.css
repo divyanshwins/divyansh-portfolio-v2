@@ -1,0 +1,7 @@
+/* shadcn/ui — webfonts
+   Geist + Geist Mono are shadcn's current default typefaces; Inter is the
+   secondary sans used throughout the source Figma file. Loaded from Google
+   Fonts. Swap these @import URLs for self-hosted @font-face rules in
+   production if you need offline/embedded fonts. */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap");

@@ -3,17 +3,486 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Why Vero Moda was losing users · Divyansh Srivastava</title>
-<meta name="description" content="634,884 sessions traced through GA4 and Lighthouse to find where users were vanishing.">
+<title>Why Vero Moda was losing users before they even arrived · Divyansh Srivastava</title>
+<meta name="description" content="A graduation project at Bestseller: 634,884 new users traced through GA4, an 8-second product page, a recommendation engine that was a shuffled preset list, and the three interventions that moved the numbers.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
 <link rel="stylesheet" href="core.css">
 <link rel="stylesheet" href="case.css">
+
+<style>
+/* ==========================================================================
+   VEROMODA — case-specific devices
+   --------------------------------------------------------------------------
+   This case study is an investigation, so it argues in evidence rather than
+   in screenshots: a channel table, a funnel, a load chart, an algorithm
+   diagram, before/after layouts. The funnel and timeline already live in
+   case.css; everything below is the rest of that vocabulary, kept on this
+   page because nothing else needs it.
+
+   Two colours carry all of it, and they are the two case.css already uses
+   for this story: warm tan while things are working, terracotta once they
+   are not. No third colour is introduced, so nothing here needs a legend.
+   ========================================================================== */
+.vm { --ok: #c9a882; --ok-2: #7a5a33; --bad: #b4472b; }
+
+/* ---------- flow chain — "ad click → product page → exit" ---------- */
+.flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 0;
+  margin-top: clamp(12px, 1.4vw, 18px);
+}
+.flow .fnode {
+  display: inline-flex;
+  align-items: center;
+  padding: clamp(9px, 1vw, 13px) clamp(13px, 1.5vw, 19px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  font-size: clamp(12.5px, 0.62vw, 15.5px);
+  white-space: nowrap;
+}
+.flow .fnode.bad {
+  border-color: color-mix(in srgb, var(--bad) 45%, transparent);
+  background: color-mix(in srgb, var(--bad) 9%, transparent);
+  color: var(--bad);
+}
+.flow .fnode.good {
+  border-color: color-mix(in srgb, var(--ok-2) 40%, transparent);
+  background: color-mix(in srgb, var(--ok) 22%, transparent);
+  color: var(--ok-2);
+}
+/* the connector is a rule with a chevron, not an arrow glyph — glyphs sit on
+   the text baseline and never line up with the middle of a pill */
+.flow .farr {
+  flex: 1 1 18px;
+  min-width: 18px;
+  height: 1px;
+  background: var(--line);
+  position: relative;
+}
+.flow .farr::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  width: 5px; height: 5px;
+  border-top: 1px solid var(--faint);
+  border-right: 1px solid var(--faint);
+  transform: translate(1px, -50%) rotate(45deg);
+}
+
+/* ---------- the load chart ----------
+   One plot, one axis, one shaded region. Everything is measured against the
+   same 0–13s scale, and the abandonment band is drawn ONCE behind the whole
+   plot rather than repeated per row — the earlier version hatched every row
+   separately, which read as four different findings instead of one. */
+.chart {
+  margin-top: clamp(18px, 2.2vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--bg-2);
+  padding: clamp(16px, 2vw, 26px) clamp(16px, 2vw, 24px) clamp(12px, 1.4vw, 18px);
+}
+.chart .row {
+  display: grid;
+  grid-template-columns: minmax(0, 186px) 1fr minmax(0, 68px);
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+}
+.chart .row + .row { margin-top: 10px; }
+.chart .k { font-size: clamp(12px, 0.6vw, 15px); color: var(--ink-2); }
+.chart .v {
+  font-size: clamp(12px, 0.6vw, 15px);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+/* the plot area: gridlines live here, so every row sits on the same ruling.
+   One line per 25% tile — a repeating gradient inside each tile would draw
+   four times as many rules as there are labels under them. */
+.chart .plot {
+  position: relative;
+  height: 20px;
+  background-image: linear-gradient(90deg, var(--line) 0 1px, transparent 1px);
+  background-size: 25% 100%;
+}
+.chart .plot::after {           /* the closing gridline at 13s */
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.chart .bar {
+  position: absolute;
+  top: 3px; bottom: 3px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ok) 70%, transparent);
+}
+.chart .bar.bad { background: color-mix(in srgb, var(--bad) 50%, transparent); }
+.chart .mark {
+  position: absolute;
+  top: -1px; bottom: -1px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--ok-2);
+}
+.chart .mark.bad { background: var(--bad); }
+/* the window in which the audience leaves — drawn once, in the plot column,
+   so it lines up with the bars rather than with the edge of the card */
+.chart .zone { position: relative; height: 24px; }
+/* the band runs down behind the four rows below it — later rows paint no
+   background of their own, so it stays visible through them */
+.chart .zone i {
+  position: absolute;
+  top: 15px; height: 148px;
+  background: repeating-linear-gradient(-45deg,
+    transparent 0 5px, rgba(180, 71, 43, 0.15) 5px 6px);
+  border-left: 1px dashed color-mix(in srgb, var(--bad) 55%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--bad) 55%, transparent);
+}
+.chart .zone span {
+  position: absolute;
+  top: 0;
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  color: var(--bad);
+  white-space: nowrap;
+}
+.chart .axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 700px) {
+  .chart .row { grid-template-columns: 1fr auto; }
+  .chart .plot { grid-column: 1 / -1; order: 3; margin-top: 4px; }
+}
+
+/* ---------- channel mix ---------- */
+.chan { margin-top: clamp(16px, 2vw, 26px); }
+.chan .cr {
+  display: grid;
+  grid-template-columns: minmax(0, 168px) 1fr minmax(0, 62px);
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  padding: 5px 0;
+}
+.chan .ck { font-size: clamp(12px, 0.6vw, 15px); color: var(--ink-2); }
+.chan .cv {
+  font-size: clamp(12px, 0.6vw, 15px);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.chan .cbar { height: 13px; border-radius: 4px; background: rgba(19, 19, 19, 0.05); }
+.chan .cbar span { display: block; height: 100%; border-radius: 4px; background: color-mix(in srgb, var(--ok) 62%, transparent); }
+.chan .cr.lit .cbar span { background: color-mix(in srgb, var(--bad) 46%, transparent); }
+.chan .cr.lit .ck, .chan .cr.lit .cv { color: var(--bad); }
+@media (max-width: 620px) { .chan .cr { grid-template-columns: 1fr auto; } .chan .cbar { grid-column: 1 / -1; } }
+
+/* ---------- the score ---------- */
+.score {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 36px);
+  margin-top: clamp(18px, 2.2vw, 28px);
+  padding: clamp(18px, 2.2vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--bg-2);
+}
+.score .n {
+  font-size: clamp(46px, 5vw, 82px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--bad);
+  font-variant-numeric: tabular-nums;
+}
+.score .n sup {
+  font-size: 0.3em;
+  vertical-align: super;
+  letter-spacing: 0;
+  color: var(--mute);
+}
+.score .band { display: block; }
+.score .rail-s {
+  display: block;
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--bad) 55%, transparent) 0 49%,
+    color-mix(in srgb, var(--ok) 70%, transparent) 49% 89%,
+    color-mix(in srgb, #4b7a4b 45%, transparent) 89% 100%);
+}
+.score .pin { position: absolute; top: -4px; bottom: -4px; left: 38%; width: 2px; background: var(--ink); }
+.score .legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  color: var(--faint);
+}
+.score .cap { margin-top: 11px; font-size: clamp(13px, 0.64vw, 16px); color: var(--ink-2); line-height: 1.45; }
+@media (max-width: 620px) { .score { grid-template-columns: 1fr; } }
+
+/* ---------- observation callouts ---------- */
+.obs { margin-top: clamp(24px, 3vw, 40px); }
+.obs + .obs { margin-top: clamp(30px, 3.6vw, 52px); }
+.obs .oh {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 10px;
+  margin-bottom: clamp(12px, 1.4vw, 18px);
+  border-bottom: 1px solid var(--line);
+}
+.obs .oh .num { font-size: clamp(11.5px, 0.52vw, 14px); color: var(--mute); font-variant-numeric: tabular-nums; }
+.obs .oh h3 { font-size: clamp(17px, 1.1vw, 25px); font-weight: 500; letter-spacing: -0.015em; }
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: clamp(14px, 1.8vw, 22px);
+}
+@media (max-width: 620px) { .notes { grid-template-columns: 1fr; } }
+.notes .nb { padding: clamp(14px, 1.6vw, 20px); border: 1px solid var(--line); border-radius: 12px; }
+.notes .nb.warn { border-color: color-mix(in srgb, var(--bad) 34%, transparent); background: color-mix(in srgb, var(--bad) 5%, transparent); }
+.notes .nb.fix  { border-color: color-mix(in srgb, var(--ok-2) 30%, transparent); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+.notes .nb .k {
+  display: block;
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: 6px;
+}
+.notes .nb.warn .k { color: var(--bad); }
+.notes .nb.fix .k { color: var(--ok-2); }
+.notes .nb p { font-size: clamp(13.5px, 0.66vw, 16.5px); line-height: 1.5; }
+
+/* ---------- the dot indicators, drawn ---------- */
+.dotdemo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: clamp(14px, 1.8vw, 22px);
+}
+@media (max-width: 620px) { .dotdemo { grid-template-columns: 1fr; } }
+.dotdemo .pane { padding: clamp(16px, 1.8vw, 24px); border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+.dotdemo .plabel {
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: clamp(12px, 1.4vw, 16px);
+}
+.dotdemo .frame {
+  aspect-ratio: 3 / 2;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 11px;
+}
+.dotdemo .dots { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; max-width: 88%; }
+.dotdemo .dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--faint); }
+.dotdemo .dots i:first-child { background: var(--ink); }
+.dotdemo .chev {
+  position: absolute;
+  top: 50%;
+  width: 26px; height: 26px;
+  margin-top: -13px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg-2);
+}
+.dotdemo .chev.l { left: 10px; }
+.dotdemo .chev.r { right: 10px; }
+.dotdemo .chev::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 6px; height: 6px;
+  border-top: 1.4px solid var(--ink-2);
+  border-right: 1.4px solid var(--ink-2);
+}
+.dotdemo .chev.r::after { transform: translate(-70%, -50%) rotate(45deg); }
+.dotdemo .chev.l::after { transform: translate(-30%, -50%) rotate(-135deg); }
+.dotdemo .cost { margin-top: 11px; font-size: clamp(12px, 0.58vw, 14.5px); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* ---------- payload comparison ---------- */
+.cmp { margin-top: clamp(14px, 1.8vw, 22px); }
+.cmp .cr {
+  display: grid;
+  grid-template-columns: minmax(0, 168px) 1fr auto;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  padding: 6px 0;
+}
+.cmp .ck { font-size: clamp(12.5px, 0.6vw, 15px); color: var(--ink-2); }
+.cmp .cv { font-size: clamp(13px, 0.64vw, 16px); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cmp .cbar { height: 18px; border-radius: 5px; background: rgba(19, 19, 19, 0.045); box-shadow: inset 0 0 0 1px var(--line); }
+.cmp .cbar span { display: block; height: 100%; border-radius: 5px; background: color-mix(in srgb, var(--bad) 42%, transparent); }
+.cmp .cr.after .cbar span { background: color-mix(in srgb, var(--ok) 62%, transparent); }
+@media (max-width: 620px) { .cmp .cr { grid-template-columns: 1fr; gap: 5px; } }
+
+/* ---------- the recommendation bucket ----------
+   The report draws this as four nested circles narrowing to one bucket. It
+   is the clearest thing in the document, so it is rebuilt here rather than
+   screenshotted — each ring is one filter, and the area you can see is the
+   pool still in play after it. */
+.rings {
+  position: relative;
+  width: min(520px, 100%);
+  margin: clamp(20px, 2.6vw, 34px) auto 0;
+  aspect-ratio: 1;
+}
+.rings .r {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.rings .r span {
+  display: block;
+  width: min(78%, 340px);
+  padding-top: 4.5%;
+  font-size: clamp(10.5px, 0.62vw, 13.5px);
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+.rings .r1 { top: 0; width: 100%; aspect-ratio: 1; background: color-mix(in srgb, var(--ok) 44%, transparent); }
+.rings .r2 { top: 20%; width: 76%; aspect-ratio: 1; background: color-mix(in srgb, var(--ok) 72%, transparent); }
+.rings .r3 { top: 41%; width: 54%; aspect-ratio: 1; background: color-mix(in srgb, var(--bad) 80%, transparent); color: #fff; }
+.rings .r4 { top: 60%; width: 33%; aspect-ratio: 1; background: var(--dark); color: var(--bg); align-items: center; }
+.rings .r4 span { padding-top: 0; font-weight: 500; }
+.rings .r1 span, .rings .r2 span { color: var(--ok-2); }
+.rings .r2 span, .rings .r3 span { width: 84%; }
+.rings-cap {
+  margin-top: clamp(14px, 1.8vw, 20px);
+  text-align: center;
+  font-size: clamp(12px, 0.58vw, 14.5px);
+  color: var(--mute);
+}
+
+/* ---------- the four user categories ---------- */
+.cats { margin-top: clamp(18px, 2.2vw, 28px); border-top: 1px solid var(--line); }
+.cats .c {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) 1fr;
+  gap: clamp(10px, 1.6vw, 26px);
+  padding: clamp(14px, 1.7vw, 21px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.cats .c .who { font-size: clamp(13.5px, 0.68vw, 17px); }
+.cats .c .who small { display: block; margin-top: 4px; color: var(--mute); font-size: 0.84em; line-height: 1.4; }
+.cats .c .strat { font-size: clamp(13.5px, 0.68vw, 17px); line-height: 1.5; color: var(--ink-2); }
+@media (max-width: 620px) { .cats .c { grid-template-columns: 1fr; gap: 8px; } }
+
+/* ---------- before / after layout ---------- */
+.ba {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: clamp(18px, 2.2vw, 28px);
+}
+@media (max-width: 620px) { .ba { grid-template-columns: 1fr; } }
+.ba .pane { padding: clamp(16px, 1.8vw, 24px); border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+.ba .plabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: clamp(12px, 1.4vw, 16px);
+}
+.ba .vp { aspect-ratio: 3 / 4; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); padding: 10px; overflow: hidden; }
+.ba .carousel { display: flex; gap: 8px; height: 46%; }
+.ba .carousel .card { flex: 0 0 78%; border-radius: 7px; background: color-mix(in srgb, var(--bad) 16%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
+.ba .carousel .card.clip { flex: 0 0 34%; opacity: 0.45; }
+.ba .rest { display: grid; gap: 7px; margin-top: 10px; }
+.ba .rest span { height: 9px; border-radius: 4px; background: rgba(19, 19, 19, 0.055); }
+.ba .rest span:nth-child(2) { width: 74%; }
+.ba .rest span:nth-child(4) { width: 58%; }
+.ba .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ba .grid2 .card { aspect-ratio: 3 / 4; border-radius: 7px; background: color-mix(in srgb, var(--ok) 34%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
+.ba .grid2 .card.load { background: repeating-linear-gradient(-45deg, transparent 0 5px, rgba(19,19,19,0.06) 5px 6px); }
+/* the phone frames for the two shipped UI interventions */
+.ba .stack { display: grid; gap: 8px; }
+.ba .stack .lineup { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ba .stack .sz { border: 1px solid var(--line); border-radius: 5px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--ink-2); background: var(--bg-2); }
+.ba .stack .sz.on { background: var(--dark); color: var(--bg); border-color: var(--dark); }
+.ba .stack .meas { border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; background: var(--bg-2); }
+.ba .stack .meas b { display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); margin-bottom: 5px; font-weight: 400; }
+.ba .stack .meas i { display: flex; justify-content: space-between; font-style: normal; font-size: 11px; color: var(--ink-2); padding: 1.5px 0; font-variant-numeric: tabular-nums; }
+.ba .stack .fld { height: 22px; border-radius: 5px; background: rgba(19,19,19,0.055); }
+.ba .stack .fld.pay { background: color-mix(in srgb, var(--ok) 34%, transparent); }
+.ba .stack .step { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); margin-top: 3px; }
+.ba .note { margin-top: 11px; font-size: clamp(12px, 0.58vw, 14.5px); color: var(--ink-2); line-height: 1.45; }
+
+/* ---------- outcome deltas ---------- */
+.delta { margin-top: clamp(18px, 2.2vw, 28px); border-top: 1px solid var(--line); }
+.delta .d {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: baseline;
+  gap: clamp(10px, 1.6vw, 24px);
+  padding: clamp(14px, 1.6vw, 20px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.delta .d .lbl { font-size: clamp(13.5px, 0.68vw, 17px); }
+.delta .d .lbl small { display: block; margin-top: 3px; color: var(--mute); font-size: 0.82em; }
+.delta .d .was { font-size: clamp(13px, 0.66vw, 16px); color: var(--mute); font-variant-numeric: tabular-nums; text-decoration: line-through; text-decoration-thickness: 1px; }
+.delta .d .arr { color: var(--faint); }
+.delta .d .now {
+  font-size: clamp(17px, 1.1vw, 26px);
+  letter-spacing: -0.02em;
+  color: var(--ok-2);
+  font-variant-numeric: tabular-nums;
+}
+.delta .d.down .now { color: var(--bad); }
+@media (max-width: 560px) { .delta .d { grid-template-columns: 1fr auto; row-gap: 6px; } .delta .d .arr { display: none; } }
+
+/* ---------- the report link ---------- */
+.report {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: clamp(16px, 1.8vw, 22px);
+  padding: 10px 17px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  font-size: clamp(12.5px, 0.6vw, 15px);
+  transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.report:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.report svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+</style>
 </head>
 
-<body>
+<body class="vm">
 <a class="skip" href="#main">Skip to content</a>
 
 <nav class="nav" aria-label="Primary">
@@ -44,24 +513,33 @@
     <header class="chero wrap">
       <div class="chero-media"><img src="assets/images/work/veromoda.jpg" alt="Vero Moda storefront concept held on a tablet"></div>
       <div class="chero-text">
-        <p class="label">Performance investigation &middot; 2026</p>
+        <p class="label">Case study &middot; 2024 &middot; UX research &amp; e-commerce</p>
         <h1 data-words>Why Vero Moda was losing users before they even arrived</h1>
         <div class="chero-brief">
           <p class="label">In brief</p>
           <p class="body">
-          A deep-dive into Bestseller's product page performance, using GA4 funnel
-          analysis and Lighthouse diagnostics to trace 600k+ sessions and find
-          where &mdash; and why &mdash; users were vanishing.
+            A graduation project inside Bestseller's e-commerce team. Paid
+            campaigns were converting far below expectation and the working
+            theory was targeting. Six hundred thousand users of GA4 data said
+            otherwise: the product page took eight seconds to show anything,
+            and the thing meant to catch the survivors &mdash; the
+            recommendation engine &mdash; was a preset list being shuffled.
+            Three interventions came out of it, and two of them moved numbers
+            I can show.
           </p>
+          <a class="report" href="assets/veromoda-report.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+            Read the full report &mdash; 70 pages
+          </a>
         </div>
       </div>
     </header>
 
     <div class="facts wrap">
-      <div><span class="k">Company</span><span class="v">Bestseller / Vero Moda</span></div>
-      <div><span class="k">Tools</span><span class="v">GA4 &middot; Lighthouse &middot; PSI</span></div>
-      <div><span class="k">Sessions analysed</span><span class="v">634,884</span></div>
-      <div><span class="k">Role</span><span class="v">UX + performance research</span></div>
+      <div><span class="k">Company</span><span class="v">Bestseller India &mdash; Vero Moda</span></div>
+      <div><span class="k">Tools</span><span class="v">GA4 &middot; Lighthouse &middot; Python &middot; AMP for Email</span></div>
+      <div><span class="k">Data</span><span class="v">634,884 new users &middot; 713,306 engaged sessions</span></div>
+      <div><span class="k">Role</span><span class="v">UX research, algorithm &amp; interface design</span></div>
     </div>
 
     <!-- ============ 01 BACKGROUND ============ -->
@@ -70,58 +548,102 @@
       <div>
         <h2>The company, and the <em>business problem</em></h2>
         <p class="body" data-r>
-          Bestseller is a Danish fashion company behind global brands including
-          Vero Moda, Jack &amp; Jones, Only and Selected. Their growth is fuelled
-          by performance marketing campaigns that send users directly to product
-          pages &mdash; <b>making page speed a revenue-critical metric</b>.
+          Bestseller is a Danish fashion group behind Vero Moda, Jack &amp;
+          Jones, Only and Selected Homme, operating in India through Bestseller
+          India. Its online growth runs on performance marketing &mdash;
+          campaigns that send a user from an ad straight onto a product page,
+          skipping the homepage entirely. That model has a consequence most
+          fashion retailers underrate: <b>page speed is not an engineering
+          metric, it is the first thing the media budget buys</b>.
         </p>
         <p class="body" data-r>
-          Performance marketing spend was not converting at expected rates. Users
-          arriving from paid ads were exiting immediately, before any meaningful
-          interaction. The hypothesis: the drop was a performance issue, not a
-          targeting issue.
+          The brief arrived as a marketing problem. Spend was up, conversion was
+          not, and the assumption in the room was that campaigns were reaching
+          the wrong people.
         </p>
+
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x"><b>Spend was not converting.</b> Performance marketing budget was growing without a matching return across the paid product-page campaigns.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>Paid users left immediately.</b> Sessions arriving from ads exited before any meaningful interaction &mdash; no scroll, no gallery, no size selection.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>The hypothesis worth testing.</b> If users leave <em>before</em> engaging rather than after, the failure is not who was targeted. It is what they landed on.</span></div>
+        </div>
       </div>
     </section>
 
-    <!-- ============ 02 FUNNEL ============ -->
+    <!-- ============ 02 WHERE THEY GO ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">02 &mdash; Funnel analysis</p></div>
+      <div class="rail"><p class="label">02 &mdash; Where the users go</p></div>
       <div>
         <h2>Where do users <em>drop?</em></h2>
         <p class="body" data-r>
-          634,884 sessions were traced through the purchase funnel in GA4. The
-          results revealed a catastrophic drop immediately after landing.
+          634,884 new users and 713,306 engaged sessions were pulled out of GA4
+          and split by acquisition channel first. Two things stood out
+          immediately: nearly two thirds of traffic was arriving
+          <b>unassigned</b> &mdash; GA4 could not attribute it to any channel at
+          all &mdash; and <b>email was contributing 0.19% of new users</b>,
+          which for a fashion retailer with a customer database is not a small
+          number, it is an absent one.
+        </p>
+
+        <div class="chan" data-r>
+          <div class="cr"><span class="ck">Unassigned</span><span class="cbar"><span style="width:100%"></span></span><span class="cv">61.99%</span></div>
+          <div class="cr"><span class="ck">Cross-network</span><span class="cbar"><span style="width:22.4%"></span></span><span class="cv">13.87%</span></div>
+          <div class="cr"><span class="ck">Organic search</span><span class="cbar"><span style="width:17.6%"></span></span><span class="cv">10.92%</span></div>
+          <div class="cr"><span class="ck">Direct</span><span class="cbar"><span style="width:13.3%"></span></span><span class="cv">8.27%</span></div>
+          <div class="cr"><span class="ck">Paid search</span><span class="cbar"><span style="width:5%"></span></span><span class="cv">3.08%</span></div>
+          <div class="cr"><span class="ck">Organic social</span><span class="cbar"><span style="width:2.1%"></span></span><span class="cv">1.33%</span></div>
+          <div class="cr lit"><span class="ck">Email</span><span class="cbar"><span style="width:0.6%"></span></span><span class="cv">0.19%</span></div>
+        </div>
+        <p class="body" style="margin-top:clamp(14px,1.6vw,20px)" data-r>
+          Share of new users by first-user channel. Remember the last row
+          &mdash; it becomes the largest single movement in the whole project.
+        </p>
+
+        <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          Then the same users through the purchase funnel. GA4's closed funnel
+          reports each step as a share of the one before it, and read that way
+          the shape is not a gradual decline. It is a cliff, in one specific
+          place.
         </p>
 
         <div class="funnel" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
           <div class="step">
             <span class="bar" style="width:100%"></span>
-            <span class="row"><span class="lbl">Ad click<small>634,884 sessions</small></span><span class="pct">100%</span></span>
+            <span class="row"><span class="lbl">Session start<small>all sessions</small></span><span class="pct">100%</span></span>
           </div>
           <div class="step">
-            <span class="bar" style="width:100%"></span>
-            <span class="row"><span class="lbl">Product page<small>634,884 sessions</small></span><span class="pct">100%</span></span>
+            <span class="bar" style="width:68.2%"></span>
+            <span class="row"><span class="lbl">View product<small>29.8% abandoned</small></span><span class="pct">68.2%</span></span>
           </div>
-          <p class="cliff">&minus;89% &mdash; 565,047 sessions lost here</p>
+          <p class="cliff">&minus;89.3% abandoned between viewing a product and adding one</p>
           <div class="step drop">
-            <span class="bar" style="width:11%"></span>
-            <span class="row"><span class="lbl">Add to cart<small>69,837</small></span><span class="pct">11%</span></span>
-          </div>
-          <div class="step drop">
-            <span class="bar" style="width:5%"></span>
-            <span class="row"><span class="lbl">Checkout<small>31,744</small></span><span class="pct">5%</span></span>
+            <span class="bar" style="width:10.7%"></span>
+            <span class="row"><span class="lbl">Add to cart<small>89.3% abandoned</small></span><span class="pct">10.7%</span></span>
           </div>
           <div class="step drop">
-            <span class="bar" style="width:3%"></span>
-            <span class="row"><span class="lbl">Purchase<small>19,046</small></span><span class="pct">3%</span></span>
+            <span class="bar" style="width:23.2%"></span>
+            <span class="row"><span class="lbl">Begin checkout<small>76.8% abandoned</small></span><span class="pct">23.2%</span></span>
+          </div>
+          <div class="step">
+            <span class="bar" style="width:64.8%"></span>
+            <span class="row"><span class="lbl">Purchase<small>35.2% abandoned</small></span><span class="pct">64.8%</span></span>
           </div>
         </div>
 
         <p class="body" style="margin-top:clamp(16px,2vw,24px)" data-r>
-          <b>89% of users exited between the product page and Add to Cart</b>
-          &mdash; the single largest drop-off in the entire journey.
+          Each bar is the share of the previous step that continued. Read it
+          that way and the diagnosis writes itself: <b>once someone reaches
+          checkout they mostly buy &mdash; 64.8% complete</b>. The catastrophe
+          is one step earlier and one step wider. Nearly nine in ten people who
+          look at a product never add it to anything.
         </p>
+
+        <div class="hmw" data-r>
+          <span>How might we</span>
+          find out what happens in the seconds between a paid click and an
+          abandoned product page &mdash; a window GA4 records as a session with
+          nothing in it?
+        </div>
       </div>
     </section>
 
@@ -131,53 +653,112 @@
       <div>
         <h2>Two dominant <em>entry journeys</em></h2>
         <p class="body" data-r>
-          User flow analysis showed that almost no traffic entered via the
-          homepage. Ad campaigns were sending users directly into product
-          discovery surfaces &mdash; two patterns emerged.
+          Flow analysis showed almost no traffic entering through the homepage.
+          Campaigns were dropping users directly into product surfaces, and two
+          patterns accounted for nearly all of it &mdash; both ending the same
+          way.
         </p>
 
         <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
           <article>
-            <h3>Flow 01 — direct to PDP</h3>
-            <p><b>Ad click → product page → exit.</b> Users arriving directly on the product page frequently exited without scrolling or interacting. No dwell time was recorded.</p>
+            <h3>Flow 01 &mdash; straight to the product page</h3>
+            <div class="flow">
+              <span class="fnode">Ad click</span>
+              <span class="farr"></span>
+              <span class="fnode">Product page</span>
+              <span class="farr"></span>
+              <span class="fnode bad">Exit</span>
+            </div>
+            <p style="margin-top:14px">Users landed on the product itself and left without scrolling or interacting. No dwell time was recorded — the session existed, and nothing happened inside it.</p>
           </article>
           <article>
-            <h3>Flow 02 — product listing</h3>
-            <p><b>Ad click → PLP → exit.</b> Users who landed on the listing page left without discovering relevant products. Poor recommendation surfaces accelerated the drop.</p>
+            <h3>Flow 02 &mdash; into the listing page</h3>
+            <div class="flow">
+              <span class="fnode">Ad click</span>
+              <span class="farr"></span>
+              <span class="fnode">Listing page</span>
+              <span class="farr"></span>
+              <span class="fnode bad">Exit</span>
+            </div>
+            <p style="margin-top:14px">Users who landed on a listing left without finding anything relevant. Weak recommendation and filtering surfaces gave them no second thing to look at.</p>
           </article>
         </div>
 
-        <div class="note-box" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
-          <p class="body">
-            <b>Two root causes identified.</b> Ad→PDP drop: slow product page
-            loading causing abandonment before engagement. Ad→PLP drop:
-            ineffective product discovery due to poor recommendation and
-            filtering systems.
-          </p>
+        <p class="body" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          Two flows, two different failures &mdash; and the distinction mattered,
+          because they do not have the same fix:
+        </p>
+
+        <div class="olist" style="margin-top:clamp(14px,1.8vw,22px)" data-r>
+          <div class="o"><span class="n">A</span><span class="x"><b>Ad &rarr; PDP drop.</b> Slow product-page loading causing abandonment before engagement. A speed problem &mdash; sections 04 and 05.</span></div>
+          <div class="o"><span class="n">B</span><span class="x"><b>Ad &rarr; PLP drop.</b> Ineffective product discovery due to poor recommendation and filtering. A relevance problem &mdash; section 06.</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ============ 04 DISCOVERY ============ -->
+    <!-- ============ 04 THE PAGE ============ -->
     <section class="sec wrap spine">
       <div class="rail"><p class="label">04 &mdash; Critical discovery</p></div>
       <div>
         <h2>The bottleneck was <em>the page itself</em></h2>
         <p class="body" data-r>
-          Deeper investigation confirmed the largest exit cluster was happening
-          <b>during page load</b> &mdash; before users could see any content at
-          all. This pointed to a performance bottleneck, not a campaign
-          targeting problem.
+          The largest exit cluster was not happening after users read something
+          and decided against it. It was happening <b>during page load</b>, in a
+          window where there was nothing on screen to decide about. That single
+          observation moved the investigation off marketing and onto
+          engineering.
+        </p>
+        <p class="body" data-r>
+          Put every event on one time scale and the argument needs no
+          commentary. The main thread is still blocked at nine seconds. The
+          largest element does not arrive until eight. The window in which
+          people give up opens long before either.
         </p>
 
-        <div class="tl" data-r>
-          <div class="t"><p class="when">t = 0 ms</p><p class="what">Ad click</p></div>
-          <div class="t"><p class="when">~200 ms</p><p class="what">Page request</p></div>
-          <div class="t"><p class="when">9.1 s</p><p class="what">Heavy JS execution blocks the main thread</p></div>
-          <div class="t"><p class="when">3.6 s</p><p class="what">First paint</p></div>
-          <div class="t"><p class="when">8.0 s</p><p class="what">Largest Contentful Paint</p></div>
-          <div class="t warn"><p class="when">&mdash;</p><p class="what">User exits long before LCP</p></div>
+        <div class="chart" data-r>
+          <div class="row">
+            <span class="k"></span>
+            <span class="zone">
+              <span style="left:20%">the window users leave in</span>
+              <i style="left:20%;right:38.5%"></i>
+            </span>
+            <span class="v"></span>
+          </div>
+          <div class="row">
+            <span class="k">Page request</span>
+            <span class="plot"><span class="bar" style="left:0;width:1.5%"></span></span>
+            <span class="v">0.2 s</span>
+          </div>
+          <div class="row">
+            <span class="k">Main thread blocked</span>
+            <span class="plot"><span class="bar bad" style="left:1.5%;width:70%"></span></span>
+            <span class="v">9.1 s</span>
+          </div>
+          <div class="row">
+            <span class="k">First Contentful Paint</span>
+            <span class="plot"><span class="mark" style="left:27.7%"></span></span>
+            <span class="v">3.6 s</span>
+          </div>
+          <div class="row">
+            <span class="k">Largest Contentful Paint</span>
+            <span class="plot"><span class="mark bad" style="left:61.5%"></span></span>
+            <span class="v">8.0 s</span>
+          </div>
+          <div class="row">
+            <span class="k"></span>
+            <span class="axis"><span>0 s</span><span>3.25 s</span><span>6.5 s</span><span>9.75 s</span><span>13 s</span></span>
+            <span class="v"></span>
+          </div>
         </div>
+
+        <p class="body" style="margin-top:clamp(16px,2vw,24px)" data-r>
+          First paint lands at 3.6 seconds and the page is still not finished
+          &mdash; the hero image, the thing a fashion customer actually came
+          for, arrives at eight. In between, the main thread is locked, so the
+          page does not merely look unfinished: <b>it cannot respond to a tap
+          either</b>. Users were staring at a locked, partially rendered page
+          and leaving before there was anything to judge.
+        </p>
       </div>
     </section>
 
@@ -187,44 +768,64 @@
       <div>
         <h2>Performance <em>diagnostics</em></h2>
         <p class="body" data-r>
-          The product page was tested using Lighthouse under Slow 4G on an
-          emulated Moto G Power. A score of <b>38/100</b> placed it firmly in the
-          "Poor" bracket. With LCP at 8 seconds, the page was effectively
-          invisible by the time it rendered &mdash; for mobile users arriving
-          from paid ads, a blank screen that never resolved.
+          The product page was tested with Lighthouse under Slow 4G on an
+          emulated Moto G Power &mdash; not a punishing setup, just an ordinary
+          one, and close to what a real Vero Moda customer clicking an Instagram
+          ad is actually holding.
         </p>
 
+        <div class="score" data-r>
+          <p class="n">38<sup>/100</sup></p>
+          <div class="band">
+            <span class="rail-s"><span class="pin"></span></span>
+            <span class="legend"><span>0 &mdash; Poor</span><span>50 &mdash; Needs work</span><span>90 &mdash; Good</span></span>
+            <p class="cap">
+              Critical performance failure. At 38 the page is not slow, it is
+              functionally unavailable on the device most of its paid traffic
+              arrives on.
+            </p>
+          </div>
+        </div>
+
+        <p class="label" style="margin-top:clamp(26px,3vw,42px);margin-bottom:9px">Core Web Vitals</p>
         <div class="metrics" data-r>
           <div><p class="n">3.6<sup>s</sup></p><p class="l">First Contentful Paint</p></div>
           <div><p class="n">8.0<sup>s</sup></p><p class="l">Largest Contentful Paint</p></div>
           <div><p class="n">2,090<sup>ms</sup></p><p class="l">Total Blocking Time</p></div>
           <div><p class="n">6.4<sup>s</sup></p><p class="l">Speed Index</p></div>
         </div>
+        <p class="body" style="margin-top:clamp(14px,1.6vw,20px)" data-r>
+          One number was fine: <b>Cumulative Layout Shift at 0.007</b>, close to
+          perfect. That is worth stating because it rules out the easy
+          explanation &mdash; nothing was jumping around. The page was simply
+          not there.
+        </p>
 
+        <p class="label" style="margin-top:clamp(26px,3vw,42px);margin-bottom:9px">Network payload</p>
         <div class="metrics" data-r>
-          <div><p class="n">7,223<sup>KB</sup></p><p class="l">Total network payload</p></div>
+          <div><p class="n">7,223<sup>KB</sup></p><p class="l">Total transferred on load</p></div>
           <div><p class="n">2,359<sup>KB</sup></p><p class="l">Image optimisation potential</p></div>
           <div><p class="n">1,160<sup>KB</sup></p><p class="l">Unused JavaScript</p></div>
           <div><p class="n">602<sup>KB</sup></p><p class="l">Cache lifetime savings</p></div>
         </div>
 
-        <p class="label" style="margin-top:clamp(22px,2.6vw,34px);margin-bottom:9px">Root causes</p>
+        <p class="label" style="margin-top:clamp(26px,3vw,42px);margin-bottom:9px">Root causes</p>
         <div class="cards" data-r>
           <article>
             <h3>Heavy JavaScript execution</h3>
-            <p>Main thread blocked for 9.1 seconds. No user interaction could register during this window.</p>
+            <p>The main thread was blocked for 9.1 seconds. No tap, scroll or gallery swipe could register inside that window — the page was not just slow to look at, it was inert to touch.</p>
           </article>
           <article>
             <h3>Excessive main-thread work</h3>
-            <p>12.5 seconds of total main thread work — scripts, layout recalculation and style processing.</p>
+            <p>12.5 seconds of total main-thread work across script evaluation, layout recalculation and style processing. Most of it was not drawing anything the user would ever see.</p>
           </article>
           <article>
             <h3>Large network payload</h3>
-            <p>Over 7 MB transferred on initial load. On Slow 4G that alone adds seconds before any rendering.</p>
+            <p>Over 7 MB on initial load, a third of it images that could have been a third of the size. On Slow 4G that alone is several seconds before rendering can begin.</p>
           </article>
           <article>
             <h3>Critical request chains</h3>
-            <p>Dependency chains between requests introduced another 1.6 seconds of latency.</p>
+            <p>Dependency chains — request waiting on request waiting on request — added a further 1.6 seconds of pure latency that no amount of bandwidth would have removed.</p>
           </article>
         </div>
       </div>
@@ -235,66 +836,516 @@
       <div class="rail"><p class="label">06 &mdash; UX engineering</p></div>
       <div>
         <h2>Interface decisions <em>driving the bloat</em></h2>
-
-        <p class="label" style="margin-bottom:8px" data-r>Observation 01 &mdash; image navigation rendering</p>
         <p class="body" data-r>
-          Every product page dynamically generated one DOM dot indicator per
-          product image. A product with 20 images created 20 dots, 20 click
-          handlers and 20 layout recalculations &mdash; multiplied across
-          hundreds of products viewed per session. <b>Fix:</b> replace dot
-          navigation with in-frame arrow controls, dramatically reducing DOM
-          complexity.
+          A Lighthouse report tells you the page is heavy. It does not tell you
+          who made it heavy. Inspecting the page as a designer rather than as an
+          auditor found two interface decisions &mdash; both reasonable in
+          isolation &mdash; that between them explained most of the weight.
         </p>
 
-        <p class="label" style="margin-top:clamp(20px,2.4vw,30px);margin-bottom:8px" data-r>Observation 02 &mdash; high-resolution product images</p>
-        <p class="body" data-r>
-          Fashion e-commerce demands image quality &mdash; fabric texture, colour
-          accuracy and garment detail are purchasing signals. As a result images
-          were uploaded at maximum resolution without format optimisation,
-          accounting for over 2 MB of avoidable payload. Reducing resolution
-          wasn't feasible, so the <b>fix was format</b>: convert to WebP, holding
-          visual quality while cutting file size by roughly 60% (~800 KB → ~300
-          KB).
-        </p>
+        <div class="obs" data-r>
+          <div class="oh"><span class="num">Observation 01</span><h3>Image navigation rendering</h3></div>
+          <p class="body">
+            Every product page dynamically generated <b>one DOM dot indicator
+            per product image</b>. A garment shot from twenty angles produced
+            twenty dots, twenty click handlers and twenty layout
+            recalculations &mdash; then did it again for the next product, and
+            the next, across hundreds of products in a browsing session.
+          </p>
+
+          <div class="dotdemo">
+            <div class="pane">
+              <p class="plabel">Before &mdash; one dot per image</p>
+              <div class="frame">
+                <div class="dots">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+              </div>
+              <p class="cost">20 nodes &middot; 20 handlers &middot; 20 recalculations, per product</p>
+            </div>
+            <div class="pane">
+              <p class="plabel">After &mdash; in-frame arrows</p>
+              <div class="frame">
+                <span class="chev l"></span>
+                <span class="chev r"></span>
+              </div>
+              <p class="cost">2 nodes &middot; 2 handlers &middot; constant, regardless of image count</p>
+            </div>
+          </div>
+
+          <div class="notes">
+            <div class="nb warn">
+              <span class="k">Performance impact</span>
+              <p>Excessive DOM nodes and JavaScript recalculation inflate Total Blocking Time — the exact metric that was already at 2,090 ms.</p>
+            </div>
+            <div class="nb fix">
+              <span class="k">Recommended fix</span>
+              <p>Replace dot navigation with simple in-frame arrow controls. The node count stops scaling with the number of photographs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="obs" data-r>
+          <div class="oh"><span class="num">Observation 02</span><h3>High-resolution product images</h3></div>
+          <p class="body">
+            Fashion e-commerce cannot compromise on image quality. Fabric
+            texture, colour accuracy and garment detail are not decoration
+            &mdash; they are the purchasing signal, and the reason a customer
+            buys online at all. So images were being uploaded at maximum
+            resolution with no format optimisation, accounting for over 2 MB of
+            avoidable payload per page.
+          </p>
+
+          <div class="cmp">
+            <div class="cr">
+              <span class="ck">JPG / PNG, as uploaded</span>
+              <span class="cbar"><span style="width:100%"></span></span>
+              <span class="cv">~800 KB</span>
+            </div>
+            <div class="cr after">
+              <span class="ck">WebP, same dimensions</span>
+              <span class="cbar"><span style="width:37.5%"></span></span>
+              <span class="cv">~300 KB</span>
+            </div>
+          </div>
+
+          <div class="notes">
+            <div class="nb warn">
+              <span class="k">Business constraint</span>
+              <p>Reducing resolution was not feasible — visual clarity is a primary purchasing signal, and the merchandising team was right to defend it.</p>
+            </div>
+            <div class="nb fix">
+              <span class="k">Recommended fix</span>
+              <p>Change the format, not the picture. WebP holds visual quality while cutting file size by roughly 60% — around 2 MB back per page, and nothing lost that a customer can see.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ============ 07 RESOLUTION ============ -->
+    <!-- ============ 07 RECOMMENDATION ENGINE ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">07 &mdash; Project resolution</p></div>
+      <div class="rail"><p class="label">07 &mdash; The recommendation engine</p></div>
       <div>
-        <h2>What was <em>proposed and built</em></h2>
+        <h2>The safety net was <em>a shuffled list</em></h2>
         <p class="body" data-r>
-          With the bottlenecks mapped, a two-pronged solution was designed:
-          reduce time-to-interactive for users arriving from paid ads, and expand
-          the product discovery surface to catch non-converting visitors.
+          Speed explains why people left the product page. It does not explain
+          why the ones who stayed never went anywhere else. So the second half
+          of the project went after the surface that is supposed to catch them:
+          <b>You may also like</b>.
+        </p>
+        <p class="body" data-r>
+          What was actually running turned out to be simpler than anyone
+          assumed. Recommendations came from <b>pre-defined lists, one per
+          product category</b>, populated with popular or high-margin items. To
+          create the impression of variety, the same list was <b>shuffled into a
+          different order on every page</b>. Every T-shirt page in the catalogue
+          therefore showed the same recommended T-shirts &mdash; just in a
+          different sequence each time.
+        </p>
+
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x"><b>No personalisation.</b> The lists were static and consulted no user data at all &mdash; not purchase history, not browsing behaviour, not demographics. One-size-fits-all, so the recommendations were generic by construction.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>No trend detection.</b> Nothing in the system identified what was currently selling. In fast fashion, where the whole business model is turning trends into stock quickly, the recommendation surface was structurally behind the merchandising floor.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>The knock-on effect.</b> Irrelevant suggestions do not just fail to convert &mdash; they teach the user that this surface is not worth looking at, which is how a page stops having a second act.</span></div>
+        </div>
+
+        <h2 style="margin-top:clamp(38px,4.6vw,68px)">A recommendation is <em>an intersection, not a list</em></h2>
+        <p class="body" data-r>
+          I surveyed the standard approaches first &mdash; collaborative
+          filtering, which finds users like you; content-based filtering, which
+          finds products like the one you are looking at; and the hybrid of the
+          two. Collaborative filtering finds patterns content-based filtering
+          misses; content-based filtering still works for a brand-new product or
+          a brand-new user, where collaborative filtering has nothing to go on.
+          Fashion retail needs both, constantly.
+        </p>
+        <p class="body" data-r>
+          The design decision was to stop treating a recommendation as a list to
+          be filled and start treating it as <b>a bucket left over after four
+          filters</b>. Each ring below removes candidates; what survives all four
+          is what gets shown.
+        </p>
+
+        <div class="rings" data-r aria-hidden="true">
+          <span class="r r1"><span>All products matching the user's preferences &mdash; the properties of what they bought or browsed</span></span>
+          <span class="r r2"><span>The category they are navigating right now</span></span>
+          <span class="r r3"><span>Filters the user has applied</span></span>
+          <span class="r r4"><span>Top-converting products</span></span>
+        </div>
+        <p class="rings-cap" data-r>
+          The recommendation bucket &mdash; four filters, narrowing. Redrawn from
+          figure 5.1 of the report.
+        </p>
+
+        <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          The ordering is the argument. Preference comes first because it is the
+          only ring that is about the person; commercial performance comes last,
+          so <b>&ldquo;what sells&rdquo; can only ever break a tie between things
+          the user already plausibly wants</b> &mdash; it never gets to override
+          them. That is the line the old preset list crossed.
+        </p>
+
+        <h2 style="margin-top:clamp(38px,4.6vw,68px)">Four kinds of user, <em>four strategies</em></h2>
+        <p class="body" data-r>
+          The other half of the algorithm is that a shopper is not always the
+          same shape. Identification happens first &mdash; via login, cookies or
+          both &mdash; and the user falls into one of four states depending on
+          what evidence exists about them. Each state gets its own strategy,
+          because each has a different kind of signal available:
+        </p>
+
+        <div class="cats" data-r>
+          <div class="c">
+            <p class="who">New user<small>No purchase, no wishlist</small></p>
+            <p class="strat">Nothing to go on but this session, so track the properties of what they are viewing right now — category, brand, colour, size, material, style, price band — and recommend against those. Demographics layer on top where available.</p>
+          </div>
+          <div class="c">
+            <p class="who">Only wishlister<small>Wishlist, no purchase history</small></p>
+            <p class="strat">Prioritise the properties of wishlisted items, then use content-based filtering to add complementary pieces often bought alongside them — things that do not share the same properties but do share the same outfit.</p>
+          </div>
+          <div class="c">
+            <p class="who">Only purchased<small>Purchase history, no wishlist</small></p>
+            <p class="strat">Prioritise properties from what they have actually bought — the strongest signal there is — and extend it with frequently-bought-together items against those past purchases.</p>
+          </div>
+          <div class="c">
+            <p class="who">Purchased and wishlisted<small>Both signals present</small></p>
+            <p class="strat">Weighted. Purchased properties carry the highest weight because money is the firmest statement of preference; wishlist properties carry a lower weight, because a wishlist is where taste is still moving.</p>
+          </div>
+        </div>
+
+        <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          Matching is then two measures rather than one, because a garment has
+          two kinds of property. <b>Jaccard similarity</b> handles the
+          categorical ones &mdash; a floral, long-sleeved, midi dress shares
+          three of three features with another, or one of three, and scores
+          accordingly. <b>Cosine similarity</b> handles the numerical and the
+          weighted ones, so a user who has clicked several red dresses and
+          bought a bodycon gets red bodycon dresses ranked above merely floral
+          ones. Jaccard says <i>these are the same kind of thing</i>; cosine says
+          <i>and this is how much you seem to like it</i>.
+        </p>
+        <p class="body" data-r>
+          It was written as a working Python prototype &mdash; pandas and
+          scikit-learn over two files, <code>user_behavior.csv</code> and
+          <code>product_catalog.csv</code>, producing a ranked list of product
+          IDs with the user's own category prioritised and the remaining slots
+          filled from the wider catalogue. Enough to demonstrate, not enough to
+          deploy: the company took the approach forward through a vendor
+          offering the same algorithm as an API, which was the faster route to
+          production and the right call.
+        </p>
+
+        <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          The surface it renders into had to change too. The existing
+          three-column carousel was the wrong container on a phone &mdash; at
+          mobile width barely one card was visible per row, and the horizontal
+          scroll needed to reach the rest was an interaction users almost never
+          performed. A better algorithm feeding a container nobody scrolls is
+          still nothing.
+        </p>
+
+        <div class="ba" data-r>
+          <div class="pane">
+            <p class="plabel"><span>Before</span><span>3-col carousel</span></p>
+            <div class="vp">
+              <div class="carousel">
+                <span class="card"></span>
+                <span class="card clip"></span>
+              </div>
+              <div class="rest">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <p class="note">Only one product visible per row at mobile width. Everything else sits off-screen behind a horizontal swipe that most users never make.</p>
+          </div>
+          <div class="pane">
+            <p class="plabel"><span>After</span><span>2-col vertical</span></p>
+            <div class="vp">
+              <div class="grid2">
+                <span class="card"></span><span class="card"></span>
+                <span class="card"></span><span class="card"></span>
+                <span class="card load"></span><span class="card load"></span>
+              </div>
+            </div>
+            <p class="note">Four products visible immediately, more arriving through progressive loading on the scroll gesture users already perform.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 08 EMAIL ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">08 &mdash; Into the inbox</p></div>
+      <div>
+        <h2>The same engine, <em>inside the email</em></h2>
+        <p class="body" data-r>
+          Email was contributing 0.19% of new users. The reflex answer is to
+          send more email. The actual problem was that a Vero Moda email was a
+          static picture with a link on it: every action a recipient might take
+          required leaving the inbox, loading the eight-second page from section
+          04, and starting again.
+        </p>
+        <p class="body" data-r>
+          So the recommendation engine was pointed at the inbox instead, using
+          <b>AMP for Email</b> &mdash; which allows genuinely interactive
+          components inside the message. The personalised bucket renders as a
+          swipeable carousel in the email itself, with product detail,
+          size and colour variants and add-to-cart available without a page load
+          ever happening.
         </p>
 
         <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
           <article>
-            <h3>Lazy loading implementation</h3>
-            <p>Images and non-critical assets deferred until they enter the viewport — critical for the first 3-second window where abandonment is highest.</p>
+            <h3>The recommendation arrives, rather than waiting</h3>
+            <p>Instead of a generic campaign creative, each recipient's email is populated by the same four-filter bucket that runs on site. The relevance work is done once and reused in both places.</p>
           </article>
           <article>
-            <h3>Expanded product discovery</h3>
-            <p>Users who landed but didn't convert were shown additional products inline — routed into browse mode instead of exiting.</p>
+            <h3>The click-through hurdle is removed</h3>
+            <p>Browsing, choosing a size and adding to cart happen inside the message. The slowest, leakiest step in the journey — loading a product page — is skipped entirely for this audience.</p>
+          </article>
+          <article>
+            <h3>Templates for every brand</h3>
+            <p>Cross-sell, PDP-dropper, wishlist and cart templates, built out across Jack &amp; Jones, Vero Moda, Only and Selected so one system covers the group rather than one brand.</p>
+          </article>
+          <article>
+            <h3>Fallbacks are not optional</h3>
+            <p>Not every client supports AMP. Every template ships with an HTML fallback, because a feature that silently fails for a third of your list is a worse outcome than the static email it replaced.</p>
           </article>
         </div>
+      </div>
+    </section>
 
-        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
-          The recommendation layout moved from a <b>3-column carousel</b> (only
-          one product visible per row on mobile; users rarely scrolled) to a
-          <b>2-column vertical grid</b> with progressive loading &mdash; more
-          visible product surface, simpler scroll interaction.
+    <!-- ============ 09 UI INTERVENTIONS ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">09 &mdash; Two interface interventions</p></div>
+      <div>
+        <h2>Further down the funnel, <em>two smaller fixes</em></h2>
+        <p class="body" data-r>
+          The funnel in section 02 showed two more leaks worth attention: 76.8%
+          abandoning between cart and checkout, and a returns problem that never
+          shows up in a funnel at all. Both were A/B tested against a control.
+        </p>
+
+        <div class="obs" data-r>
+          <div class="oh"><span class="num">Intervention 01</span><h3>Say what the garment actually measures</h3></div>
+          <p class="body">
+            Size-related returns are the structural tax of online clothing, and
+            the cause is a size chart that says <b>S, M, L</b> when the shopper
+            needs centimetres. Benchmarking against Snitch, Rare Rabbit and
+            Blissclub showed the same gap everywhere. The intervention: the
+            moment a size is selected, a pop-up shows <b>that garment's real
+            measurements</b> — UK and US equivalents, bust, waist, hips,
+            shoulder — so the decision is made against a body rather than
+            against a letter.
+          </p>
+
+          <div class="ba">
+            <div class="pane">
+              <p class="plabel"><span>Control</span><span>letters only</span></p>
+              <div class="vp">
+                <div class="stack">
+                  <span class="fld" style="height:78px"></span>
+                  <p class="step">Select size</p>
+                  <div class="lineup">
+                    <span class="sz">XS</span><span class="sz">S</span>
+                    <span class="sz">M</span><span class="sz">L</span>
+                  </div>
+                  <span class="fld" style="margin-top:6px"></span>
+                  <span class="fld pay" style="height:30px"></span>
+                </div>
+              </div>
+              <p class="note">A size chart exists, but it is a separate link most shoppers never open — so the choice is a guess dressed as a decision.</p>
+            </div>
+            <div class="pane">
+              <p class="plabel"><span>Treatment</span><span>measurements on select</span></p>
+              <div class="vp">
+                <div class="stack">
+                  <span class="fld" style="height:46px"></span>
+                  <p class="step">Select size</p>
+                  <div class="lineup">
+                    <span class="sz on">XS</span><span class="sz">S</span>
+                    <span class="sz">M</span><span class="sz">L</span>
+                  </div>
+                  <div class="meas" style="margin-top:6px">
+                    <b>XS measures</b>
+                    <i><span>Bust</span><span>32&ndash;33 in</span></i>
+                    <i><span>Waist</span><span>24&ndash;25 in</span></i>
+                    <i><span>Hips</span><span>35&ndash;35.5 in</span></i>
+                    <i><span>Shoulder</span><span>14.7&ndash;15.2 in</span></i>
+                  </div>
+                  <span class="fld pay" style="height:30px"></span>
+                </div>
+              </div>
+              <p class="note">The measurements appear at the moment of choosing, against the size actually selected — no navigation, no modal to go and find.</p>
+            </div>
+          </div>
+
+          <div class="notes">
+            <div class="nb warn">
+              <span class="k">What was measured</span>
+              <p>Demographics, time spent on product pages, number of size changes before settling on one, and returns attributed to size discrepancy — control group against treatment group.</p>
+            </div>
+            <div class="nb fix">
+              <span class="k">Outcome</span>
+              <p>Higher confidence at the point of selection and fewer size-related returns in the treatment group. The cheapest kind of win: no new technology, just information moved to where the decision happens.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="obs" data-r>
+          <div class="oh"><span class="num">Intervention 02</span><h3>Collapse the checkout</h3></div>
+          <p class="body">
+            Traditional checkout asks for billing and shipping separately, then
+            payment, then reveals the real total at the end. On a phone that is
+            three screens of typing followed by a surprise. The redesign
+            <b>merged address selection and payment method into one step</b>,
+            added address autocomplete from existing user data, and kept the
+            full price &mdash; taxes and shipping included &mdash; visible
+            throughout rather than at the end.
+          </p>
+
+          <div class="ba">
+            <div class="pane">
+              <p class="plabel"><span>Before</span><span>separate steps</span></p>
+              <div class="vp">
+                <div class="stack">
+                  <p class="step">Step 1 &mdash; address</p>
+                  <span class="fld"></span><span class="fld"></span><span class="fld"></span>
+                  <p class="step">Step 2 &mdash; payment</p>
+                  <span class="fld"></span><span class="fld"></span>
+                  <p class="step">Step 3 &mdash; total revealed</p>
+                  <span class="fld pay" style="height:30px"></span>
+                </div>
+              </div>
+              <p class="note">Cumbersome on mobile, and the final price only becomes real at the last screen — which is exactly where people leave.</p>
+            </div>
+            <div class="pane">
+              <p class="plabel"><span>After</span><span>one step</span></p>
+              <div class="vp">
+                <div class="stack">
+                  <p class="step">Address &amp; payment together</p>
+                  <span class="fld"></span><span class="fld"></span>
+                  <div class="meas">
+                    <b>Total, throughout</b>
+                    <i><span>Subtotal</span><span>&#8377;999</span></i>
+                    <i><span>Shipping</span><span>&#8377;0</span></i>
+                    <i><span>Total</span><span>&#8377;999</span></i>
+                  </div>
+                  <span class="fld pay" style="height:34px"></span>
+                </div>
+              </div>
+              <p class="note">Autocompleted address, payment method chosen in the same form, and a total that never changes shape at the last moment.</p>
+            </div>
+          </div>
+
+          <div class="notes">
+            <div class="nb warn">
+              <span class="k">What was measured</span>
+              <p>Checkout completion rate, cart abandonment rate and time spent in checkout, A/B tested against the traditional flow.</p>
+            </div>
+            <div class="nb fix">
+              <span class="k">Outcome</span>
+              <p><b>Bounce rate at the payment gateway fell by 40%.</b> Fewer steps, less typing and no price surprise — the friction removed was not decorative, it was the whole of it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 10 OUTCOMES ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">10 &mdash; What moved</p></div>
+      <div>
+        <h2>What shipped, and <em>what it did</em></h2>
+        <p class="body" data-r>
+          The recommendation algorithm, the AMP email templates, the algorithm
+          code and the visual specifications were handed to the third-party
+          agency that maintains the storefront, so the site and the email
+          campaigns would carry the same logic rather than two versions of it.
+          These are the measured movements afterwards.
+        </p>
+
+        <div class="delta" data-r>
+          <div class="d">
+            <span class="lbl">Email &mdash; share of new users<small>the channel that was effectively absent</small></span>
+            <span class="was">0.19%</span>
+            <span class="arr">&rarr;</span>
+            <span class="now">13%</span>
+          </div>
+          <div class="d">
+            <span class="lbl">Cross-network &mdash; share of new users<small>paid campaigns across Google surfaces</small></span>
+            <span class="was">13.87%</span>
+            <span class="arr">&rarr;</span>
+            <span class="now">19%</span>
+          </div>
+          <div class="d down">
+            <span class="lbl">Payment gateway bounce rate<small>after the single-step checkout</small></span>
+            <span class="was">baseline</span>
+            <span class="arr">&rarr;</span>
+            <span class="now">&minus;40%</span>
+          </div>
+        </div>
+
+        <p class="body" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          The email number is the one I would defend hardest, because it is the
+          one that proves the thesis. Nothing about the audience changed. The
+          list was the same list. What changed is that the message stopped
+          asking people to go and load a page that could not load, and started
+          carrying the relevant products with it.
+        </p>
+
+        <div class="metrics" style="margin-top:clamp(26px,3vw,42px)" data-r>
+          <div><p class="n">634,884</p><p class="l">New users analysed</p></div>
+          <div><p class="n">89.3<sup>%</sup></p><p class="l">Abandoned at one step of five</p></div>
+          <div><p class="n">8.0<sup>s</sup></p><p class="l">To the largest element, on mobile</p></div>
+          <div><p class="n">4</p><p class="l">Filters in the recommendation bucket</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 11 TAKEAWAY ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">11 &mdash; Takeaway</p></div>
+      <div>
+        <h2>The finding was <em>the deliverable</em></h2>
+        <p class="body" data-r>
+          By mapping the drop-off to a specific performance bottleneck and a
+          specific relevance failure rather than a marketing problem, the
+          investigation reframed the solution entirely. The brief that arrived
+          asked which audiences to stop paying for. The answer was that the
+          audiences were fine &mdash; they were arriving, in their hundreds of
+          thousands, at a page that could not show itself to them in time, and
+          being offered a shuffled list if they waited.
         </p>
         <p class="body" data-r>
-          By mapping the drop-off to a specific performance bottleneck rather
-          than a marketing problem, the investigation reframed the solution
-          entirely. The redesigned experience reduces friction in the critical
-          first seconds and creates secondary conversion opportunities for users
-          who don't immediately purchase &mdash; maximising the value of every ad
-          click.
+          The part I would carry to the next investigation is the order of
+          operations. The channel table said <i>which door</i>, the funnel said
+          <i>where</i>, the flow analysis said <i>which journey</i>, Lighthouse
+          said <i>why</i>, and only reading the interface as a designer said
+          <i>who caused it</i> &mdash; twenty dots, an unoptimised JPEG and a
+          list nobody had looked at since it was written. None of those three
+          appears in an analytics dashboard. Performance work stops at diagnosis
+          unless somebody is willing to go and open the page.
         </p>
+
+        <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          <p class="body">
+            <b>Scope, honestly.</b> This was my graduation project, carried out
+            inside Bestseller's e-commerce team between January and April 2024,
+            and submitted to NIFT. The analysis, the algorithm design, the
+            interface work and the email system are mine; implementation on the
+            live storefront was carried out by the third-party agency that
+            maintains it, from the specification and code handed over. The
+            movements in section 10 are the figures recorded in the report, and
+            the Lighthouse diagnostics in sections 04 and 05 are from a separate
+            audit of the live product page. Everything else &mdash; the funnel,
+            the channel table, the algorithm, the A/B tests &mdash; is in the
+            <a href="assets/veromoda-report.pdf" target="_blank" rel="noopener"><b>70-page report</b></a>,
+            including the Python implementation and the full template set.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -303,7 +1354,7 @@
       <a href="rozinvest.html">
         <span>
           <span class="k">Next case study</span><br>
-          <span class="v">Rozinvest &mdash; Type &amp; Visual Identity</span>
+          <span class="v">RozInvest &mdash; type &amp; visual identity</span>
         </span>
         <span class="go">&rarr;</span>
       </a>
@@ -326,7 +1377,7 @@
     <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
     <div class="c2">
       <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
-      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">R&eacute;sum&eacute;</a>
     </div>
     <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
   </div>

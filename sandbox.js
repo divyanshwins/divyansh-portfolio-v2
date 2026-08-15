@@ -1,241 +1,53 @@
 /* ==========================================================================
-   SANDBOX.JS — booting real apps inside the portfolio
+   SANDBOX.JS
    --------------------------------------------------------------------------
-   Two behaviours, both built on the same fact: the apps under assets/sandbox/
-   are served from this origin, so the parent page can reach into the guest
-   document. That is what makes it possible to show a live product on a work
-   card without the card losing its manners.
+   Boots the real build inside a case study, and — where a section is about
+   the component set rather than the product — drives that running build from
+   a row of chips, so a described component and a shown component are the same
+   object rather than two things kept in sync by hand.
 
-     Thumbnails  A MacBook screen on a work card runs the project's real
-                 landing page. It scrolls, it hovers, it drifts on its own —
-                 and every click inside it is swallowed and turned into "open
-                 the case study", so the card behaves like a card.
-
-     Sandboxes   The same build on the case-study page at full size, with
-                 nothing intercepted. Boots when it scrolls into view.
-
-   Everything degrades: no JS, narrow screen, reduced motion or save-data and
-   the poster image is simply what you get.
+   All of it rests on one fact: assets/sandbox/ is served from this origin, so
+   the page can reach into the frame's document directly.
    ========================================================================== */
 (function () {
   'use strict';
 
-  var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var narrow  = window.matchMedia('(max-width: 760px)').matches;
   var conn    = navigator.connection || {};
   var thrifty = conn.saveData === true || /(^|-)2g$/.test(conn.effectiveType || '');
 
-  /* Booting a 1.5MB app is not something to do four times at once. Every
-     frame on the page — thumbnails and sandboxes alike — goes through this
-     one queue, so at most a single app is ever downloading and parsing. */
-  var queue = [], busy = false;
-  function enqueue(fn) { queue.push(fn); pump(); }
-  function pump() {
-    if (busy || !queue.length) return;
-    busy = true;
-    queue.shift()(function () { busy = false; pump(); });
-  }
-
-  /* --------------------------------------------------------- guest helpers */
-
-  /* The apps are not all shaped the same way. A marketing page scrolls its
-     document; a dashboard pins the document at viewport height and scrolls an
-     inner panel instead. Rather than special-casing each app, find whatever
-     element in the guest actually has the most to scroll — that is the thing
-     a visitor would reach for. */
-  function findScroller(doc) {
-    var best = doc.scrollingElement || doc.documentElement;
-    var bestOver = best ? best.scrollHeight - best.clientHeight : 0;
-    var all = doc.querySelectorAll('*');
-    for (var i = 0; i < all.length; i++) {
-      var el = all[i];
-      var over = el.scrollHeight - el.clientHeight;
-      if (over <= bestOver) continue;
-      var oy = getComputedStyle(el).overflowY;
-      if (oy === 'auto' || oy === 'scroll') { best = el; bestOver = over; }
-    }
-    return { el: best, range: bestOver };
-  }
+  /* ----------------------------------------------------------------- utils */
 
   function guestDoc(frame) {
     try { return frame.contentDocument || null; } catch (e) { return null; }
   }
 
-  /* ======================================================================
-     1. MACBOOK THUMBNAILS
-     ====================================================================== */
-
-  document.querySelectorAll('.mac-scene[data-app]').forEach(function (scene) {
-    var frame  = scene.querySelector('.mac-live');
-    var screen = scene.querySelector('.mac-screen');
-    var card   = scene.closest('.card');
-    if (!frame || !screen) return;
-
-    /* ---- scale ----
-       The guest is laid out at a fixed 1440x900 and shrunk to fit. Scaling
-       the frame rather than resizing it is deliberate: give the iframe the
-       card's real width and the app hits its own mobile breakpoints and
-       collapses into a phone layout, which is not the artefact being shown. */
-    var fit = function () {
-      var w = screen.clientWidth;
-      if (w) screen.style.setProperty('--mac-scale', (w / 1440).toFixed(5));
-    };
-    fit();
-    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(screen);
-    else window.addEventListener('resize', fit);
-
-    /* On a phone the machine is about 150px across — the UI inside would be
-       illegible and the download is pure cost. Same for save-data and for
-       anyone who has asked the OS for less motion. The poster stays. */
-    if (narrow || thrifty || reduce || !('IntersectionObserver' in window)) return;
-
-    var started = false;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting || started) return;
-        started = true;
-        io.disconnect();
-        scene.classList.add('is-booting');
-        enqueue(function (done) {
-          var settled = false;
-          var finish = function (ok) {
-            if (settled) return;
-            settled = true;
-            scene.classList.remove('is-booting');
-            if (ok) {
-              scene.classList.add('is-live');
-              screen.classList.add('live');
-            }
-            done();
-          };
-          frame.addEventListener('load', function () {
-            /* one frame of grace so the app has painted before we cross-fade
-               off the poster — otherwise the card flashes white */
-            setTimeout(function () {
-              var d = guestDoc(frame);
-              if (!d) { finish(false); return; }
-              lockGuest(frame, screen, card, d);
-              drift(scene, frame, d);
-              finish(true);
-            }, 420);
-          }, { once: true });
-          /* a wedged asset must not wedge the queue behind it */
-          setTimeout(function () { finish(false); }, 20000);
-          frame.src = scene.dataset.app;
-        });
-      });
-    }, { rootMargin: '160px 0px' });
-    io.observe(scene);
-  });
-
-  /* ---- the leash ----
-     Scroll and hover are the whole point, so they are left alone. Everything
-     that would take a visitor somewhere — clicks, keys, form submits, the
-     context menu — is caught in the capture phase on the guest document,
-     which runs before React's own root-level delegation ever sees it.
-
-     A click is not merely dropped, though: it does what clicking the card
-     does. Anything else would read as a broken screenshot. */
-  function lockGuest(frame, screen, card, d) {
-    var href = card && card.getAttribute('href');
-
-    var swallow = function (ev) {
-      ev.preventDefault();
-      ev.stopImmediatePropagation();
-      /* click LAST, after the event is already neutralised, so navigating
-         away can never be mistaken for the guest handling the click */
-      if (ev.type === 'click' && href) window.location.href = href;
-    };
-    ['mousedown', 'mouseup', 'click', 'auxclick', 'dblclick',
-     'submit', 'keydown', 'contextmenu', 'touchstart'
-    ].forEach(function (t) { d.addEventListener(t, swallow, true); });
-
-    /* Belt and braces for the one case capture cannot reach: a real
-       navigation started by the browser rather than by a handler. */
-    d.querySelectorAll('a[href]').forEach(function (a) { a.removeAttribute('href'); });
-    d.querySelectorAll('a[target], form[target]').forEach(function (el) {
-      el.removeAttribute('target');
-    });
-
-    /* The cursor bubble that trails over a work card is driven by mousemove
-       on the card — which stops firing the moment the pointer crosses into
-       the iframe, leaving the bubble frozen mid-card. Replay the guest's
-       moves onto the card in PARENT coordinates and it keeps flowing as if
-       the frame were not there. */
-    if (card) {
-      d.addEventListener('mousemove', function (ev) {
-        var r = frame.getBoundingClientRect();
-        var k = r.width / 1440;
-        card.dispatchEvent(new MouseEvent('mousemove', {
-          clientX: r.left + ev.clientX * k,
-          clientY: r.top  + ev.clientY * k,
-          bubbles: true
-        }));
-      }, true);
+  /* Find a control in the guest by what it SAYS, not by where it sits. A
+     class name or an nth-child path breaks the next time the app is rebuilt;
+     the visible label of a tab is the thing least likely to move without
+     somebody noticing. Falls back to the accessible name, which is how the
+     icon-only layout switches are reachable at all. */
+  function findControl(doc, needle) {
+    var want = needle.toLowerCase();
+    var nodes = doc.querySelectorAll('button, [role="button"], [role="tab"], a');
+    var loose = null;
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      var text = (el.innerText || '').replace(/\s+/g, ' ').trim().toLowerCase();
+      if (text === want) return el;
+      if (!loose && text.indexOf(want) === 0) loose = el;
     }
-  }
-
-  /* ---- ambient drift ----
-     A still screen inside a laptop reads as a screenshot of a laptop. A slow
-     travel down the page reads as software. It ping-pongs with a dwell at
-     each end, holds still whenever a person is actually looking at it — hover,
-     hidden tab, off-screen card — and gives up permanently the first time
-     they scroll it themselves, because competing with the visitor for control
-     of a scrollbar is the most annoying thing an interface can do. */
-  function drift(scene, frame, d) {
-    var found = findScroller(d);
-    var el = found.el;
-    if (!el || found.range < 120) return;
-
-    /* A guest that sets `scroll-behavior: smooth` — the verJSON site does —
-       turns every scrollTop assignment into an ANIMATION, and writing one
-       each frame restarts that animation from a standing start sixty times a
-       second, so the page crawls and manual reads come back stale. Ambient
-       drift wants instant positioning; the guest's smooth anchor scrolling is
-       no loss here, because clicks are swallowed in a thumbnail anyway. */
-    el.style.scrollBehavior = 'auto';
-    d.documentElement.style.scrollBehavior = 'auto';
-
-    /* One fixed speed reads completely differently on a 600px dashboard panel
-       than on a 15,000px marketing page — the first would blur past, the
-       second would look frozen. Scale it to the distance and clamp both ends
-       so every card drifts at a rate the eye registers as deliberate. */
-    var SPEED = Math.max(22, Math.min(85, found.range / 24));
-    var DWELL = 1500;    // ms held at each end
-    var dir = 1, holdUntil = 0, last = 0, hovering = false, surrendered = false;
-
-    d.addEventListener('wheel',     function () { surrendered = true; }, { passive: true, capture: true });
-    d.addEventListener('touchmove', function () { surrendered = true; }, { passive: true, capture: true });
-    d.addEventListener('mouseover', function () { hovering = true;  }, true);
-    d.addEventListener('mouseout',  function () { hovering = false; }, true);
-
-    var visible = true;
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (es) {
-        es.forEach(function (e) { visible = e.isIntersecting; });
-      }, { threshold: 0.15 }).observe(scene);
+    if (loose) return loose;
+    var labelled = doc.querySelectorAll('[aria-label], [title]');
+    for (var j = 0; j < labelled.length; j++) {
+      var name = (labelled[j].getAttribute('aria-label') ||
+                  labelled[j].getAttribute('title') || '').toLowerCase();
+      if (name.indexOf(want) === 0) return labelled[j];
     }
-
-    function step(ts) {
-      if (surrendered) return;
-      requestAnimationFrame(step);
-      if (!last) { last = ts; return; }
-      var dt = Math.min(ts - last, 64) / 1000;
-      last = ts;
-      if (hovering || document.hidden || !visible || ts < holdUntil) return;
-
-      var range = el.scrollHeight - el.clientHeight;
-      if (range < 40) return;
-      var next = el.scrollTop + dir * SPEED * dt;
-      if (next <= 0)          { next = 0;     dir =  1; holdUntil = ts + DWELL; }
-      else if (next >= range) { next = range; dir = -1; holdUntil = ts + DWELL; }
-      el.scrollTop = next;
-    }
-    requestAnimationFrame(step);
+    return null;
   }
 
   /* ======================================================================
-     2. CASE-STUDY SANDBOXES
+     1. THE SANDBOX
      ====================================================================== */
 
   document.querySelectorAll('.sb-stage[data-app]').forEach(function (stage) {
@@ -244,18 +56,18 @@
     var win    = stage.closest('.sb-win');
     if (!frame) return;
 
-    /* A dashboard with a fixed desktop chrome has a width below which it
-       stops being the thing you designed and becomes its own tablet build.
-       data-w declares that intended viewport; the frame is laid out at it and
-       scaled down to whatever space the page can give, rather than being
-       handed a narrow box and quietly reflowing. Scaling never goes above 1 —
-       blowing a 1280px app up to 1400 would just make it look wrong. */
+    /* An app with a fixed desktop chrome has a width below which it stops
+       being the thing that was designed and becomes its own tablet build.
+       data-w declares that intended viewport: the frame is laid out at it and
+       scaled to fit, rather than handed a narrow box and left to reflow.
+       Never scaled above 1 — blowing a 1280px app up to 1900 looks wrong in a
+       way that reads as a mistake rather than a choice. */
     function fitStage() {
       var w = parseInt(stage.dataset.w, 10);
       if (!w) return;
-      var box = stage.clientWidth;
-      if (!box) return;
-      var k = Math.min(1, box / w);
+      var space = stage.clientWidth;
+      if (!space) return;
+      var k = Math.min(1, space / w);
       frame.style.width  = w + 'px';
       frame.style.height = (stage.clientHeight / k) + 'px';
       frame.style.transform = 'scale(' + k.toFixed(5) + ')';
@@ -269,32 +81,30 @@
       if (booted) return;
       booted = true;
       stage.classList.add('booting');
-      enqueue(function (done) {
-        var settled = false;
-        var finish = function (ok) {
-          if (settled) return;
-          settled = true;
-          stage.classList.remove('booting');
-          if (ok) {
-            stage.classList.add('ready');
-            if (win) win.classList.add('ready');
-            watchFirstTouch(stage, frame);
-          }
-          done();
-        };
-        frame.addEventListener('load', function () {
-          setTimeout(function () { finish(true); }, 300);
-        }, { once: true });
-        setTimeout(function () { finish(false); }, 25000);
-        frame.src = stage.dataset.app;
-      });
+
+      var settled = false;
+      var finish = function (ok) {
+        if (settled) return;
+        settled = true;
+        stage.classList.remove('booting');
+        if (!ok) return;
+        stage.classList.add('ready');
+        if (win) win.classList.add('ready');
+        watchFirstTouch(stage, frame);
+      };
+      frame.addEventListener('load', function () {
+        /* the app mounts a beat after load fires; driving the component index
+           any sooner finds a document that is still empty */
+        setTimeout(function () { finish(true); }, 700);
+      }, { once: true });
+      /* a wedged asset leaves the poster and the launch button in place
+         rather than an empty frame that reads as broken */
+      setTimeout(function () { finish(false); }, 25000);
+      frame.src = stage.dataset.app;
     }
 
     if (launch) launch.addEventListener('click', boot);
 
-    /* Auto-boot as it scrolls up, so by the time the section is read the app
-       is already running — but never on a metered connection, where the
-       button keeps the decision with the person paying for the bytes. */
     if (!thrifty && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); boot(); } });
@@ -302,7 +112,6 @@
       io.observe(stage);
     }
 
-    /* reset / open-in-tab */
     var scope = win || stage;
     var reset = scope.querySelector('[data-sb-reset]');
     if (reset) reset.addEventListener('click', function () {
@@ -313,9 +122,9 @@
     if (pop) pop.setAttribute('href', stage.dataset.app);
   });
 
-  /* The hint is an invitation, and an invitation that stays on screen after
-     it has been accepted is just clutter. Any real input inside the guest
-     retires it for good. */
+  /* The hint is an invitation, and an invitation left on screen after it has
+     been accepted is just clutter. Any real input inside the guest retires it
+     for good. */
   function watchFirstTouch(stage, frame) {
     var d = guestDoc(frame);
     if (!d) return;
@@ -324,4 +133,192 @@
       d.addEventListener(t, mark, { capture: true, once: true, passive: true });
     });
   }
+
+  /* ======================================================================
+     2. THE COMPONENT LIBRARY
+     --------------------------------------------------------------------
+     Every tile shows an exact 2x crop of its component, captured from the
+     build. That image is the default and it is always right: it needs no
+     boot, and it survives the case where the page cannot reach into a frame
+     at all.
+
+     That case is the common one, not an edge case. Opened straight off disk,
+     a file:// document is an opaque origin, so contentDocument is null and
+     every crop measurement fails — which is exactly what left eight tiles
+     reading "Loading component" forever. The images mean the section is
+     correct there too; the live upgrade simply is not offered.
+
+     Where it IS reachable, pointing at a tile and pressing Interact boots
+     that one frame, drives it to the component's state, crops to the same
+     box and fades it in over the image. One at a time, on demand, so the
+     page never spends a minute mounting eight copies of a React app nobody
+     asked to run.
+     ====================================================================== */
+
+  /* An opaque origin cannot be probed for directly, so this asks the question
+     the honest way: mint a frame, look inside it, believe the answer. */
+  var canReachFrames = (function () {
+    if (location.protocol === 'file:') return false;
+    try {
+      var t = document.createElement('iframe');
+      t.setAttribute('aria-hidden', 'true');
+      t.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
+      document.body.appendChild(t);
+      var reachable = !!(t.contentDocument && t.contentDocument.body !== undefined);
+      document.body.removeChild(t);
+      return reachable;
+    } catch (e) { return false; }
+  })();
+
+  function locate(doc, spec) {
+    var el = null, i;
+    if (spec.svg) {
+      var best = null, area = 0, svgs = doc.querySelectorAll('svg');
+      for (i = 0; i < svgs.length; i++) {
+        var sr = svgs[i].getBoundingClientRect();
+        /* a floor, or this picks up a 20px toolbar icon and calls it the
+           organisation network */
+        if (sr.width < 240 || sr.height < 200) continue;
+        if (sr.width * sr.height > area) { area = sr.width * sr.height; best = svgs[i]; }
+      }
+      el = best;
+    } else if (spec.has) {
+      var small = null, least = Infinity;
+      var cands = doc.querySelectorAll('div,section,article,aside,header,form,button');
+      for (i = 0; i < cands.length; i++) {
+        var t = cands[i].innerText || '', all = true;
+        for (var k = 0; k < spec.has.length; k++) {
+          if (t.indexOf(spec.has[k]) === -1) { all = false; break; }
+        }
+        if (!all) continue;
+        var r = cands[i].getBoundingClientRect();
+        if (r.width < 40 || r.height < 20) continue;
+        if (r.width * r.height < least) { least = r.width * r.height; small = cands[i]; }
+      }
+      el = small;
+    }
+    for (i = 0; el && i < (spec.up || 0); i++) el = el.parentElement;
+    if (!el) return null;
+    var b = el.getBoundingClientRect();
+    return { x: b.left, y: b.top, w: b.width, h: b.height };
+  }
+
+  /* ---------- board zoom ----------
+     `zoom` rather than `transform: scale` on purpose: zoom is laid out, so
+     the board's scroll extents grow and shrink with it. A transform would
+     leave the canvas claiming its 100% size and make half the artboard
+     unreachable at 150%. */
+  document.querySelectorAll('.ds-board').forEach(function (board) {
+    var canvas = board.querySelector('.ds-canvas');
+    var bar = board.closest('.sb-win');
+    if (!canvas || !bar) return;
+    var STEPS = [0.5, 0.65, 0.8, 1, 1.25, 1.5];
+    var at = 3;
+    var pct = bar.querySelector('.ds-pct');
+    function apply() {
+      canvas.style.setProperty('--z', STEPS[at]);
+      if (pct) pct.textContent = Math.round(STEPS[at] * 100) + '%';
+    }
+    bar.querySelectorAll('[data-zoom]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var d = parseInt(btn.dataset.zoom, 10);
+        at = Math.max(0, Math.min(STEPS.length - 1, at + d));
+        apply();
+      });
+    });
+    apply();
+  });
+
+  var lib = document.querySelectorAll('.ds-spec[data-app]');
+  if (lib.length && !canReachFrames) document.body.classList.add('ds-nolive');
+
+  lib.forEach(function (item) {
+    var hold  = item.querySelector('.ds-frame');
+    var frame = item.querySelector('iframe');
+    var go    = item.querySelector('.ds-go');
+    var shot  = item.querySelector('.ds-shot');
+    if (!hold || !frame || !canReachFrames) return;
+
+    var rect = null;
+
+    /* Size the frame to the component, not the other way round: scale down to
+       fit the column, never up past 1:1. Measuring the ITEM rather than the
+       frame matters — the frame's width is about to be overwritten, so reading
+       it back would ratchet the component smaller on every resize. */
+    /* On the board a specimen is already laid out at the component's own
+       width, so this is 1:1 in the normal case and only scales down if a
+       narrow window has squeezed the tile. Board zoom is applied with `zoom`
+       on an ancestor and multiplies through by itself — repeating it here
+       would square it. */
+    function place() {
+      if (!rect || !rect.w) return;
+      var space = item.clientWidth;
+      if (!space) return;
+      var k = Math.min(1, space / rect.w);
+      frame.style.transform =
+        'scale(' + k.toFixed(5) + ') translate(' + (-rect.x) + 'px,' + (-rect.y) + 'px)';
+    }
+
+    var started = false;
+    function goLive() {
+      if (started) return;
+      started = true;
+      item.classList.add('booting');
+      if (go) go.querySelector('span').textContent = 'Starting\u2026';
+
+      var settled = false;
+      var fail = function () {
+        if (settled) return;
+        settled = true;
+        item.classList.remove('booting');
+        started = false;
+        if (go) go.querySelector('span').textContent = 'Interact';
+      };
+      setTimeout(fail, 20000);
+
+      frame.addEventListener('load', function () {
+        setTimeout(function () {
+          var d = guestDoc(frame);
+          if (!d) { fail(); return; }
+          var steps = [], spec = {};
+          try { steps = JSON.parse(item.dataset.go || '[]'); } catch (e) {}
+          try { spec  = JSON.parse(item.dataset.target || '{}'); } catch (e) {}
+          var i = 0;
+          (function next() {
+            if (i < steps.length) {
+              var el = findControl(d, steps[i++]);
+              if (el) { try { el.click(); } catch (e) {} }
+              setTimeout(next, 520);
+              return;
+            }
+            /* graph layouts animate into place; measuring mid-flight crops
+               the component at a size it never actually is */
+            setTimeout(function () {
+              rect = locate(d, spec);
+              if (!rect) { fail(); return; }
+              settled = true;
+              place();
+              item.classList.remove('booting');
+              item.classList.add('live');
+            }, 1100);
+          })();
+        }, 700);
+      }, { once: true });
+
+      frame.src = item.dataset.app;
+    }
+
+    if (go) go.addEventListener('click', goLive);
+    /* a deliberate hover, not a passing one — sweeping the grid should not
+       boot every app on the way past */
+    var hoverTimer = null;
+    item.addEventListener('pointerenter', function (ev) {
+      if (ev.pointerType === 'touch') return;
+      hoverTimer = setTimeout(goLive, 900);
+    });
+    item.addEventListener('pointerleave', function () { clearTimeout(hoverTimer); });
+
+    if ('ResizeObserver' in window) new ResizeObserver(place).observe(item);
+    else window.addEventListener('resize', place);
+  });
 })();

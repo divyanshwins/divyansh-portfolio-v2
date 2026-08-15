@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact — Divyansh Srivastava</title>
-<meta name="description" content="Email, WhatsApp and phone. Based in Roorkee, India.">
+<meta name="description" content="Email, WhatsApp, LinkedIn and résumé. Based in Roorkee, India.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -12,98 +12,158 @@
 <link rel="stylesheet" href="core.css">
 
 <style>
+/* ==========================================================================
+   CONTACT
+   --------------------------------------------------------------------------
+   This page has one job and it is not to be informative. Somebody who reaches
+   it has already decided; everything here exists to get them from that
+   decision to a message in under five seconds. So: one centred column, the
+   address as the largest thing on the page, four ways to reach me, and
+   nothing else competing for the click.
+
+   The old version put the address in a left-aligned band whose `padding`
+   shorthand overrode .wrap's padding-inline, which is why it ran off the
+   left edge of the window. Nothing here sets padding on a .wrap element.
+   ========================================================================== */
+
+.cwrap {
+  max-width: 940px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* ---------- head ---------- */
 .chead {
-  padding-top: clamp(70px, 13vh, 130px);
-  padding-bottom: clamp(30px, 4.4vw, 60px);
-  align-items: end;
+  padding-top: clamp(84px, 15vh, 160px);
+  padding-bottom: clamp(18px, 2.6vw, 34px);
 }
-.chead .rail {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 14px;
+.chead .label { display: block; margin-bottom: clamp(12px, 1.6vw, 20px); }
+.chead h1 { margin-inline: auto; }
+.chead .note {
+  margin-inline: auto;
+  margin-top: clamp(16px, 2.2vw, 26px);
+  max-width: 46ch;
 }
-@media (max-width: 900px) { .chead .rail { margin-bottom: 22px; } }
 
-/* the email as the page's real headline */
-.mailto {
-  display: block;
-  padding: clamp(26px, 4vw, 60px) 0 clamp(30px, 4.4vw, 66px);
-  border-bottom: 1px solid var(--line);
+/* ---------- the address ----------
+   The page's real headline. It is a link, it is centred, and it wraps at the
+   @ rather than mid-word so it never breaks into nonsense on a phone. */
+.mail {
+  padding-top: clamp(30px, 4.6vw, 68px);
+  padding-bottom: clamp(14px, 2vw, 26px);
 }
-.mailto a {
+.mail a {
   display: inline-block;
-  font-size: clamp(24px, 4.4vw, 118px);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  word-break: break-word;
+  max-width: 100%;
+  font-size: clamp(23px, 4.3vw, 74px);
+  line-height: 1.08;
+  letter-spacing: -0.032em;
+  overflow-wrap: anywhere;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.45s var(--ease);
+  transition: border-color 0.4s var(--ease);
 }
-.mailto a:hover { border-color: var(--ink); }
-.mailto .label { margin-bottom: clamp(10px, 1.4vw, 18px); }
+.mail a:hover { border-color: var(--ink); }
 
-/* channels */
-.chan { padding-top: clamp(44px, 6.5vw, 96px); }
-.chan-grid {
+/* copy is the quiet second option for people who want to paste it into their
+   own client rather than fire a mailto: at whatever the OS thinks is default */
+.copy {
+  margin-top: clamp(16px, 2.2vw, 26px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.copy:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.copy svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.copy.done { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* ---------- the four ways ----------
+   Four, not six. Every extra tile is a chance to send somebody somewhere that
+   is not a message to me — which on a contact page is a bug, not a feature. */
+.ways {
+  padding-top: clamp(40px, 6vw, 84px);
+  padding-bottom: clamp(48px, 8vw, 120px);
+}
+.ways-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
   border-radius: var(--r);
   overflow: hidden;
-  margin-top: clamp(14px, 2vw, 22px);
+  text-align: left;
 }
-.chan-grid a,
-.chan-grid div {
+@media (max-width: 860px) { .ways-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .ways-grid { grid-template-columns: 1fr; } }
+
+.way {
   background: var(--bg);
-  padding: clamp(20px, 2.4vw, 32px);
+  padding: clamp(20px, 2.4vw, 30px);
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  transition: background 0.35s var(--ease);
+  gap: 9px;
+  min-height: 168px;
+  transition: background 0.32s var(--ease), color 0.32s var(--ease);
 }
-.chan-grid a:hover { background: #fff; }
-.chan-grid .k {
+.way:hover { background: #fff; }
+.way .ic {
+  width: 22px; height: 22px;
+  margin-bottom: 4px;
+  fill: none; stroke: currentColor; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.way .k {
+  font-size: clamp(14.5px, 0.68vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.008em;
+}
+.way .v {
   font-size: clamp(11.5px, 0.52vw, 14px);
   color: var(--mute);
+  line-height: 1.5;
 }
-.chan-grid .v {
-  font-size: clamp(16px, 1.15vw, 26px);
-  letter-spacing: -0.012em;
-  line-height: 1.25;
-  word-break: break-word;
-}
-.chan-grid .go {
+.way .go {
   margin-top: auto;
   padding-top: 14px;
   font-size: clamp(11.5px, 0.52vw, 14px);
   color: var(--mute);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  transition: color 0.32s var(--ease);
 }
-.chan-grid a:hover .go { color: var(--ink); }
+.way:hover .go { color: var(--ink); }
 
-/* the WhatsApp cell reads as the primary action */
-.chan-grid a.hero-cell { background: var(--ink); color: var(--bg); }
-.chan-grid a.hero-cell .k,
-.chan-grid a.hero-cell .go { color: rgba(255, 255, 255, 0.6); }
-.chan-grid a.hero-cell:hover { background: #000; }
-.chan-grid a.hero-cell:hover .go { color: #fff; }
+/* WhatsApp is the fastest reply, so it is the one cell that looks like a
+   button rather than a listing */
+.way.lead { background: var(--ink); color: var(--bg); }
+.way.lead .v, .way.lead .go { color: rgba(255, 255, 255, 0.62); }
+.way.lead:hover { background: #000; }
+.way.lead:hover .go { color: #fff; }
 
-/* availability strip */
-.avail { padding-top: clamp(44px, 6.5vw, 96px); align-items: start; }
-.avail .body { max-width: 52ch; }
-.dot {
-  display: inline-block;
+/* ---------- footnote ---------- */
+.foot-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: clamp(11.5px, 0.52vw, 14px);
+  color: var(--mute);
+}
+.foot-note .dot {
   width: 7px; height: 7px;
   border-radius: 50%;
   background: #22c55e;
-  margin-right: 8px;
-  vertical-align: middle;
+  flex: none;
 }
+.foot-note .sep { opacity: 0.4; }
 </style>
 </head>
 
@@ -135,73 +195,76 @@
 
   <main id="main">
 
-    <header class="chead wrap spine">
-      <div class="rail">
-        <p class="note">
+    <header class="chead wrap">
+      <div class="cwrap">
+        <p class="label">Get in touch</p>
+        <h1 class="d-xl solo">Contact</h1>
+        <p class="note" data-r>
           Open to product design roles from 2027, and to interesting problems
-          before then. Fastest reply is WhatsApp.
+          before then. WhatsApp gets the fastest reply.
         </p>
-        <p class="label">Roorkee, Uttarakhand &middot; IST</p>
       </div>
-      <h1 class="d-xl solo">Contact</h1>
     </header>
 
-    <section class="mailto wrap">
-      <p class="label">Write to me</p>
-      <a href="mailto:divyanshbittu2002@gmail.com">divyanshbittu2002@gmail.com</a>
-    </section>
-
-    <section class="chan wrap" aria-labelledby="chan-h">
-      <h2 class="label" id="chan-h">Every other way</h2>
-
-      <div class="chan-grid">
-        <a class="hero-cell" id="waLink" href="#" target="_blank" rel="noopener" data-r>
-          <span class="k">WhatsApp</span>
-          <span class="v" id="waNum">Message me</span>
-          <span class="go">Open chat &#8599;</span>
-        </a>
-
-        <a id="telLink" href="#" data-r>
-          <span class="k">Phone</span>
-          <span class="v" id="telNum">Call</span>
-          <span class="go">Tap to dial &#8599;</span>
-        </a>
-
-        <a href="mailto:divyanshbittu2002@gmail.com" data-r>
-          <span class="k">Email</span>
-          <span class="v">divyanshbittu2002<wbr>@gmail.com</span>
-          <span class="go">Compose &#8599;</span>
-        </a>
-
-        <a href="https://www.linkedin.com/in/divyansh-srivastava" target="_blank" rel="noopener" data-r>
-          <span class="k">LinkedIn</span>
-          <span class="v">Professional</span>
-          <span class="go">Connect &#8599;</span>
-        </a>
-
-        <a href="https://www.behance.net/divyanshsrivastava" target="_blank" rel="noopener" data-r>
-          <span class="k">Behance</span>
-          <span class="v">Design work</span>
-          <span class="go">Browse &#8599;</span>
-        </a>
-
-        <a data-resume href="assets/resume.pdf" data-r>
-          <span class="k">Résumé</span>
-          <span class="v">PDF</span>
-          <span class="go">Open &amp; download &#8599;</span>
-        </a>
+    <section class="mail wrap" aria-label="Email address">
+      <div class="cwrap">
+        <a href="mailto:divyanshbittu2002@gmail.com">divyanshbittu2002@gmail.com</a>
+        <br>
+        <button class="copy" type="button" data-copy="divyanshbittu2002@gmail.com">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.2"/><path d="M5.5 15H4.6A1.6 1.6 0 0 1 3 13.4V4.6A1.6 1.6 0 0 1 4.6 3h8.8A1.6 1.6 0 0 1 15 4.6v.9"/></svg>
+          <span>Copy address</span>
+        </button>
       </div>
     </section>
 
-    <section class="avail wrap spine">
-      <h2 class="label">Availability</h2>
-      <div>
-        <p class="body" data-r>
+    <section class="ways wrap" aria-labelledby="ways-h">
+      <div class="cwrap">
+        <h2 class="label" id="ways-h" style="display:block;margin-bottom:clamp(14px,2vw,22px)">Four ways to reach me</h2>
+
+        <div class="ways-grid">
+          <!-- wa.me is the link to use rather than web.whatsapp.com directly:
+               on a desktop browser it lands on WhatsApp Web with the chat
+               already open, and on a phone it opens the app — one href that
+               is correct in both places. -->
+          <a class="way lead"
+             href="https://wa.me/918576069278?text=Hi%20Divyansh%20%E2%80%94%20I%20saw%20your%20portfolio."
+             target="_blank" rel="noopener" data-r>
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.2 20.8l1.3-4.6A8.4 8.4 0 1 1 7.9 19.5z"/><path d="M8.6 8.2c.3-.7.6-.7.9-.7h.7c.2 0 .5 0 .8.6l1 2.3c.1.3.1.5 0 .7l-.5.7c-.2.2-.3.4-.1.7a7.4 7.4 0 0 0 3.4 3c.3.2.5.1.7-.1l.7-.8c.2-.3.4-.2.7-.1l2.2 1c.3.2.4.4.4.6v.7c0 .4-.3.8-.9 1.1a4 4 0 0 1-2.3.4c-1.6-.2-4-1.3-5.9-3.2s-3-4.3-3.2-5.9a4 4 0 0 1 .4-2.3z"/></svg>
+            <span class="k">WhatsApp</span>
+            <span class="v">+91 85760 69278</span>
+            <span class="go">Open my chat &#8599;</span>
+          </a>
+
+          <a class="way" href="mailto:divyanshbittu2002@gmail.com" data-r>
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.2"/><path d="M3 7l8.3 5.6a1.3 1.3 0 0 0 1.4 0L21 7"/></svg>
+            <span class="k">Email</span>
+            <span class="v">divyanshbittu2002<wbr>@gmail.com</span>
+            <span class="go">Compose &#8599;</span>
+          </a>
+
+          <a class="way" href="https://www.linkedin.com/in/divyansh-srivastava"
+             target="_blank" rel="noopener" data-r>
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.2 10.4v6.2M7.2 7.4v.1M11.4 16.6v-3.4a2.2 2.2 0 0 1 4.4 0v3.4M11.4 10.4v.6"/></svg>
+            <span class="k">LinkedIn</span>
+            <span class="v">Roles, referrals and the formal route</span>
+            <span class="go">Connect &#8599;</span>
+          </a>
+
+          <a class="way" data-resume href="assets/resume.pdf" data-r>
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M13.5 3v5.5H19"/><path d="M8.8 13h6.4M8.8 16.4h4.4"/></svg>
+            <span class="k">Résumé</span>
+            <span class="v">One page, PDF</span>
+            <span class="go">Open &amp; download &#8599;</span>
+          </a>
+        </div>
+
+        <p class="foot-note" style="margin-top:clamp(22px,3vw,34px)" data-r>
           <span class="dot" aria-hidden="true"></span>
-          Currently in the second year of my M.Des at IIT Roorkee, graduating
-          2027. I take on freelance brand and product work alongside it, and
-          I'm always happy to talk through a problem even if there's no project
-          attached to it.
+          <span>Usually replies the same day</span>
+          <span class="sep">&middot;</span>
+          <span>Roorkee, Uttarakhand &mdash; IST</span>
+          <span class="sep">&middot;</span>
+          <span>M.Des at IIT Roorkee, graduating 2027</span>
         </p>
       </div>
     </section>
@@ -232,27 +295,37 @@
 </footer>
 
 <script>
-/* =====================================================================
-   >>> DIVYANSH: PUT YOUR NUMBER HERE — this is the only place to edit.
-   Country code, no +, no spaces. e.g. '919876543210' for +91 98765 43210
-   Leave it as '' and the WhatsApp / Phone cells hide themselves rather
-   than shipping a dead link.
-   ===================================================================== */
-var PHONE = '';
-var PRESET = "Hi Divyansh — saw your portfolio.";
-
-(function () {
-  var wa = document.getElementById('waLink');
-  var tel = document.getElementById('telLink');
-
-  if (!PHONE) { wa.remove(); tel.remove(); return; }
-
-  var pretty = '+' + PHONE.replace(/^(\d{2})(\d{5})(\d{5})$/, '$1 $2 $3');
-  wa.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(PRESET);
-  document.getElementById('waNum').textContent = pretty;
-  tel.href = 'tel:+' + PHONE;
-  document.getElementById('telNum').textContent = pretty;
-})();
+/* Copy-to-clipboard, with the only fallback that matters: navigator.clipboard
+   is undefined on any page not served over https (or localhost), which
+   includes opening the built site straight off disk. Selecting a temporary
+   node and running execCommand still works there. */
+document.querySelectorAll('[data-copy]').forEach(function (btn) {
+  var label = btn.querySelector('span');
+  var original = label.textContent;
+  btn.addEventListener('click', function () {
+    var text = btn.dataset.copy;
+    var done = function () {
+      btn.classList.add('done');
+      label.textContent = 'Copied';
+      setTimeout(function () {
+        btn.classList.remove('done');
+        label.textContent = original;
+      }, 1900);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+      return;
+    }
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  });
+});
 </script>
 <script src="site.js"></script>
 </body>

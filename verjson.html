@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Verjson — Website Development · Divyansh Srivastava</title>
-<meta name="description" content="PLACEHOLDER — one-sentence summary of the Verjson website build.">
+<title>verJSON — Company Website Redesign · Divyansh Srivastava</title>
+<meta name="description" content="A short one: a company-level site for an AI research lab with nine products, replacing a bought template that could only ever describe one of them.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -13,36 +13,6 @@
 <link rel="stylesheet" href="case.css">
 <link rel="stylesheet" href="sandbox.css">
 </head>
-
-<!--
-  ============================================================================
-  TEMPLATE — Verjson case study
-  ============================================================================
-  This page is scaffolding, not content. Everything marked PLACEHOLDER is
-  there to be overwritten; the structure around it is the same one arth.html
-  and fedex.html use, so the styling is already solved and you only ever
-  swap text.
-
-  What each part is for:
-    .chero          masthead — artwork left, title + "in brief" right.
-                    The h1 carries data-words: site.js splits it into words
-                    and lifts them on a stagger. Keep the attribute.
-    .facts          the four-up meta strip. Keep it to four; five wraps badly.
-    .sec.spine      a numbered section — .rail holds "0N — Name", the second
-                    child holds the content. Add or delete whole <section>s
-                    freely, but renumber the rails when you do.
-    .hmw            the "How might we" box — one per case study, in Overview.
-    .olist          numbered list of research themes.
-    .cards          2-up grid of short titled notes.
-    figure.fig      full-bleed screen plate + caption. Swap .shot-tbd on the
-                    .frame for <img src="..." alt="..."> when artwork lands.
-    .metrics        three headline numbers at the end.
-    .note-box       a quiet aside — ongoing-work notes, caveats, credits.
-
-  Artwork drops at assets/images/work/verjson.jpg (masthead) and
-  assets/images/work/verjson-01.jpg … for the plates.
-  ============================================================================
--->
 
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -73,123 +43,140 @@
   <main id="main">
 
     <header class="chero wrap">
-      <!-- swap for: <div class="chero-media"><img src="assets/images/work/verjson.jpg" alt="..."></div> -->
-      <div class="chero-media"><img src="assets/images/posters/verjson.jpg" alt="verJSON website hero — we build intelligence infrastructure"></div>
+      <div class="chero-media"><img src="assets/images/work/verjson.jpg" alt="verJSON website hero — we build intelligence infrastructure, on a laptop"></div>
       <div class="chero-text">
-        <p class="label">Case study &middot; 2026 &middot; Website development</p>
-        <h1 data-words>Verjson &mdash; PLACEHOLDER one-line framing of the build</h1>
+        <p class="label">Case study &middot; 2026 &middot; Website design &amp; front-end</p>
+        <h1 data-words>verJSON &mdash; a company site for a lab with nine products</h1>
         <div class="chero-brief">
           <p class="label">In brief</p>
           <p class="body">
-            PLACEHOLDER &mdash; three or four sentences. Who the site was for,
-            what was wrong with what they had, and what the new site does
-            differently. Write the outcome here, not the process; the sections
-            below are where the process goes.
+            The short one, and honestly so. verJSON is an AI research lab that
+            ships products &mdash; nine of them, each with its own site. What
+            they did not have was a page that described <i>the company</i>. They
+            were running a bought template that could only ever talk about one
+            thing at a time. This is the replacement: one company-level site
+            about what they do, how they work and which industries they work
+            in, with the products as evidence rather than as the subject.
           </p>
         </div>
       </div>
     </header>
 
     <div class="facts wrap">
-      <div><span class="k">Client</span><span class="v">PLACEHOLDER</span></div>
-      <div><span class="k">Role</span><span class="v">PLACEHOLDER &mdash; e.g. design &amp; front-end</span></div>
-      <div><span class="k">Stack</span><span class="v">PLACEHOLDER</span></div>
+      <div><span class="k">Client</span><span class="v">verJSON &mdash; AI research lab &amp; product studio</span></div>
+      <div><span class="k">Role</span><span class="v">Design &amp; front-end, end to end</span></div>
+      <div><span class="k">Surface</span><span class="v">One marketing site, light and dark</span></div>
       <div><span class="k">Year</span><span class="v">2026</span></div>
     </div>
 
-    <!-- ============ 01 OVERVIEW ============ -->
+    <!-- ============ 01 THE BRIEF ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">01 &mdash; Overview</p></div>
+      <div class="rail"><p class="label">01 &mdash; The brief</p></div>
       <div>
-        <h2>The problem <em>as it arrived</em></h2>
+        <h2>A company with nine products <em>and no company page</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; what the brief was, and what the real problem
-          underneath it turned out to be. Two short paragraphs beat one long
-          one here.
+          verJSON had bought a website. It worked, in the sense that it loaded
+          &mdash; but it was built on the assumption that a company is a
+          product, and verJSON is not. WAAutomate, Weavedesk, verJSON AI,
+          Propether, Sitenav, Scanzit, Kisaan Companion, Human Rights
+          Connected, Nomico: nine tools across agriculture, logistics, fashion,
+          finance, real estate and advocacy, each with its own site to sell
+          itself.
         </p>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; the constraint that shaped everything after it:
-          timeline, existing stack, someone else's brand guidelines, whatever
-          it actually was.
+          So the gap was not a better product page. It was the level above:
+          somewhere a visitor lands and understands <b>who this company is,
+          what it does, how it works and what it has shipped</b> &mdash;
+          without being pushed into any one product's funnel.
         </p>
         <div class="hmw" data-r>
           <span>How might we</span>
-          PLACEHOLDER &mdash; one sentence, phrased as a question, that the
-          rest of this page answers.
+          describe a lab that does many things without flattening it into a
+          list &mdash; so a visitor leaves knowing the company, not one of its
+          tools?
         </div>
       </div>
     </section>
 
-    <!-- ============ 02 RESEARCH ============ -->
+    <!-- ============ 02 THE DECISIONS ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">02 &mdash; Research</p></div>
+      <div class="rail"><p class="label">02 &mdash; What the site does</p></div>
       <div>
-        <h2>PLACEHOLDER &mdash; what you looked at</h2>
+        <h2>Company first, <em>products as proof</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; competitor audit, analytics on the old site,
-          stakeholder conversations, content inventory. Say what you did and
-          what it changed.
+          There was no elaborate discovery phase here and I am not going to
+          pretend there was. It is a website redesign, and the whole of the
+          thinking is in the running order: what a visitor is shown, and in
+          what sequence, so the argument lands before the catalogue does.
         </p>
+
         <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
-          <div class="o"><span class="n">01</span><span class="x">PLACEHOLDER finding</span></div>
-          <div class="o"><span class="n">02</span><span class="x">PLACEHOLDER finding</span></div>
-          <div class="o"><span class="n">03</span><span class="x">PLACEHOLDER finding</span></div>
+          <div class="o"><span class="n">01</span><span class="x"><b>Manifesto before menu.</b> <i>&ldquo;AI isn't a feature. It's the foundation.&rdquo;</i> &mdash; three positions (research-first, domain depth, ownership mindset) stated before a single product is named. This is the part the old site could not do at all.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>Research as the credential.</b> Six papers, with venue, date and page count, sitting <em>above</em> the products. A lab that publishes is making a different claim from an agency that ships, and the order on the page is the claim.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>Products as evidence, not pitches.</b> Nine tools, each with a live/beta/coming-soon state and a single line of what it does. Every one links out to its own site. Nothing on this page tries to close a sale for any of them.</span></div>
+          <div class="o"><span class="n">04</span><span class="x"><b>Process, in weeks.</b> Six steps with real durations attached &mdash; two weeks of field research, architecture in week three, a working MVP by day thirty. &ldquo;How do you work&rdquo; is the question a serious client actually asks, and it is answered in units they can plan around.</span></div>
+          <div class="o"><span class="n">05</span><span class="x"><b>Capabilities last.</b> Six accelerators &mdash; MLOps, classification, fine-tuning, vision and browser automation, EDA &mdash; for the visitor who has already decided they are interested and wants to know what can be bought.</span></div>
         </div>
-      </div>
-    </section>
 
-    <!-- ============ 03 APPROACH ============ -->
-    <section class="sec wrap spine">
-      <div class="rail"><p class="label">03 &mdash; Approach</p></div>
-      <div>
-        <h2>PLACEHOLDER &mdash; <em>the decisions</em></h2>
-        <p class="body" data-r>
-          PLACEHOLDER &mdash; information architecture, the type and colour
-          system, how the page templates were factored. One paragraph of
-          intent, then the four notes below.
+        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          The visual language does one job: make a research lab look like a
+          research lab. Monospace section markers, a stated count against every
+          section heading (<code>6 PAPERS</code>, <code>9 TOOLS</code>,
+          <code>SIX STEPS</code>), generous rules, one blue accent, and a
+          light/dark pair where both themes were tuned rather than one being
+          inverted at the end.
         </p>
-        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
-          <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
-          </article>
-          <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
-          </article>
-          <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
-          </article>
-          <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
-          </article>
-        </div>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/verjson-01.jpg" width="1440" height="900"
+                 alt="The products section — nine tools, each with a status, a one-line description and its own outbound link" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            Products &mdash; &ldquo;research becomes real when it ships&rdquo;.
+            Each tool states its status, what it does in one line, and links out
+            to its own site. The counter in the section header is doing quiet
+            work: nine is the point.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/verjson-02.jpg" width="1440" height="900"
+                 alt="The process section — six steps with durations attached" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            Process &mdash; six steps, each with a duration rather than an
+            adjective. Week 1&ndash;2, week 3, day 30, month 2, ongoing,
+            handoff.
+          </figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- ============ 04 THE BUILD ============ -->
+    <!-- ============ 03 THE BUILD ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">04 &mdash; The build</p></div>
+      <div class="rail"><p class="label">03 &mdash; The build</p></div>
       <div>
         <h2>The site, <em>running</em></h2>
         <p class="body" data-r>
-          The shipped front end, embedded. Scroll the whole thing, work through
-          the navigation, and try the light/dark toggle in the header &mdash; the
-          type ramp and the section rhythm were tuned against both themes rather
-          than one being an afterthought.
+          This is the part of the case study that matters, so it gets the space.
+          The front end itself is embedded below &mdash; not a screen recording.
+          Scroll the whole thing, work through the navigation, and use the
+          theme toggle in the header: the type ramp and the section rhythm were
+          tuned against both themes rather than one being an afterthought.
         </p>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; replace with the paragraph pointing at what you
-          want looked at: the scroll choreography, the research index, whichever
-          part of the build carried the argument.
+          The thing worth watching for is the running order. By the time you
+          reach the nine products you have already been told what the company
+          believes and what it has published, so the catalogue reads as
+          evidence rather than as the argument.
         </p>
 
-        <div class="sandbox" data-r>
+        <div class="sandbox sandbox--wide" data-r>
           <div class="sb-head">
             <span class="sb-title">verJSON website</span>
-            <span class="sb-sub">Full site — hero, research index, products and contact.</span>
+            <span class="sb-sub">Manifesto, research index, nine products, process and capabilities.</span>
           </div>
 
           <div class="sb-win">
@@ -205,8 +192,8 @@
                 <button class="sb-tool" type="button" data-sb-reset>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg><span class="sb-label">Reset</span>
                 </button>
-                <a class="sb-tool" data-sb-open target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Full screen</span>
+                <a class="sb-tool sb-tool--go" data-sb-open target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Open full screen</span>
                 </a>
               </div>
             </div>
@@ -229,27 +216,27 @@
       </div>
     </section>
 
-    <!-- ============ 05 CONCLUSION ============ -->
+    <!-- ============ 04 TAKEAWAY ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">05 &mdash; Conclusion</p></div>
+      <div class="rail"><p class="label">04 &mdash; Takeaway</p></div>
       <div>
-        <h2>What it <em>achieves</em></h2>
+        <h2>Small project, <em>one real idea</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; the outcome in plain terms. If you have numbers,
-          they go in the metrics row; if you don't, say what changed
-          qualitatively rather than inventing a figure.
+          I am not going to inflate this one. There was no research programme
+          and no novel interaction; it is a marketing site, and its value is
+          that it exists at the right altitude. The one idea worth keeping is
+          that <b>a company with many products needs a page that is about none
+          of them</b> &mdash; and that the sequence of sections is the whole
+          argument, because a visitor who meets the catalogue first never gets
+          to the company at all.
         </p>
-
-        <div class="metrics" data-r>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-        </div>
-
         <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
           <p class="body">
-            <b>Template page.</b> This case study is scaffolded and waiting on
-            copy and artwork. Delete this box once the page is written.
+            <b>On the content.</b> Paper titles, venues and author names in the
+            research index are stand-ins pending the client's final list; the
+            nine products, their statuses and their descriptions are real. The
+            build embedded above is the production front end running against
+            static content, with no backend attached.
           </p>
         </div>
       </div>
@@ -283,7 +270,7 @@
     <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
     <div class="c2">
       <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
-      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">R&eacute;sum&eacute;</a>
     </div>
     <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
   </div>

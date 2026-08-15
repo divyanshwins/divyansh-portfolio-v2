@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Schema &amp; Lineage — Data Infrastructure · Divyansh Srivastava</title>
-<meta name="description" content="PLACEHOLDER — one-sentence summary of the schema and lineage management system.">
+<title>Schema &amp; Lineage — Cross-Project Connection Map · Divyansh Srivastava</title>
+<meta name="description" content="A product-level overview layer for product managers: every project's pages, modules, endpoints, tables and vendors on one map — with branches, schema versions, ownership, commit activity and reachable sensitive data painted onto it.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -13,36 +13,6 @@
 <link rel="stylesheet" href="case.css">
 <link rel="stylesheet" href="sandbox.css">
 </head>
-
-<!--
-  ============================================================================
-  TEMPLATE — Schema & Lineage case study
-  ============================================================================
-  This page is scaffolding, not content. Everything marked PLACEHOLDER is
-  there to be overwritten; the structure around it is the same one arth.html
-  and fedex.html use, so the styling is already solved and you only ever
-  swap text.
-
-  What each part is for:
-    .chero          masthead — artwork left, title + "in brief" right.
-                    The h1 carries data-words: site.js splits it into words
-                    and lifts them on a stagger. Keep the attribute.
-    .facts          the four-up meta strip. Keep it to four; five wraps badly.
-    .sec.spine      a numbered section — .rail holds "0N — Name", the second
-                    child holds the content. Add or delete whole <section>s
-                    freely, but renumber the rails when you do.
-    .hmw            the "How might we" box — one per case study, in Overview.
-    .olist          numbered list of research themes.
-    .cards          2-up grid of short titled notes.
-    figure.fig      full-bleed screen plate + caption. Swap .shot-tbd on the
-                    .frame for <img src="..." alt="..."> when artwork lands.
-    .metrics        three headline numbers at the end.
-    .note-box       a quiet aside — ongoing-work notes, caveats, credits.
-
-  Artwork drops at assets/images/work/lineage.jpg (masthead) and
-  assets/images/work/lineage-01.jpg … for the plates.
-  ============================================================================
--->
 
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -73,121 +43,397 @@
   <main id="main">
 
     <header class="chero wrap">
-      <!-- swap for: <div class="chero-media"><img src="assets/images/work/lineage.jpg" alt="..."></div> -->
-      <div class="chero-media"><img src="assets/images/posters/lineage.jpg" alt="Connection map showing four projects and how their layers wire together"></div>
+      <div class="chero-media"><img src="assets/images/work/lineage.jpg" alt="Schema &amp; Lineage connection map in its ERD reading, on a desktop display"></div>
       <div class="chero-text">
-        <p class="label">Case study &middot; 2026 &middot; Data infrastructure</p>
-        <h1 data-words>Schema &amp; lineage &mdash; PLACEHOLDER one-line framing of the system</h1>
+        <p class="label">Case study &middot; 2026 &middot; Product design &amp; data infrastructure</p>
+        <h1 data-words>Schema &amp; Lineage &mdash; one map for everything a PM owns</h1>
         <div class="chero-brief">
           <p class="label">In brief</p>
           <p class="body">
-            PLACEHOLDER &mdash; three or four sentences. Who has to read
-            lineage and why, what breaks when a schema changes without them
-            knowing, and what this system makes visible. Write the outcome
-            here, not the process; the sections below are where that goes.
+            A product manager running four products holds four repositories,
+            four branch trees, four schemas and four sets of vendors &mdash;
+            and no single place that says how any of it connects. This is the
+            layer above the repos: every page, module, endpoint, job, table and
+            external service on one canvas, with branch, schema version,
+            ownership, commit activity and reachable personal data painted onto
+            the same nodes.
           </p>
         </div>
       </div>
     </header>
 
     <div class="facts wrap">
-      <div><span class="k">Client</span><span class="v">PLACEHOLDER</span></div>
-      <div><span class="k">Role</span><span class="v">PLACEHOLDER &mdash; e.g. product design</span></div>
-      <div><span class="k">Stack</span><span class="v">PLACEHOLDER</span></div>
-      <div><span class="k">Year</span><span class="v">2026</span></div>
+      <div><span class="k">Target user</span><span class="v">Product managers running several products at once</span></div>
+      <div><span class="k">Surface</span><span class="v">Schema &amp; Lineage &mdash; connection map, inside a platform console</span></div>
+      <div><span class="k">Design system</span><span class="v">shadcn/ui &middot; Geist &middot; Radix primitives</span></div>
+      <div><span class="k">Scale in the build</span><span class="v">4 projects &middot; 138 nodes &middot; 311 connections</span></div>
     </div>
 
-    <!-- ============ 01 OVERVIEW ============ -->
+    <!-- ============ 01 THE PRODUCT ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">01 &mdash; Overview</p></div>
+      <div class="rail"><p class="label">01 &mdash; What we're designing</p></div>
       <div>
-        <h2>The problem <em>as it arrived</em></h2>
+        <h2>The layer that sits <em>above the repositories</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; what the brief was, and what the real problem
-          underneath it turned out to be. Two short paragraphs beat one long
-          one here.
+          Schema &amp; Lineage is one tab inside a platform console. It crawls
+          every repository a team owns and rebuilds each product as a graph:
+          the pages it serves, the modules those pages import, the endpoints
+          they call, the scheduled jobs nobody remembers, the tables and caches
+          underneath, and the external services on the far side. Then it draws
+          the whole thing.
         </p>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; the constraint that shaped everything after it:
-          timeline, existing stack, someone else's brand guidelines, whatever
-          it actually was.
-        </p>
-        <div class="hmw" data-r>
-          <span>How might we</span>
-          PLACEHOLDER &mdash; one sentence, phrased as a question, that the
-          rest of this page answers.
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 02 RESEARCH ============ -->
-    <section class="sec wrap spine">
-      <div class="rail"><p class="label">02 &mdash; Research</p></div>
-      <div>
-        <h2>PLACEHOLDER &mdash; what you looked at</h2>
-        <p class="body" data-r>
-          PLACEHOLDER &mdash; who you interviewed (data engineers,
-          analysts, platform owners), what their current workflow costs them,
-          and what that changed about the design.
+          Everything on the canvas is a real object with a real address &mdash;
+          a route, a file and line number, a table, a column, a vendor SDK
+          &mdash; and every line between two of them is a specific relationship:
+          an HTTP call, an import, a read, a write, a foreign key, a cache
+          lookup, a call out to somebody else's API.
         </p>
         <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
-          <div class="o"><span class="n">01</span><span class="x">PLACEHOLDER finding</span></div>
-          <div class="o"><span class="n">02</span><span class="x">PLACEHOLDER finding</span></div>
-          <div class="o"><span class="n">03</span><span class="x">PLACEHOLDER finding</span></div>
+          <div class="o"><span class="n">01</span><span class="x">See every project side by side, at the same grain, without opening one of them</span></div>
+          <div class="o"><span class="n">02</span><span class="x">Open one and see how its five layers actually wire together</span></div>
+          <div class="o"><span class="n">03</span><span class="x">Switch the branch or the release and watch the same map change shape</span></div>
+          <div class="o"><span class="n">04</span><span class="x">Ask who owns a thing, who has touched it lately, and what is in flight against it</span></div>
+          <div class="o"><span class="n">05</span><span class="x">Trace which screens can reach personal, payment or credential data &mdash; through how many hops</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ============ 03 APPROACH ============ -->
+    <!-- ============ 02 THE PROBLEM ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">03 &mdash; Approach</p></div>
+      <div class="rail"><p class="label">02 &mdash; The problem</p></div>
       <div>
-        <h2>PLACEHOLDER &mdash; <em>the decisions</em></h2>
+        <h2>Four products, four <em>separate worlds</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; how lineage is modelled, how a schema version
-          is represented, what the graph does and does not try to show. One
-          paragraph of intent, then the four notes below.
+          The user here is not an engineer inside one codebase. It is the
+          <b>product manager who owns several products at once</b> &mdash; often
+          across different GitHub accounts, each with its own repositories,
+          branches, release tags, contributors, database and set of
+          integrations.
+        </p>
+        <p class="body" data-r>
+          Every individual fact that PM needs already exists somewhere. What
+          version is this on. Which branch is ahead. Who last touched checkout.
+          What breaks if <code>orders.status</code> changes. Which service still
+          calls the payment vendor. The facts exist &mdash; they are just spread
+          across four repositories, four commit histories, four schema files,
+          a CODEOWNERS file, an issue tracker and somebody's memory.
         </p>
         <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>Nothing accumulates</h3>
+            <p>Each repository answers questions about itself and nothing else. There is no object anywhere in the stack that represents "everything I own", so the PM has to be that object, by hand, weekly.</p>
           </article>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>Structure lives in prose</h3>
+            <p>How a screen reaches a table is a chain of four or five hops that nobody has written down. It is reconstructed in a call, forgotten, and reconstructed again the next time it matters.</p>
           </article>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>Change arrives without a blast radius</h3>
+            <p>A schema edit is a diff in a pull request. What it touches — endpoints, jobs, screens, a downstream vendor — is exactly the part the diff does not show.</p>
           </article>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>The questions are cross-cutting</h3>
+            <p>Ownership, activity, in-flight work and data sensitivity are all properties of the same nodes. Answering them separately means four tools and four mental models of the same graph.</p>
           </article>
+        </div>
+        <div class="hmw" data-r>
+          <span>How might we</span>
+          give one person a single, navigable picture of every product they own
+          &mdash; precise enough that an engineer would not argue with it, and
+          shallow enough that a PM can read it without opening a file?
         </div>
       </div>
     </section>
 
-    <!-- ============ 04 THE BUILD ============ -->
+    <!-- ============ 03 WHY EXISTING TOOLS FALL SHORT ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">04 &mdash; The build</p></div>
+      <div class="rail"><p class="label">03 &mdash; Why the existing tools weren't enough</p></div>
       <div>
-        <h2>The map, <em>running</em></h2>
+        <h2>GitHub is not wrong &mdash; it is <em>scoped one level too low</em></h2>
         <p class="body" data-r>
-          The connection map is embedded below as the real front end. Open a
-          project to drop into its layers &mdash; frontend, modules, backend,
-          database, integrations &mdash; then switch between the radial, layered
-          and ERD readings of the same graph and watch which relationships each
-          one makes obvious and which it hides.
+          This is worth stating plainly, because it decided the whole shape of
+          the product: <b>nothing here is a complaint about GitHub</b>. Inside a
+          single repository, GitHub is excellent &mdash; history, blame,
+          branches, review, ownership. The problem is that a repository is the
+          unit it reasons about, and the PM's unit is the portfolio.
+        </p>
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x"><b>The repo is the ceiling.</b> Four products means four accounts, four histories, four release lines. Nothing rolls up, and there is no view where the fourth product exists at all.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>Files, not relationships.</b> A diff shows a column changing. It cannot show that six endpoints select it, a nightly job writes it, and one screen displays it.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>The database is off-map.</b> Tables, columns, indexes and foreign keys are the thing most likely to break the product, and they live in a system with no relationship to the commit history at all.</span></div>
+          <div class="o"><span class="n">04</span><span class="x"><b>Vendors are invisible.</b> An SDK import is one line in one file. Which products depend on that vendor, and how close it sits to checkout, is a question no repository is able to answer.</span></div>
+          <div class="o"><span class="n">05</span><span class="x"><b>ER diagrams go stale.</b> Hand-drawn architecture and schema diagrams are correct on the day they are made. They are decoration by the second sprint, and everybody quietly knows it.</span></div>
+        </div>
+        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          So the gap is not a missing feature in any one tool. It is a missing
+          <b>layer</b> &mdash; one that reads all of those systems, joins them on
+          the objects they share, and renders the result as something a person
+          can point at.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 04 APPROACH ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; The approach</p></div>
+      <div>
+        <h2>One graph, three readings, <em>five lenses</em></h2>
+        <p class="body" data-r>
+          The design rests on one modelling decision. Every project is
+          normalised into the <b>same five layers</b> &mdash; frontend, modules,
+          backend, database, integrations &mdash; regardless of what it is built
+          with. ShopStack is Next.js and Drizzle, Ledger is Remix and Kysely,
+          Atlas is Astro on SQLite; on the canvas they are the same five rings
+          with the same seven kinds of connection between them.
         </p>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; replace with the paragraph that tells the reader
-          what to look for. The three views are one dataset at three zoom
-          levels; say which question each of them answers.
+          That is what makes the portfolio view possible at all. Four products
+          become comparable because they are described in one vocabulary, and
+          the PM learns to read one picture instead of four.
         </p>
 
-        <div class="sandbox" data-r>
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">Layers</span><span class="x"><b>Frontend, modules, backend, database, integrations.</b> Pages and routes; shared modules, hooks and components; endpoints, middleware chains and scheduled jobs; tables, columns and caches; external services and inbound webhooks.</span></div>
+          <div class="o"><span class="n">Edges</span><span class="x"><b>Seven relationship types, colour-coded once.</b> HTTP call, import, reads table, writes table, reads cache, calls external, foreign key &mdash; each with a fixed colour and line style that never means anything else anywhere in the product.</span></div>
+          <div class="o"><span class="n">Readings</span><span class="x"><b>Radial, Layers, ERD.</b> The same dataset drawn three ways: the project at the centre with its layers around it; a strict left-to-right stack; and the database on its own, as a proper entity-relationship diagram with crow's-foot ends.</span></div>
+          <div class="o"><span class="n">Lenses</span><span class="x"><b>Structure, Ownership, Activity, In flight, Data exposure.</b> Not five views &mdash; one view, repainted. The layout never moves; only what the nodes are coloured and labelled by changes.</span></div>
+          <div class="o"><span class="n">Refs</span><span class="x"><b>Branches and releases are a first-class axis.</b> <code>main</code>, <code>staging</code>, <code>feature/discounts</code>, <code>v2.4.0</code>, <code>v2.3.0</code>, <code>v2.2.0</code> &mdash; the map is always the map <i>at a ref</i>, and switching one redraws it.</span></div>
+        </div>
+
+        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          Keeping the lenses on one layout is the load-bearing part. A PM who
+          has learned where checkout sits does not have to re-learn it to ask
+          who owns it &mdash; the node stays exactly where it was and simply
+          starts saying <i>Payments</i> instead of <i>4 open PRs</i>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 05 KEY DECISIONS ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">05 &mdash; Key design decisions</p></div>
+      <div>
+        <h2>Four calls that the rest <em>hangs off</em></h2>
+        <p class="body" data-r>
+          Most of the work was not drawing the graph. It was deciding what to do
+          when the graph is bigger than the screen, when the data is only partly
+          trustworthy, and when the thing a PM needs is a number rather than a
+          picture.
+        </p>
+
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>Collapse the layer, keep the edge</h3>
+            <p>A collapsed layer is the default, because 61 nodes at once is unreadable. But hiding a node must never hide its connections — every edge inside a collapsed layer is bundled onto the layer itself and still drawn. The footer counts them out loud: 94 links drawn, 72 bundled, 30 inside collapsed layers. Nothing disappears quietly.</p>
+          </article>
+          <article>
+            <h3>Say where every field came from</h3>
+            <p>Crawled structure is exact. Read and write counts are inferred from statically resolvable call sites. PII flags are heuristics from column names. Sample values are generated, never real. The panel grades all of it — exact, high confidence, synthetic, heuristic, off — because a PM acting on a number needs to know how much weight it holds.</p>
+          </article>
+          <article>
+            <h3>Version is a scrubber, not a dropdown</h3>
+            <p>Schema history is a line you drag along, each stop carrying its own diff summary — <i>+1 table, +4 columns, 3 changed, +1 index</i> — with the commit and author attached. History reads as motion in one direction rather than as a list of names.</p>
+          </article>
+          <article>
+            <h3>Findings are queries, not a report</h3>
+            <p>Orphans, cycles, hotspots, risk, coverage and unused columns are computed from the same graph the canvas draws, and selecting one highlights it in place. There is no separate audit screen to drift out of date, because there is no second copy of the data.</p>
+          </article>
+        </div>
+
+        <!-- the panel is 296px wide in the product; letting .fig stretch it to
+             the full column would show it at a size it never renders -->
+        <figure class="fig" style="max-width:392px;margin-inline:auto" data-r>
+          <div class="frame">
+            <img src="assets/images/components/lin-provenance.webp" width="296" height="702"
+                 alt="The provenance panel, grading every field as exact, high confidence, synthetic, heuristic or off" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            Provenance, in full. The panel that keeps the rest of the product
+            honest &mdash; six confidence bands, and an explicit line saying that
+            SQL assembled at runtime is not attributed and is not counted.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ 06 COMPONENTS ============
+         Every specimen below is an exact crop of that component taken from the
+         running build, so there is no second copy of anything here to drift
+         out of sync with the product. Hovering one boots the real app behind
+         the crop and makes that component operable. See .ds-* in sandbox.css
+         and the component library block in sandbox.js. -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">06 &mdash; Major components</p></div>
+      <div>
+        <h2>The eight pieces that <em>carry the product</em></h2>
+        <p class="body" data-r>
+          What follows is each of the load-bearing components on its own, in the
+          order a product manager meets them &mdash; portfolio, layers, map,
+          readings, inspector, schema history, comparison, findings. Breadcrumbs,
+          zoom controls and search are left out; they are plumbing, not the
+          argument.
+        </p>
+        <p class="body" data-r>
+          None of these is a drawing. Every specimen is the real component,
+          lifted straight out of the running build and framed by itself, so
+          nothing on this page can quietly disagree with the product. Hover one
+          to make it live &mdash; open a layer, switch a lens, drag the schema
+          history, or try to find a table nobody reads.
+        </p>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='[]'
+                data-target='{"has":["ShopStack","demo-org/shopstack","Open map"]}'>
+          <div class="ds-frame" style="max-width:268px">
+            <img class="ds-shot" src="assets/images/components/lin-project-card.webp"
+                 width="268" height="172" alt="A project card in the portfolio grid" decoding="async">
+            <iframe title="Project card — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>01</b>Project card<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>The unit the PM actually owns.</b> One card per product, all four described identically: the five-layer bar in the layer colours, node counts per layer, total connections, stack, and how long ago it was crawled. The freshness line matters more than it looks &mdash; a map nobody can date is a map nobody trusts.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack"]'
+                data-target='{"has":["frontend","modules","backend","database","integrations","collapse"]}'>
+          <div class="ds-frame" style="max-width:262px">
+            <img class="ds-shot" src="assets/images/components/lin-layers.webp"
+                 width="262" height="133" alt="The layer list, with per-layer counts and open or collapse" decoding="async">
+            <iframe title="Layer list — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>02</b>Layer list<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>Five rows, and the only navigation the map needs.</b> Each layer states what it holds before you open it &mdash; 9 pages, 14 modules, 17 endpoints and 4 scheduled jobs, 12 tables and a cache &mdash; so unfolding is a decision rather than an experiment. The colour swatch here is the same colour that node wears everywhere else in the product.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack"]'
+                data-target='{"has":["/checkout","GET /products","expire-carts"],"up":1}'>
+          <div class="ds-frame" style="max-width:1088px">
+            <img class="ds-shot" src="assets/images/components/lin-ring.webp"
+                 width="1088" height="702" alt="The radial connection map with two layers unfolded" decoding="async">
+            <iframe title="Radial connection map — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>03</b>Radial connection map<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>The project at the centre, its layers around it, nothing hidden.</b> Unfold a layer and its contents spread in place while every connection stays on screen &mdash; edges into a collapsed layer bundle onto the layer node rather than vanishing. Line colour carries the relationship type and the ribbon's width carries how many connections are bundled inside it.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack"]'
+                data-target='{"has":["Radial","ERD","Structure","Ownership","Activity","In flight","Data exposure"]}'>
+          <div class="ds-frame" style="max-width:570px">
+            <img class="ds-shot" src="assets/images/components/lin-lens.webp"
+                 width="570" height="30" alt="Layout and lens switcher" decoding="async">
+            <iframe title="Layout and lens switcher — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>04</b>Layout &amp; lens switcher<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>Three readings on the left, five lenses on the right, one divider between them.</b> The split is the whole idea: layout changes where things are, lens changes what they say. Ownership paints the CODEOWNERS team, Activity paints 90-day commit heat, In flight paints open pull requests, Data exposure paints what personal or payment data each node can reach.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack","layer database","table orders"]'
+                data-target='{"has":["payment_intent_id","orders_status_idx","Columns"]}'>
+          <div class="ds-frame" style="max-width:296px">
+            <img class="ds-shot" src="assets/images/components/lin-inspector.webp"
+                 width="296" height="702" alt="The node inspector opened on the orders table" decoding="async">
+            <iframe title="Node inspector — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>05</b>Node inspector<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>Everything known about one object, addressed to the file it came from.</b> Adapter and schema file with a line number, every column with its type, keys, enum values, defaults and a per-column read/write count, then indexes, foreign keys both ways, and which endpoints and jobs touch it. Selecting a node also lights its blast radius on the canvas behind &mdash; the panel answers <i>what is this</i>, the canvas answers <i>what does it reach</i>.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack","ERD"]'
+                data-target='{"has":["order_items","v2.4.0","discounts"]}'>
+          <div class="ds-frame" style="max-width:1088px">
+            <img class="ds-shot" src="assets/images/components/lin-erd.webp"
+                 width="1088" height="702" alt="The ERD reading with the schema version scrubber" decoding="async">
+            <iframe title="ERD and version scrubber — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>06</b>ERD &amp; schema version scrubber<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>The database on its own, at a version you can drag to.</b> Crow's foot at the many end, junction tables marked as junctions, sensitive columns flagged in place. The scrubber underneath runs v2.2.0 to staging; every stop carries its own diff summary and the commit and author behind it, so "when did this table appear" is a drag rather than an investigation.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack","Compare"]'
+                data-target='{"has":["Compare versions","Nodes","Close"]}'>
+          <div class="ds-frame" style="max-width:480px">
+            <img class="ds-shot" src="assets/images/components/lin-compare.webp"
+                 width="480" height="602" alt="The compare versions dialog" decoding="async">
+            <iframe title="Compare versions — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>07</b>Compare versions<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>Any two refs, and the word <i>breaking</i> earned rather than asserted.</b> The headline counts nodes, connections and schema changes in one line; the tabs split them; and severity is computed &mdash; a widened type is safe, a narrowed one is breaking, a dropped not-null column is breaking whoever wrote it. This is the component that turns "we merged staging" into a sentence a PM can act on.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="ds-spec"
+                data-app="assets/sandbox/lineage/index.html"
+                data-go='["project ShopStack","Insights"]'
+                data-target='{"has":["Orphans","Cycles","Hotspots"]}'>
+          <div class="ds-frame" style="max-width:296px">
+            <img class="ds-shot" src="assets/images/components/lin-insights.webp"
+                 width="296" height="702" alt="The insights panel listing findings by category" decoding="async">
+            <iframe title="Insights — live component" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <button class="ds-go" type="button"><i></i><span>Interact</span></button>
+          </div>
+          <figcaption>
+            <p class="ds-name"><b>08</b>Insights<span class="ds-live">Live</span></p>
+            <p class="ds-desc"><b>Forty findings, every one of them a query over the map.</b> Orphans, cycles, hotspots, risk, coverage and unused &mdash; a table nothing reads, two modules importing each other, a vendor one hop from checkout, a write with no auth in its middleware chain. Selecting a finding opens the layers it lives in and highlights it on the canvas, so a list item and a place on the map are the same act.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ 07 THE FINAL PRODUCT ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">07 &mdash; The final product</p></div>
+      <div>
+        <h2>The whole map, <em>running</em></h2>
+        <p class="body" data-r>
+          The components above, assembled. Not a prototype video and not a
+          screen recording &mdash; the front end itself, at full width. It opens
+          on the portfolio: four products, 138 nodes and 311 connections, each
+          card describing its product in the same five terms as the others. That
+          screen is the thing that did not exist before.
+        </p>
+        <p class="body" data-r>
+          Open one and the same graph is available three ways and five ways at
+          once. The route worth walking is the one a PM actually walks: open the
+          database layer, click <code>orders</code>, read which endpoints and
+          jobs touch it, drag the schema history back two versions to see when
+          <code>discount_cents</code> arrived, then compare staging against main
+          and find the one breaking change in it.
+        </p>
+
+        <div class="sandbox sandbox--wide" data-r>
           <div class="sb-head">
             <span class="sb-title">Connection map</span>
             <span class="sb-sub">Four projects, 138 nodes, 311 connections — radial, layered and ERD.</span>
@@ -206,13 +452,13 @@
                 <button class="sb-tool" type="button" data-sb-reset>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg><span class="sb-label">Reset</span>
                 </button>
-                <a class="sb-tool" data-sb-open target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Full screen</span>
+                <a class="sb-tool sb-tool--go" data-sb-open target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Open full screen</span>
                 </a>
               </div>
             </div>
 
-            <div class="sb-stage" data-w="1440" data-app="assets/sandbox/lineage/index.html">
+            <div class="sb-stage" data-app="assets/sandbox/lineage/index.html">
               <img class="sb-poster" src="assets/images/posters/lineage.jpg" alt="Connection map showing four projects and how their layers wire together">
               <iframe title="Connection map — live build" loading="lazy"></iframe>
               <button class="sb-launch" type="button">
@@ -227,30 +473,85 @@
             <span class="sb-mobile">Built for a desktop viewport &mdash; open it full screen on a phone.</span>
           </p>
         </div>
+
+        <p class="body" style="margin-top:clamp(26px,3vw,44px)" data-r>
+          The two plates below are the lenses doing the work the original
+          problem asked for: <i>who owns what</i>, and <i>what can reach the
+          sensitive data</i>. Same layout, same nodes, same positions &mdash;
+          only the paint changes.
+        </p>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/components/lin-ownership.webp" width="1088" height="702"
+                 alt="The Ownership lens: every node labelled with its owning team from CODEOWNERS" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            Ownership &mdash; every page, endpoint and job carries the team that
+            owns it, read from CODEOWNERS. The question "who do I talk to about
+            checkout" becomes a label rather than a thread.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/components/lin-exposure.webp" width="1088" height="702"
+                 alt="The Data exposure lens: nodes that can reach PII, PCI or credential data are outlined and labelled" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            Data exposure &mdash; anything that can reach personal, payment or
+            credential data is outlined and says which, at whatever depth it
+            reaches it. Everything else dims. <code>/login</code> shows SECRET,
+            <code>/checkout</code> shows PII, and a scheduled job nobody thinks
+            about reads PCI.
+          </figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- ============ 05 CONCLUSION ============ -->
+    <!-- ============ 08 IMPACT ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">05 &mdash; Conclusion</p></div>
+      <div class="rail"><p class="label">08 &mdash; Impact &amp; takeaway</p></div>
       <div>
-        <h2>What it <em>achieves</em></h2>
+        <h2>What the shape <em>comes down to</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; the outcome in plain terms. If you have
-          numbers, they go in the metrics row; if you don't, say what changed
-          qualitatively rather than inventing a figure.
+          The move the whole case study makes is one step of altitude:
+          <b>from project-level information to product-level visibility</b>.
+          Nothing here replaces a repository, a schema file or a pull request.
+          It reads all of them, joins them on the objects they share, and gives
+          the person accountable for four products the one thing none of those
+          systems was ever built to produce &mdash; a single picture of
+          everything they own, dated, sourced, and specific enough to act on.
         </p>
-
         <div class="metrics" data-r>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
+          <div><p class="n">4&rarr;1</p><p class="l">Separate repositories, read as one portfolio</p></div>
+          <div><p class="n">5</p><p class="l">Layers, one vocabulary for every stack</p></div>
+          <div><p class="n">3&times;5</p><p class="l">Readings and lenses over a single layout</p></div>
+          <div><p class="n">311</p><p class="l">Connections drawn &mdash; none of them hidden</p></div>
         </div>
-
+        <p class="body" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          The design lesson I would carry to the next one is that
+          <b>the switch has to be cheaper than the picture</b>. Every time a
+          question got its own screen, the PM lost their place; every time it
+          became a lens over the layout they already knew, they kept it. Three
+          layouts and five lenses is a large surface, but it is one map &mdash;
+          and it is only one map because the switching was designed before the
+          drawing was.
+        </p>
         <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
           <p class="body">
-            <b>Template page.</b> This case study is scaffolded and waiting on
-            copy and artwork. Delete this box once the page is written.
+            <b>About what's shown here.</b> The build runs against fixture data:
+            the organisation, the four products and the people in the commit
+            history are invented, and the sample rows in the inspector are
+            generated from column types rather than read from a database. The
+            structure is the real thing &mdash; real routes, real middleware
+            chains, real foreign keys, real vendor SDKs &mdash; because the
+            design only holds up if the graph behaves like one an engineer would
+            recognise. <b>Still open:</b> the heuristic layer. PII flags inferred
+            from column names and feature tags inferred from route grouping are
+            the two places the map can be confidently wrong, and the thing I want
+            to test is whether marking them <i>heuristic, overridable</i> is
+            enough &mdash; or whether a wrong label read once is trusted forever.
           </p>
         </div>
       </div>
@@ -284,7 +585,7 @@
     <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
     <div class="c2">
       <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
-      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">R&eacute;sum&eacute;</a>
     </div>
     <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
   </div>

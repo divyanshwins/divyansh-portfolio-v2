@@ -105,14 +105,22 @@
 }
 
 /* the work shots are ~4:3 dashboards — the grid matches that ratio so
-   nothing important gets cropped out of frame */
+   nothing important gets cropped out of frame.
+
+   Column count is set by explicit breakpoints, not auto-fit. .wrap has no max
+   width, so a track floor wide enough to hold two columns on a 13" laptop
+   silently becomes three on a 27" monitor and four on an ultrawide — and a
+   card is a laptop in a room, which stops reading as one once it is 200px
+   across. Two is right for every laptop; three only once there is genuinely
+   room for three without shrinking them below a 13" card. */
 .duo {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(26px, 3.6vw, 50px) var(--gap);
 }
 .duo .shot { aspect-ratio: 4 / 3; }
-@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+@media (max-width: 760px)  { .duo { grid-template-columns: minmax(0, 1fr); } }
+@media (min-width: 1680px) { .duo { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 /* .shot-tbd (awaiting-artwork field) now lives in core.css */
 
@@ -232,11 +240,10 @@
       </div>
 
       <!-- ---- group 01: internship & work ----
-           The four newest cards carry a live MacBook (see sandbox.css /
-           sandbox.js): the machine's screen runs the project's real build,
-           scrollable and hoverable, with every click routed to the case
-           study instead of into the app. Vero Moda keeps a flat still —
-           it is a research write-up, there is no product to run. -->
+           Every card carries its own 4:3 .shot box, so swapping artwork is a
+           one-line change:
+             <div class="shot"><img src="assets/images/work/<slug>.jpg" alt="…"></div>
+           The live, clickable build lives on each case-study page. -->
       <div class="work-group">
         <div class="group-head">
           <h3 class="label">Internship &amp; work</h3>
@@ -245,20 +252,7 @@
 
         <div class="duo">
           <a class="card" href="lightning.html" data-peek="View Lightning Leap ↗" data-r>
-            <div class="mac-scene" data-app="assets/sandbox/lightning/index.html"
-                 style="--s1:#272f3d; --s2:#0f1116; --glow:rgba(120,150,235,0.22)">
-              <div class="mac">
-                <div class="mac-lid">
-                  <div class="mac-screen">
-                    <img class="mac-poster" src="assets/images/posters/lightning.jpg" alt="Lightning Leap Analytics dependency console">
-                    <iframe class="mac-live" title="Lightning Leap — live preview"
-                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
-                  </div>
-                </div>
-                <div class="mac-deck"></div>
-              </div>
-              <span class="mac-badge"><i></i>Live build</span>
-            </div>
+            <div class="shot"><img src="assets/images/work/lightning.jpg" alt="Dependency Management console — the governed package catalogue, on a laptop"></div>
             <div class="cap">
               <span class="t">Lightning Leap Analytics</span>
               <span class="m">DevTools &middot; data visualisation</span>
@@ -267,20 +261,7 @@
           </a>
 
           <a class="card" href="lineage.html" data-peek="View Schema &amp; Lineage ↗" data-r>
-            <div class="mac-scene" data-app="assets/sandbox/lineage/index.html"
-                 style="--s1:#242832; --s2:#0d0e11; --glow:rgba(96,165,250,0.20)">
-              <div class="mac">
-                <div class="mac-lid">
-                  <div class="mac-screen">
-                    <img class="mac-poster" src="assets/images/posters/lineage.jpg" alt="Connection map showing schema lineage across four projects">
-                    <iframe class="mac-live" title="Schema &amp; Lineage — live preview"
-                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
-                  </div>
-                </div>
-                <div class="mac-deck"></div>
-              </div>
-              <span class="mac-badge"><i></i>Live build</span>
-            </div>
+            <div class="shot"><img src="assets/images/work/lineage.jpg" alt="Schema &amp; Lineage connection map in its ERD reading, on a desktop display"></div>
             <div class="cap">
               <span class="t">Schema &amp; Lineage</span>
               <span class="m">Data infrastructure</span>
@@ -289,20 +270,7 @@
           </a>
 
           <a class="card" href="verjson.html" data-peek="View Verjson ↗" data-r>
-            <div class="mac-scene" data-app="assets/sandbox/verjson/index.html"
-                 style="--s1:#3a3733; --s2:#171614; --glow:rgba(232,213,183,0.20)">
-              <div class="mac">
-                <div class="mac-lid">
-                  <div class="mac-screen">
-                    <img class="mac-poster" src="assets/images/posters/verjson.jpg" alt="verJSON website landing page">
-                    <iframe class="mac-live" title="Verjson — live preview"
-                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
-                  </div>
-                </div>
-                <div class="mac-deck"></div>
-              </div>
-              <span class="mac-badge"><i></i>Live build</span>
-            </div>
+            <div class="shot"><img src="assets/images/work/verjson.jpg" alt="verJSON website hero — we build intelligence infrastructure, on a laptop"></div>
             <div class="cap">
               <span class="t">Verjson</span>
               <span class="m">Website development</span>
@@ -311,20 +279,7 @@
           </a>
 
           <a class="card" href="bluebal.html" data-peek="View Blue Balloon ↗" data-r>
-            <div class="mac-scene" data-app="assets/sandbox/bluebal/index.html"
-                 style="--s1:#2e2a3d; --s2:#131118; --glow:rgba(167,139,250,0.22)">
-              <div class="mac">
-                <div class="mac-lid">
-                  <div class="mac-screen">
-                    <img class="mac-poster" src="assets/images/posters/bluebal.jpg" alt="Blue Balloon illustration workspace project board">
-                    <iframe class="mac-live" title="Blue Balloon — live preview"
-                            tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
-                  </div>
-                </div>
-                <div class="mac-deck"></div>
-              </div>
-              <span class="mac-badge"><i></i>Live build</span>
-            </div>
+            <div class="shot"><img src="assets/images/work/bluebal.jpg" alt="Blue Balloon project board — storybook illustration projects in progress, on a laptop"></div>
             <div class="cap">
               <span class="t">Blue Balloon</span>
               <span class="m">Creative tooling</span>
@@ -333,7 +288,7 @@
           </a>
 
           <a class="card" href="veromoda.html" data-peek="View Vero Moda ↗" data-r>
-            <div class="shot"><img src="assets/images/work/veromoda.jpg" alt="Vero Moda technical UX analysis — mobile and desktop storefront"></div>
+            <div class="shot"><img src="assets/images/work/veromoda.jpg" alt="Vero Moda storefront concept held on a tablet"></div>
             <div class="cap">
               <span class="t">Vero Moda</span>
               <span class="m">Performance research</span>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blue Balloon — Illustration Workspace · Divyansh Srivastava</title>
-<meta name="description" content="PLACEHOLDER — one-sentence summary of the Blue Balloon illustration workspace.">
+<title>Blue Balloon — AI Storybook Illustration · Divyansh Srivastava</title>
+<meta name="description" content="A children's book publisher wanted to generate whole illustrated books from a manuscript. No single model could do it — so the work became orchestration, a composition rule that leaves room for text, and a character system that survives a character changing shape mid-story.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -13,36 +13,6 @@
 <link rel="stylesheet" href="case.css">
 <link rel="stylesheet" href="sandbox.css">
 </head>
-
-<!--
-  ============================================================================
-  TEMPLATE — Blue Balloon case study
-  ============================================================================
-  This page is scaffolding, not content. Everything marked PLACEHOLDER is
-  there to be overwritten; the structure around it is the same one arth.html
-  and fedex.html use, so the styling is already solved and you only ever
-  swap text.
-
-  What each part is for:
-    .chero          masthead — artwork left, title + "in brief" right.
-                    The h1 carries data-words: site.js splits it into words
-                    and lifts them on a stagger. Keep the attribute.
-    .facts          the four-up meta strip. Keep it to four; five wraps badly.
-    .sec.spine      a numbered section — .rail holds "0N — Name", the second
-                    child holds the content. Add or delete whole <section>s
-                    freely, but renumber the rails when you do.
-    .hmw            the "How might we" box — one per case study, in Overview.
-    .olist          numbered list of research themes.
-    .cards          2-up grid of short titled notes.
-    figure.fig      full-bleed screen plate + caption. Swap .shot-tbd on the
-                    .frame for <img src="..." alt="..."> when artwork lands.
-    .metrics        three headline numbers at the end.
-    .note-box       a quiet aside — ongoing-work notes, caveats, credits.
-
-  The masthead uses the live poster at assets/images/posters/bluebal.jpg.
-  Extra plates drop at assets/images/work/bluebal-01.jpg …
-  ============================================================================
--->
 
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -73,123 +43,334 @@
   <main id="main">
 
     <header class="chero wrap">
-      <!-- swap for: <div class="chero-media"><img src="assets/images/work/bluebal.jpg" alt="..."></div> -->
-      <div class="chero-media"><img src="assets/images/posters/bluebal.jpg" alt="Blue Balloon project board — storybook illustration projects in progress"></div>
+      <div class="chero-media"><img src="assets/images/work/bluebal.jpg" alt="Blue Balloon project board — storybook illustration projects in progress, on a laptop"></div>
       <div class="chero-text">
-        <p class="label">Case study &middot; 2026 &middot; Product design</p>
-        <h1 data-words>Blue Balloon &mdash; PLACEHOLDER one-line framing of the workspace</h1>
+        <p class="label">Case study &middot; 2026 &middot; Service design &amp; product design</p>
+        <h1 data-words>Blue Balloon &mdash; a manuscript in, an illustrated book out</h1>
         <div class="chero-brief">
           <p class="label">In brief</p>
           <p class="body">
-            PLACEHOLDER &mdash; three or four sentences. Who the illustrators
-            are, what their working day looked like before this existed, and
-            what the workspace changes about it. Write the outcome here, not
-            the process; the sections below are where that goes.
+            A children's book publisher asked for a product that could take a
+            manuscript and return the finished, illustrated book &mdash; the
+            job an illustrator does across thirty-two pages. The interesting
+            part is what stood in the way: no single image model could produce
+            a usable page, a page has to leave room for words without going
+            blank, and a character who evolves halfway through the story breaks
+            every consistency trick there is. This is the system that answers
+            those three, and the interface that hands the control back to a
+            person.
           </p>
         </div>
       </div>
     </header>
 
     <div class="facts wrap">
-      <div><span class="k">Client</span><span class="v">PLACEHOLDER</span></div>
-      <div><span class="k">Role</span><span class="v">PLACEHOLDER &mdash; e.g. product design</span></div>
-      <div><span class="k">Surface</span><span class="v">PLACEHOLDER &mdash; e.g. web app, 8 screens</span></div>
-      <div><span class="k">Year</span><span class="v">2026</span></div>
+      <div><span class="k">Client</span><span class="v">Children's book publisher</span></div>
+      <div><span class="k">Target user</span><span class="v">In-house editorial &amp; production teams</span></div>
+      <div><span class="k">Role</span><span class="v">Service design, product design &amp; prototype</span></div>
+      <div><span class="k">Scale designed for</span><span class="v">16&ndash;64 page books &middot; multi-variant casts</span></div>
     </div>
 
-    <!-- ============ 01 OVERVIEW ============ -->
+    <!-- ============ 01 THE BRIEF ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">01 &mdash; Overview</p></div>
+      <div class="rail"><p class="label">01 &mdash; The brief</p></div>
       <div>
-        <h2>The problem <em>as it arrived</em></h2>
+        <h2>Replace the illustrator &mdash; <em>the whole job, not a step of it</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; what the brief was, and what the real problem
-          underneath it turned out to be. Two short paragraphs beat one long
-          one here.
+          The ask was blunt and worth stating in the client's own terms: the
+          brand wanted a product that <b>replaces their illustrators</b>. They
+          publish children's books. They have manuscripts. They wanted to hand
+          over a manuscript plus the specifics &mdash; style, page count, trim,
+          palette, typography &mdash; and get the entire book back, generated.
         </p>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; the constraint that shaped everything after it:
-          timeline, existing stack, someone else's brand guidelines, whatever
-          it actually was.
+          That framing matters, because it rules out the easy version of this
+          product. A tool that makes a nice picture is not the job. The job is
+          thirty-two pages that belong to each other: the same child on page 4
+          and page 27, a composition on every spread that a paragraph can sit
+          on without covering the story, and a book that can be re-cut when the
+          art director changes their mind about the style.
         </p>
         <div class="hmw" data-r>
           <span>How might we</span>
-          PLACEHOLDER &mdash; one sentence, phrased as a question, that the
-          rest of this page answers.
+          turn a manuscript into a whole illustrated book &mdash; consistent in
+          character, composed for text, and controllable by a person who is not
+          an AI engineer?
         </div>
       </div>
     </section>
 
-    <!-- ============ 02 RESEARCH ============ -->
+    <!-- ============ 02 ORCHESTRATION ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">02 &mdash; Research</p></div>
+      <div class="rail"><p class="label">02 &mdash; No single model could do it</p></div>
       <div>
-        <h2>PLACEHOLDER &mdash; what you looked at</h2>
+        <h2>The generation is not a model &mdash; <em>it is a relay</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; who you watched work, what they were doing
-          instead of using a tool, and which of those habits the design had to
-          keep rather than fix.
+          The first finding killed the obvious architecture. I could not find a
+          single AI tool that produced a correct page on its own. Each one was
+          good at part of it and reliably bad at the rest &mdash; one could
+          reason about the scene but not draw it, one drew beautifully but
+          ignored the composition constraint, one held a character's face but
+          lost the wardrobe, one followed instructions literally and produced
+          something lifeless.
         </p>
-        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
-          <div class="o"><span class="n">01</span><span class="x">PLACEHOLDER finding</span></div>
-          <div class="o"><span class="n">02</span><span class="x">PLACEHOLDER finding</span></div>
-          <div class="o"><span class="n">03</span><span class="x">PLACEHOLDER finding</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 03 APPROACH ============ -->
-    <section class="sec wrap spine">
-      <div class="rail"><p class="label">03 &mdash; Approach</p></div>
-      <div>
-        <h2>PLACEHOLDER &mdash; <em>the decisions</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; how the workspace, the character library and
-          the AI step relate to each other, and why they are three places
-          rather than one. One paragraph of intent, then the four notes.
+          So the system became <b>AI orchestration</b>: Grok, Gemini, Kimi and
+          several others working in sequence on the same page, each doing the
+          part it is actually good at and handing on a result the next one is
+          constrained by. What the user experiences as &ldquo;generate&rdquo; is
+          a relay, and the design work was deciding what each leg is
+          responsible for and what it is not allowed to change.
         </p>
         <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>Read, then draw</h3>
+            <p>Understanding the manuscript — who is in this scene, what is happening, what the mood is — is a language problem, not an image one. It is settled in text before any pixel exists, so the image models are handed a brief rather than a paragraph of prose.</p>
           </article>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>Compose, then render</h3>
+            <p>Where the subject sits and how much of the frame it is allowed to occupy is decided before rendering. Asking an image model to both invent a scene and obey a spatial budget is where every single-tool attempt fell apart.</p>
           </article>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>Every leg is constrained by the last</h3>
+            <p>Character reference, palette, style and composition are carried forward as hard inputs rather than re-described in prose. Each model gets less freedom than the one before it, which is what makes thirty-two pages look like one book.</p>
           </article>
           <article>
-            <h3>PLACEHOLDER decision</h3>
-            <p>PLACEHOLDER — one or two sentences on why, not what.</p>
+            <h3>The user never meets the relay</h3>
+            <p>None of this surfaces. There is no model picker, no step list, no temperature. The interface asks about the story and the art direction; which engine drew what is an implementation detail the publisher should never have to hold.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ 04 THE BUILD ============ -->
+    <!-- ============ 03 COMPOSITION ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">04 &mdash; The build</p></div>
+      <div class="rail"><p class="label">03 &mdash; A page has to hold words</p></div>
+      <div>
+        <h2>Two thirds of the page is <em>scene you can write on</em></h2>
+        <p class="body" data-r>
+          A picture-book page is not a picture. It is a picture with a paragraph
+          on it, and generated art fails at this in a very specific way: it
+          fills the frame edge to edge with equally interesting detail, and
+          there is nowhere left to put the words. Drop text on it anyway and you
+          cover the story.
+        </p>
+        <p class="body" data-r>
+          The rule I settled on is a spatial budget, and the second half of it
+          is the part that took the longest to get right:
+        </p>
+
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">33%</span><span class="x"><b>The focus.</b> Roughly a third of the page carries the subject and the action &mdash; the thing the page is <i>about</i>, at full detail and full contrast.</span></div>
+          <div class="o"><span class="n">66%</span><span class="x"><b>Scene, not blank.</b> At least two thirds is negative space &mdash; but negative in the compositional sense, not the empty one. It is still sky, water, wall, field, dusk. It continues the scene, and it is deliberately generated to be low-detail and even in value, so a paragraph can sit on it and still be read.</span></div>
+          <div class="o"><span class="n">Text</span><span class="x"><b>Placement follows the picture.</b> Because the composition is decided before the render, the system already knows where the focus is <em>not</em>. The text block is placed into that region rather than dropped on top and hoped for &mdash; the words never sit over the thing the page exists to show.</span></div>
+        </div>
+
+        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          Getting a model to leave two thirds of a frame calm without leaving it
+          white is not a prompt. It is the constraint that most justified the
+          relay in the first place: composition is planned as geometry, and the
+          renderer is handed that geometry rather than asked to invent it.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 04 CHARACTERS ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; The character problem</p></div>
+      <div>
+        <h2>Same child on page 4 and page 27 &mdash; <em>unless the story says otherwise</em></h2>
+        <p class="body" data-r>
+          Consistency is the thing readers notice instantly and the thing
+          generative models are worst at. But &ldquo;keep the character the
+          same&rdquo; turned out to be the wrong requirement, because stories do
+          not work that way. Once I started listing real manuscripts, the
+          permutations fell out:
+        </p>
+
+        <div class="olist" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <div class="o"><span class="n">01</span><span class="x"><b>One look, all the way through.</b> The simple case, and the only one most tools handle. One reference is enough.</span></div>
+          <div class="o"><span class="n">02</span><span class="x"><b>Changes once, and stays changed.</b> The character transforms partway in &mdash; grows up, gets injured, becomes something else &mdash; and the new look holds to the end.</span></div>
+          <div class="o"><span class="n">03</span><span class="x"><b>Changes, then changes back.</b> Transformed for a stretch in the middle, then restored. The same look appears in two non-adjacent parts of the book.</span></div>
+          <div class="o"><span class="n">04</span><span class="x"><b>Evolves repeatedly.</b> Several distinct forms across one story &mdash; the Pok&eacute;mon case. Each stage is its own design, and each owns a stretch of pages.</span></div>
+        </div>
+
+        <p class="body" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          One reference image cannot express any of that. So the character
+          stopped being an image and became <b>a set of variants with page
+          ownership</b>. You declare how many looks a character has, design each
+          one &mdash; upload it, or build it by chatting with the AI &mdash; and
+          then assign each variant the exact pages it appears on. Pages
+          1&ndash;14 are the boy; 15&ndash;32 are what he becomes.
+          Non-contiguous ranges are fine, which is what makes the changes-back
+          case work at all.
+        </p>
+        <p class="body" data-r>
+          Because coverage is now a property you can compute, the interface can
+          be honest about it: a timeline under the variants shows which pages
+          are claimed, says <i>Pages 15&ndash;32 not assigned yet</i> while a gap
+          exists, and flags any page two variants both claim. A character is not
+          <i>Ready</i> until every variant has both a design and at least one
+          page range &mdash; and the book cannot be created until every character
+          is ready. The permutations stop being a modelling problem and become a
+          form the editor fills in.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 05 DECISIONS ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">05 &mdash; Key design decisions</p></div>
+      <div>
+        <h2>Where the control <em>had to sit</em></h2>
+        <p class="body" data-r>
+          The service design settled what the system does. These four settled
+          what the person does &mdash; which is the difference between a
+          generator and a tool a publisher will actually put a book through.
+        </p>
+
+        <div class="cards" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
+          <article>
+            <h3>Ask the character question first</h3>
+            <p><i>&ldquo;Does Ram look the same through the whole book?&rdquo;</i> is asked before anything is designed, because the answer changes what the editor is being asked to make — one reference, or several with page ranges. Getting this wrong late means re-generating the book.</p>
+          </article>
+          <article>
+            <h3>The manuscript is the brief, and it is editable</h3>
+            <p>The system scans the manuscript and offers what it found about each character — appearance, wardrobe, props, distinguishing marks, personality — each detail tagged with the page it came from. The editor keeps the ones that should drive the design and deselects the rest, so the AI's reading is a proposal, not a verdict.</p>
+          </article>
+          <article>
+            <h3>Changing a character re-cuts the book</h3>
+            <p>Edit a character or a story setting and every page is marked out of date, greyed out, and the canvas locks behind <i>Regenerate all</i> or <i>Revert changes</i>. It would be friendlier to patch one page. It would also be a lie — consistency is a property of the whole book, so the cost of breaking it is shown honestly.</p>
+          </article>
+          <article>
+            <h3>Metadata must not trigger a re-cut</h3>
+            <p>Adding a teammate changes nothing about the art, so it is explicitly excluded from what marks the book stale. A regeneration warning that fires for the wrong reasons gets ignored within a week, and then it is not a warning at all.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 06 THE PRODUCT ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">06 &mdash; The product</p></div>
+      <div>
+        <h2>Five screens, and <em>one of them is the idea</em></h2>
+        <p class="body" data-r>
+          The interface is deliberately unremarkable, because everything hard
+          about this product is behind it. You open a project, describe the
+          book, settle the cast, and then you are in a workspace with the pages
+          down the left. The plates below are the real build, in the order you
+          meet them.
+        </p>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/bluebal-01.jpg" width="1440" height="900"
+                 alt="The project board — storybook projects with page count, style, status and progress" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            01 &mdash; Project board. One card per book, describing it the way a
+            production team does: page count, illustration style, status,
+            progress, who is on it, when it was last touched.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/bluebal-02.jpg" width="1440" height="900"
+                 alt="New storybook — manuscript upload, page setup, illustration style, book length, typography and palette" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            02 &mdash; New storybook. The manuscript goes in and everything the
+            art direction needs comes with it: page size and orientation,
+            illustration style, book length, the type ramp by role, and a
+            palette with a switch for whether the AI must obey it strictly or
+            may treat it as a starting point.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/bluebal-03.jpg" width="1440" height="900"
+                 alt="Characters — two variants of Ram, each with the pages it appears on, and a coverage timeline flagging unassigned pages" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            03 &mdash; Characters, and the component the whole case study is
+            about. Ram has two variants; each owns a set of page ranges; the
+            timeline underneath shows the coverage and says plainly that pages
+            15&ndash;32 are still unclaimed. Nothing can be created until every
+            character is complete.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/bluebal-04.jpg" width="1440" height="900"
+                 alt="Design with AI — chat-based character design with manuscript-derived detail chips and a live preview with versions" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            04 &mdash; Design with AI. For anyone who has no reference to
+            upload. The manuscript details are offered as toggleable chips with
+            their page numbers attached, so the editor decides what counts as
+            canon before the first prompt; every generation is kept as a
+            version, and every instruction that landed is logged.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/bluebal-05.jpg" width="1440" height="900"
+                 alt="The workspace — page thumbnails down the left, the current page on the canvas" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            05 &mdash; The workspace. Pages down the left, the live page on the
+            canvas, and direct manipulation on top of the generated result:
+            move, restack, recolour, or ask for the change in words. The
+            composition budget is visible in the thumbnails &mdash; every inner
+            page keeps a calm column for its paragraph.
+          </figcaption>
+        </figure>
+
+        <figure class="fig" data-r>
+          <div class="frame">
+            <img src="assets/images/work/bluebal-06.jpg" width="1440" height="900"
+                 alt="Settings have been changed — the whole book locked behind Regenerate all or Revert changes" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            06 &mdash; The honest consequence. Change the illustration style, or
+            any character, and the book greys out: <i>it will require
+            regeneration of all the pages to get the new settings applied</i>.
+            Revert, or re-cut the whole thing. There is no third option, because
+            there is no third option in reality.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ 07 THE BUILD ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">07 &mdash; The build</p></div>
       <div>
         <h2>The workspace, <em>running</em></h2>
         <p class="body" data-r>
-          The front end itself, embedded. Move through the project board, open
-          a storybook, look at how the character library and the AI step sit
-          beside the canvas rather than on top of it.
+          The front end itself, embedded. Start on the project board, open
+          <b>New Project</b>, and walk the flow the way an editor would: drop in
+          a manuscript, set the style and length, then go to Characters and tell
+          it that Ram <i>has variants</i>. Add two, give the first pages
+          1&ndash;14, and watch the coverage timeline tell you what you have not
+          finished.
         </p>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; replace with the paragraph pointing at what you
-          want looked at. The interesting claim in a tool for illustrators is
-          usually about where the AI is allowed to stand; say where you put it
-          and what that cost.
+          Then open a project into the workspace and change the illustration
+          style in Story settings. That is the moment worth having an opinion
+          about &mdash; whether locking the whole book is the right price for a
+          book that stays consistent.
         </p>
 
-        <div class="sandbox" data-r>
+        <div class="sandbox sandbox--wide" data-r>
           <div class="sb-head">
             <span class="sb-title">Blue Balloon workspace</span>
-            <span class="sb-sub">Project board, workspace canvas, character library and the AI step.</span>
+            <span class="sb-sub">Project board, book setup, character variants, the AI studio and the page canvas.</span>
           </div>
 
           <div class="sb-win">
@@ -205,19 +386,19 @@
                 <button class="sb-tool" type="button" data-sb-reset>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg><span class="sb-label">Reset</span>
                 </button>
-                <a class="sb-tool" data-sb-open target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Full screen</span>
+                <a class="sb-tool sb-tool--go" data-sb-open target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5A1.8 1.8 0 0 1 3.2 19V7.8A1.8 1.8 0 0 1 5 6h5"/></svg><span class="sb-label">Open full screen</span>
                 </a>
               </div>
             </div>
 
-            <div class="sb-stage" data-w="1280" data-app="assets/sandbox/bluebal/index.html">
+            <div class="sb-stage" data-app="assets/sandbox/bluebal/index.html">
               <img class="sb-poster" src="assets/images/posters/bluebal.jpg" alt="Blue Balloon project board">
               <iframe title="Blue Balloon workspace — live build" loading="lazy"></iframe>
               <button class="sb-launch" type="button">
                 <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5 19 12 8 18.5z"/></svg>Launch the live build</span>
               </button>
-              <span class="sb-hint" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11V5.6a1.6 1.6 0 0 1 3.2 0V11"/><path d="M9.2 10.4V4.3a1.6 1.6 0 0 1 3.2 0v6"/><path d="M12.4 10.6V6.2a1.6 1.6 0 0 1 3.2 0v5.4"/><path d="M15.6 11.6V9a1.6 1.6 0 0 1 3.2 0v5.6c0 3.5-2.5 6.4-6.2 6.4-3.4 0-4.9-1.6-6.6-4.6l-2-3.5a1.6 1.6 0 0 1 2.7-1.7l1.3 2"/></svg>Open a project — the workspace is live.</span>
+              <span class="sb-hint" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11V5.6a1.6 1.6 0 0 1 3.2 0V11"/><path d="M9.2 10.4V4.3a1.6 1.6 0 0 1 3.2 0v6"/><path d="M12.4 10.6V6.2a1.6 1.6 0 0 1 3.2 0v5.4"/><path d="M15.6 11.6V9a1.6 1.6 0 0 1 3.2 0v5.6c0 3.5-2.5 6.4-6.2 6.4-3.4 0-4.9-1.6-6.6-4.6l-2-3.5a1.6 1.6 0 0 1 2.7-1.7l1.3 2"/></svg>Start a new project — the whole flow works.</span>
             </div>
           </div>
 
@@ -229,27 +410,51 @@
       </div>
     </section>
 
-    <!-- ============ 05 CONCLUSION ============ -->
+    <!-- ============ 08 TAKEAWAY ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">05 &mdash; Conclusion</p></div>
+      <div class="rail"><p class="label">08 &mdash; Impact &amp; takeaway</p></div>
       <div>
-        <h2>What it <em>achieves</em></h2>
+        <h2>What the shape <em>comes down to</em></h2>
         <p class="body" data-r>
-          PLACEHOLDER &mdash; the outcome in plain terms. If you have numbers,
-          they go in the metrics row; if you don't, say what changed
-          qualitatively rather than inventing a figure.
+          The brief was &ldquo;replace the illustrator&rdquo;. What the work
+          actually produced was a division of labour: the models draw, and the
+          system holds the three things an illustrator holds without being asked
+          &mdash; <b>the same character across a whole book, a composition that
+          leaves room for the words, and one visual language from cover to
+          cover</b>. None of those is an image-generation problem. All three are
+          design problems that had to be solved before generation was worth
+          doing at all.
         </p>
-
         <div class="metrics" data-r>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
-          <div><p class="n">&mdash;</p><p class="l">PLACEHOLDER metric</p></div>
+          <div><p class="n">4<sup>+</sup></p><p class="l">Models in the relay, invisible to the user</p></div>
+          <div><p class="n">66/33</p><p class="l">Scene-you-can-write-on to focus, per page</p></div>
+          <div><p class="n">6</p><p class="l">Variants a single character can hold</p></div>
+          <div><p class="n">1</p><p class="l">Character change re-cuts the whole book</p></div>
         </div>
-
+        <p class="body" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          The lesson I would carry forward is the character one. The obvious
+          requirement &mdash; <i>keep the character consistent</i> &mdash; was
+          wrong, and building to it would have shipped a product that fails on
+          any story where somebody grows up, transforms, or turns back. The
+          right requirement was <b>let the story say where each look
+          belongs</b>, and once that was the model, four messy permutations
+          collapsed into one page-range control an editor can fill in without
+          being taught anything.
+        </p>
         <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
           <p class="body">
-            <b>Template page.</b> This case study is scaffolded and waiting on
-            copy and artwork. Delete this box once the page is written.
+            <b>About what's shown here.</b> The client and the manuscripts are
+            anonymised, and the sample books, characters and teammates in the
+            embedded build are invented. The build is a front-end prototype:
+            the flow, the variant and page-range system, the staleness rules and
+            the page canvas are all real and operable, but the illustrations it
+            shows are placeholders rather than live generations &mdash; the
+            orchestration described in section 02 runs behind the product, not
+            inside this page. <b>Still open:</b> whether the whole-book
+            regeneration lock survives contact with a deadline. It is the honest
+            behaviour and the one most likely to be argued with, and the test I
+            want to run is what an editor does at 6pm the day before a print
+            date when one character is wrong on one spread.
           </p>
         </div>
       </div>
@@ -283,7 +488,7 @@
     <p class="c1">&copy; 2026 Divyansh Srivastava<br>Roorkee, Uttarakhand</p>
     <div class="c2">
       <a class="pill-dark" href="mailto:divyanshbittu2002@gmail.com">Email</a>
-      <a class="pill-dark" data-resume href="assets/resume.pdf">Résumé</a>
+      <a class="pill-dark" data-resume href="assets/resume.pdf">R&eacute;sum&eacute;</a>
     </div>
     <p class="c3"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="contact.html">Contact</a></p>
   </div>

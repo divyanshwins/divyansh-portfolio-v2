@@ -1,311 +1,29 @@
 /* ==========================================================================
-   SANDBOX.CSS — live product surfaces
+   SANDBOX.CSS — the live build, embedded in a case study
    --------------------------------------------------------------------------
-   Two components, one idea: on this site a project is shown by handing you
-   the thing itself, not a picture of it.
+   One component, two sizes.
 
-     .mac-*   the work-card thumbnail. A MacBook standing in a scene, with
-              the project's real landing page running inside the screen —
-              scrollable and hoverable, but deliberately not navigable, so
-              the card stays a card and the click still opens the case study.
+     .sandbox          the default: sits in the reading column's plate width,
+                       for a build that is happy at ~1180px.
 
-     .sb-*    the case-study sandbox. The same build at full size and full
-              interactivity, framed in browser chrome so it reads as software
-              rather than as a screenshot.
+     .sandbox--wide    breaks out to the full width of the window. A dependency
+                       console is a wall of a tool; shown at prose width it is
+                       the tablet build, and the reader ends up judging a
+                       layout that was never designed.
 
-   Both load their app in an iframe from assets/sandbox/<slug>/. Everything
-   there is same-origin, which is what lets site.js reach into the guest
-   document to lock the thumbnail down and drive its ambient scroll.
+   .cmp-* is the component index that drives a wide sandbox: chips that reach
+   into the running app and put it on the screen a given component lives on.
+   Everything under assets/sandbox/ is same-origin, which is what makes that
+   possible without inventing a message protocol.
    ========================================================================== */
 
-/* ==========================================================================
-   1. THE MACBOOK THUMBNAIL
-   ========================================================================== */
-
-/* ---------- the scene ----------
-   The card art is a lit room, not a flat swatch: a wash that sits behind the
-   machine, a soft pool of light under it, and a barely-there dot grid to give
-   the surface a sense of scale. Each project sets --s1/--s2/--glow, so the
-   four cards read as one family photographed under different lights rather
-   than four different treatments. Everything is desaturated on purpose — the
-   page around it is #f4f4f4 and near-black type, and a neon card would win an
-   argument nobody wanted to have. */
-.mac-scene {
-  --s1: #2a2e36;
-  --s2: #14161a;
-  --glow: rgba(255, 255, 255, 0.16);
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--r);
-  overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 118%, var(--glow) 0%, transparent 58%),
-    linear-gradient(168deg, var(--s1) 0%, var(--s2) 100%);
-  display: grid;
-  place-items: center;
-  isolation: isolate;
-}
-
-/* the dot grid — 26px lattice, fading out toward the top so it reads as a
-   surface receding rather than as wallpaper */
-.mac-scene::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px);
-  background-size: 26px 26px;
-  -webkit-mask-image: linear-gradient(to top, #000 8%, transparent 74%);
-          mask-image: linear-gradient(to top, #000 8%, transparent 74%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* a single soft sheen across the upper left, so the flat gradient picks up
-   some direction */
-.mac-scene::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(112deg, rgba(255,255,255,0.055) 0%, transparent 42%);
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* ---------- the machine ---------- */
-.mac {
-  position: relative;
-  width: 75%;
-  z-index: 1;
-  /* nudged up a touch: the deck and its shadow need room underneath, and a
-     machine dead-centre in the frame looks like it is falling out of it */
-  transform: translateY(-1.5%);
-  transition: transform 0.9s var(--ease);
-}
-.card:hover .mac { transform: translateY(-3%) scale(1.02); }
-
-/* the lid — brushed aluminium is three stops, not two: a bright top edge, the
-   body, and a darker bottom that reads as the curve away from the light */
-.mac-lid {
-  position: relative;
-  padding: 2.15%;
-  border-radius: clamp(7px, 1.05vw, 13px);
-  background: linear-gradient(176deg, #4b4f57 0%, #2c3037 34%, #1e2126 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
-    0 26px 44px -20px rgba(0, 0, 0, 0.72),
-    0 4px 12px -6px rgba(0, 0, 0, 0.5);
-}
-
-/* camera pinhole. Small enough to be felt rather than seen — which is the
-   whole point of the detail. */
-.mac-lid::before {
-  content: '';
-  position: absolute;
-  top: 0.85%;
-  left: 50%;
-  width: 4px;
-  height: 4px;
-  margin-left: -2px;
-  border-radius: 50%;
-  background: #0d0f12;
-  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.16);
-  z-index: 2;
-}
-
-/* ---------- the screen ----------
-   16:10, which is the real ratio — 16:9 makes a MacBook look like a monitor.
-   The guest page is rendered at a fixed 1440x900 and scaled down by JS, so
-   whatever is inside is laid out at desktop width and simply shrunk, exactly
-   as a real screenshot of the machine would be. */
-.mac-screen {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-radius: 3px;
-  background: #0b0d10;
-  /* the glass: a faint reflected gradient over everything inside */
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.55);
-}
-
-.mac-poster {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  z-index: 1;
-  transition: opacity 0.65s var(--ease);
-}
-
-/* The live frame is laid out at desktop size and scaled from the top-left
-   corner; --mac-scale is written by site.js from the screen's measured width.
-   Sizing the iframe itself instead of zooming its content is what keeps the
-   guest page's own media queries on their DESKTOP branch — set the iframe to
-   the card's real width and the app would helpfully collapse into its mobile
-   layout, which is not the thing being shown. */
-.mac-live {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1440px;
-  height: 900px;
-  border: 0;
-  transform: scale(var(--mac-scale, 0.28));
-  transform-origin: 0 0;
-  opacity: 0;
-  z-index: 2;
-  transition: opacity 0.75s var(--ease);
-  /* the guest scrolls; at its ends the browser chains the wheel back out to
-     the page, which is why the card never traps the scroll */
-  overscroll-behavior: auto;
-}
-.mac-screen.live .mac-live   { opacity: 1; }
-.mac-screen.live .mac-poster { opacity: 0; }
-
-/* screen glare, above the guest content. pointer-events:none so it never eats
-   a hover the visitor meant for the app underneath. */
-.mac-screen::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: linear-gradient(128deg,
-    rgba(255, 255, 255, 0.11) 0%,
-    rgba(255, 255, 255, 0.03) 26%,
-    transparent 52%);
-  opacity: 0.9;
-  transition: opacity 0.6s var(--ease);
-}
-.card:hover .mac-screen::after { opacity: 0.42; }
-
-/* ---------- the deck ----------
-   Wider than the lid, with the thumb notch cut into the front edge. The
-   trapezoid is faked with a border trick rather than clip-path so the
-   gradient survives: clip-path would flatten the highlight along the top. */
-.mac-deck {
-  position: relative;
-  width: 118%;
-  height: 0;
-  padding-bottom: 2.9%;
-  margin: 0 0 0 -9%;
-  border-radius: 0 0 clamp(5px, 0.7vw, 9px) clamp(5px, 0.7vw, 9px);
-  background: linear-gradient(180deg, #6b7079 0%, #3c4047 22%, #212429 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.34),
-    0 16px 26px -14px rgba(0, 0, 0, 0.66);
-}
-/* the notch */
-.mac-deck::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 15%;
-  height: 52%;
-  transform: translateX(-50%);
-  border-radius: 0 0 40px 40px;
-  background: linear-gradient(180deg, #1a1c20 0%, #2a2d33 100%);
-}
-
-/* the pool of shadow the machine casts on the surface */
-.mac::after {
-  content: '';
-  position: absolute;
-  left: 4%;
-  right: 4%;
-  bottom: -7%;
-  height: 9%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, transparent 72%);
-  filter: blur(6px);
-  z-index: -1;
-}
-
-/* ---------- the "live" tell ----------
-   A thumbnail that moves needs to say why, or it reads as a looping gif. The
-   chip appears only once the frame is actually live. */
-.mac-badge {
-  position: absolute;
-  left: 14px;
-  bottom: 13px;
-  z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 11px 5px 9px;
-  border-radius: 999px;
-  background: rgba(12, 14, 18, 0.62);
-  -webkit-backdrop-filter: blur(9px);
-          backdrop-filter: blur(9px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  font-size: 10.5px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.86);
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
-  pointer-events: none;
-}
-.mac-scene.is-live .mac-badge { opacity: 1; transform: none; }
-
-.mac-badge i {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
-  animation: mac-pulse 2.1s infinite;
-}
-@keyframes mac-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
-  70%  { box-shadow: 0 0 0 7px rgba(74, 222, 128, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-}
-
-/* while the app is still being fetched */
-.mac-scene.is-booting .mac-badge {
-  opacity: 1;
-  transform: none;
-}
-.mac-scene.is-booting .mac-badge i {
-  background: #fbbf24;
-  animation: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mac-badge i { animation: none; }
-  .mac, .mac-screen::after { transition: none; }
-}
-
-/* On a phone the machine is ~150px wide: the guest UI would be unreadable and
-   the download unjustifiable, so the poster is the whole component. site.js
-   agrees separately and never boots a frame at this width. */
-@media (max-width: 760px) {
-  .mac { width: 80%; }
-  .mac-badge { display: none; }
-}
-
-
-/* ==========================================================================
-   2. THE CASE-STUDY SANDBOX
-   --------------------------------------------------------------------------
-   The job here is the opposite of the thumbnail's: this one has to be
-   obviously operable. Everything below — the chrome, the live dot, the hint
-   that fades the moment you touch it, the reset — exists to answer the
-   question a visitor asks in the first half second, which is "is this a
-   picture?"
-   ========================================================================== */
-
-/* The one element on a case page allowed out of the reading measure.
-   case.css deliberately pins figures to --prose (760px) so the page reads as
-   a single column — but a 760px viewport is the point where every one of
-   these apps switches to its NARROW layout, so honouring the measure here
-   would show the reader the tablet build and call it the product. It breaks
-   out to the masthead's plate width instead. */
+/* The selector has to be this long. case.css centres a section's prose with
+   `.sec > div:not(.rail) { grid-template-columns: 1fr min(--prose,100%) 1fr }`
+   and then pins every child to the middle track with
+   `.sec > div:not(.rail) > * { grid-column: 2 }` — which outranks a lone
+   `.sandbox` class and silently clamps the frame to the 760px reading measure.
+   Matching that rule's shape is what lets the sandbox out of the column. */
+.sec > div:not(.rail) > .sandbox,
 .sandbox {
   margin-top: clamp(22px, 3vw, 34px);
   grid-column: 1 / -1;
@@ -313,7 +31,30 @@
   width: min(var(--case-max, 1180px), 100%);
 }
 
-/* ---------- the caption row above the frame ---------- */
+/* Edge to edge, and it has to escape TWO cages to get there: the prose grid
+   inside the section, and the section itself, which case.css caps at
+   `--case-max + 2 × --edge` and centres. Cancelling .wrap's padding only
+   handles the second one and lands ~340px short on a wide monitor.
+
+   `margin-inline: calc(50% - 50vw)` is measured against the viewport instead
+   of any ancestor, so it clears both regardless of what they are capped at.
+   The known cost is that 100vw includes a classic scrollbar, which would
+   overhang by its width — .page's own `overflow: clip` absorbs that, so no
+   horizontal scrollbar ever appears. On overlay-scrollbar platforms the two
+   are identical anyway. */
+.sec > div:not(.rail) > .sandbox--wide,
+.sandbox--wide {
+  width: 100vw;
+  max-width: none;
+  justify-self: stretch;
+  margin-inline: calc(50% - 50vw);
+}
+.sandbox--wide .sb-win { border-radius: 0; border-inline: 0; }
+.sandbox--wide .sb-head,
+.sandbox--wide .sb-foot { padding-inline: var(--edge); }
+.sandbox--wide .sb-stage { height: clamp(520px, 84vh, 1040px); }
+
+/* ---------- the caption row ---------- */
 .sb-head {
   display: flex;
   align-items: baseline;
@@ -322,16 +63,167 @@
   flex-wrap: wrap;
   margin-bottom: clamp(10px, 1.2vw, 16px);
 }
-.sb-head .sb-title {
-  font-size: clamp(13.5px, 0.62vw, 17px);
-  font-weight: 500;
-}
-.sb-head .sb-sub {
-  font-size: clamp(11.5px, 0.52vw, 14px);
-  color: var(--mute);
+.sb-head .sb-title { font-size: clamp(13.5px, 0.62vw, 17px); font-weight: 500; }
+.sb-head .sb-sub   { font-size: clamp(11.5px, 0.52vw, 14px); color: var(--mute); }
+
+/* ==========================================================================
+   COMPONENT LIBRARY
+   --------------------------------------------------------------------------
+   A design-system page shows components, not screens. Each tile below holds
+   its own frame of the real build, driven to the state the component lives in
+   and then CROPPED to that component's own bounding box — so what you see is
+   one component, alone, at its real size, and still operable.
+
+   The alternative was redrawing them, which is what was here before and what
+   drifted out of sync with the product. A crop cannot drift: it is the
+   component, or it is nothing.
+   ========================================================================== */
+
+/* ---------- one specimen, then the next ----------
+   Components run down the page in the case study's own reading order, one at
+   a time, each with its write-up underneath — the same shape the section had
+   when they were drawings, except these are the components.
+
+   They do get out of the 760px prose column, though. case.css pins figures to
+   the reading measure on purpose, but the widest component here is 1208px, and
+   at 760 it would be shown at 63% — a size the product never renders. Each
+   specimen centres on the masthead's plate instead, which is as wide as this
+   page ever goes. */
+.sec > div:not(.rail) > .ds-spec,
+.ds-spec {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(var(--case-max, 1180px), 100%);
+  margin-top: clamp(30px, 4vw, 62px);
 }
 
-/* ---------- the window ---------- */
+.ds-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  /* a checkerboard says "specimen on a surface" rather than "screenshot" */
+  background-image:
+    linear-gradient(45deg, rgba(19,19,19,0.022) 25%, transparent 25%, transparent 75%, rgba(19,19,19,0.022) 75%),
+    linear-gradient(45deg, rgba(19,19,19,0.022) 25%, transparent 25%, transparent 75%, rgba(19,19,19,0.022) 75%);
+  background-size: 18px 18px;
+  background-position: 0 0, 9px 9px;
+  margin-inline: auto;
+}
+/* No min-height. The specimen image carries the component's own height, and a
+   floor under a 46px toolbar just paints 30px of empty board inside its
+   frame. */
+/* The specimen itself: an exact 2x crop of the component, rendered from the
+   build at capture time. It is what the tile shows by default — correct on
+   the first frame, no boot to wait through, and no dependency on being able
+   to reach into the frame at all. */
+.ds-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* .ds-frame carries an inline max-width equal to the component's real CSS
+   width, so a narrow specimen keeps its size in a wide column instead of
+   being stretched into something the product never renders. */
+
+/* The live upgrade sits on top, and only when asked for. Eight React mounts
+   racing each other made every tile say "loading" for the best part of a
+   minute; one, on the tile you are actually pointing at, does not. */
+.ds-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1440px;
+  height: 900px;
+  border: 0;
+  transform-origin: 0 0;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+  pointer-events: none;
+}
+.ds-spec.live .ds-frame iframe { opacity: 1; pointer-events: auto; }
+
+/* the affordance, and the boot state it turns into */
+.ds-go {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.94);
+  font: inherit;
+  font-size: 11px;
+  color: var(--ink-2);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.28s var(--ease), background 0.28s var(--ease), color 0.28s var(--ease);
+}
+.ds-spec:hover .ds-go,
+.ds-go:focus-visible { opacity: 1; }
+.ds-go:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.ds-spec.booting .ds-go { opacity: 1; }
+.ds-spec.live .ds-go { display: none; }
+.ds-go i {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+.ds-spec.booting .ds-go i { background: #fbbf24; }
+/* nothing to promise where there is no pointer, or where the page cannot
+   reach into the frame to crop it — sandbox.js flags that on <body>, because
+   there is no single container the specimens all share */
+body.ds-nolive .ds-go { display: none; }
+@media (hover: none) { .ds-go { display: none; } }
+
+/* The writing is case-study prose and is set as case-study prose: the same
+   --prose measure, on the same centre line, as every paragraph above it. The
+   SPECIMEN is allowed to be 1180px wide because a component has a real size;
+   its caption is not, because a 1180px line length is unreadable. Both are
+   centred in the same block, so the caption's left edge lands exactly on the
+   body text's left edge and the column never appears to jog. */
+.ds-spec figcaption {
+  width: min(var(--prose, 760px), 100%);
+  margin: clamp(13px, 1.5vw, 20px) auto 0;
+}
+.ds-name {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: clamp(15px, 0.7vw, 19px);
+  font-weight: 500;
+  letter-spacing: -0.008em;
+}
+.ds-name b { font-weight: 400; color: var(--mute); font-variant-numeric: tabular-nums; }
+.ds-name .ds-live {
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.ds-spec.live .ds-name .ds-live { opacity: 1; }
+
+/* matches .body in core.css — this is body copy, not a photo caption */
+.ds-desc {
+  margin-top: 8px;
+  font-size: clamp(14px, 0.64vw, 17px);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.ds-desc b { font-weight: 500; color: var(--ink); }
+
+/* ==========================================================================
+   THE WINDOW
+   ========================================================================== */
+
 .sb-win {
   position: relative;
   border-radius: 14px;
@@ -341,8 +233,6 @@
   box-shadow: 0 30px 60px -34px rgba(12, 15, 20, 0.42);
 }
 
-/* browser chrome. Not decoration — it is the fastest way to tell somebody
-   that the rectangle below behaves like a website. */
 .sb-bar {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -353,11 +243,7 @@
   border-bottom: 1px solid var(--line);
 }
 .sb-dots { display: flex; gap: 6px; }
-.sb-dots i {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: rgba(19, 19, 19, 0.16);
-}
+.sb-dots i { width: 10px; height: 10px; border-radius: 50%; }
 .sb-dots i:nth-child(1) { background: #ec6a5e; }
 .sb-dots i:nth-child(2) { background: #f4bf4f; }
 .sb-dots i:nth-child(3) { background: #61c554; }
@@ -391,6 +277,7 @@
   border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--bg);
+  font: inherit;
   font-size: 11.5px;
   color: var(--ink-2);
   cursor: pointer;
@@ -398,7 +285,28 @@
 }
 .sb-tool:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .sb-tool svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; }
-@media (max-width: 720px) { .sb-tools .sb-label { display: none; } }
+@media (max-width: 760px) { .sb-tools .sb-label { display: none; } }
+
+/* ---------- open in a tab ----------
+   The most valuable control on the page and, in a row of grey outlined pills,
+   previously the least visible. Nothing else on this site is blue, so blue is
+   unambiguous: it means "this leaves the page and hands you the whole
+   product". The pulse runs three times and stops — an indicator that never
+   stops is just a distraction with a job title. */
+.sb-tool--go {
+  background: #1d63ff;
+  border-color: #1d63ff;
+  color: #fff;
+  padding-inline: 13px;
+  font-weight: 500;
+  animation: sb-beacon 2.4s var(--ease) 3;
+}
+.sb-tool--go:hover { background: #0b47cc; border-color: #0b47cc; color: #fff; }
+@keyframes sb-beacon {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(29, 99, 255, 0); }
+  40%      { box-shadow: 0 0 0 6px rgba(29, 99, 255, 0.22); }
+}
+@media (prefers-reduced-motion: reduce) { .sb-tool--go { animation: none; } }
 
 /* ---------- the stage ---------- */
 .sb-stage {
@@ -406,11 +314,6 @@
   height: clamp(460px, 72vh, 780px);
   background: var(--bg-2);
 }
-/* Fluid by default — a responsive site should be met at whatever width the
-   frame happens to be. An app with a fixed desktop chrome sets data-w on the
-   stage instead and sandbox.js drives width/height/transform inline, so the
-   guest always lays out at its intended viewport and is scaled to fit. Hit
-   testing follows the transform, so everything stays clickable. */
 .sb-stage iframe {
   position: absolute;
   top: 0;
@@ -424,7 +327,6 @@
 }
 .sb-stage.ready iframe { opacity: 1; }
 
-/* the poster the visitor sees before the app has booted */
 .sb-poster {
   position: absolute;
   inset: 0;
@@ -432,30 +334,24 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  filter: saturate(0.72) blur(1px);
-  transform: scale(1.02);
+  filter: saturate(0.78);
   transition: opacity 0.6s var(--ease);
 }
 .sb-stage.ready .sb-poster { opacity: 0; }
 
-/* ---------- launch ---------- */
 .sb-launch {
   position: absolute;
   inset: 0;
   z-index: 3;
   display: grid;
   place-items: center;
-  gap: 0;
-  background: rgba(244, 244, 244, 0.55);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  background: rgba(244, 244, 244, 0.72);
   border: 0;
   cursor: pointer;
   transition: opacity 0.45s var(--ease);
 }
 .sb-stage.ready .sb-launch,
 .sb-stage.booting .sb-launch { opacity: 0; pointer-events: none; }
-
 .sb-launch span {
   display: inline-flex;
   align-items: center;
@@ -471,10 +367,7 @@
 .sb-launch:hover span { transform: translateY(-2px) scale(1.03); }
 .sb-launch svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-/* ---------- the "you can touch this" hint ----------
-   It is placed over the frame, ignores the pointer so it can never absorb the
-   first click it is asking for, and removes itself the moment anything
-   happens inside the guest. */
+/* ---------- "you can touch this" ---------- */
 .sb-hint {
   position: absolute;
   left: 50%;
@@ -486,9 +379,7 @@
   gap: 9px;
   padding: 9px 16px;
   border-radius: 999px;
-  background: rgba(19, 19, 19, 0.9);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  background: rgba(19, 19, 19, 0.92);
   color: #fff;
   font-size: 12px;
   white-space: nowrap;
@@ -503,11 +394,8 @@
   50%      { transform: translateX(-50%) translateY(-5px); }
 }
 .sb-hint svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; }
-@media (prefers-reduced-motion: reduce) {
-  .sb-stage.ready .sb-hint { animation: none; }
-}
+@media (prefers-reduced-motion: reduce) { .sb-stage.ready .sb-hint { animation: none; } }
 
-/* live dot in the chrome bar */
 .sb-live {
   display: inline-flex;
   align-items: center;
@@ -523,13 +411,14 @@
   background: var(--faint);
   transition: background 0.4s var(--ease);
 }
-.sb-win.ready .sb-live i {
-  background: #22c55e;
-  animation: mac-pulse 2.1s infinite;
+.sb-win.ready .sb-live i { background: #22c55e; animation: sb-pulse 2.1s infinite; }
+@keyframes sb-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 @media (prefers-reduced-motion: reduce) { .sb-live i { animation: none !important; } }
 
-/* ---------- the note under the frame ---------- */
 .sb-foot {
   display: flex;
   align-items: center;
@@ -541,11 +430,22 @@
   color: var(--mute);
 }
 
-/* a phone cannot usefully drive a 1440px enterprise console inside a 340px
-   viewport; say so plainly and offer the full-tab escape hatch instead of
-   shipping a frustrating toy */
 .sb-mobile { display: none; }
-@media (max-width: 720px) {
-  .sb-stage { height: 62vh; }
+@media (max-width: 760px) {
+  .sb-stage,
+  .sandbox--wide .sb-stage { height: 62vh; }
   .sb-mobile { display: block; }
+  .cmp { gap: 6px; }
+  .cmp-chip { padding: 7px 12px; }
 }
+
+/* ==========================================================================
+   AWAITING ARTWORK
+   --------------------------------------------------------------------------
+   Work cards whose thumbnail is still to be made. core.css already owns the
+   hatched .shot-tbd field; this only gives it the card grid's 4:3 box so the
+   rows do not go ragged, and so dropping a real <img> in later is a one-line
+   swap with no layout change.
+   ========================================================================== */
+.duo .shot-tbd,
+.proj .shot-tbd { aspect-ratio: 4 / 3; }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blue Balloon — AI Storybook Illustration · Divyansh Srivastava</title>
-<meta name="description" content="A children's book publisher wanted to generate whole illustrated books from a manuscript. No single model could do it — so the work became orchestration, a composition rule that leaves room for text, and a character system that survives a character changing shape mid-story.">
+<meta name="description" content="A children's book publisher wanted to generate whole illustrated books from a manuscript. No single model could do it — so the work became orchestration across models, a supervision tree that judges every page before it ships, a composition rule that leaves room for text, and a character system that survives a character changing shape mid-story.">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
@@ -12,6 +12,84 @@
 <link rel="stylesheet" href="core.css">
 <link rel="stylesheet" href="case.css">
 <link rel="stylesheet" href="sandbox.css">
+
+<style>
+/* ==========================================================================
+   BLUEBAL — the orchestration tree
+   --------------------------------------------------------------------------
+   Drawn rather than screenshotted, because it is a system diagram and the
+   only honest way to keep it in sync with the prose beside it is to keep it
+   in the same file. Inline SVG on a viewBox so it scales to any column
+   without a second asset to maintain.
+
+   Three tones do all the work: ink for the nodes that decide, tan for the
+   nodes that judge, terracotta for the one path that means "not yet". The
+   model names are set smaller and muted — the architecture is the point, and
+   the roster is the part most likely to be out of date first.
+   ========================================================================== */
+.orch {
+  margin-top: clamp(20px, 2.6vw, 34px);
+  padding: clamp(16px, 2vw, 28px) clamp(12px, 1.6vw, 22px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--bg-2);
+  overflow-x: auto;
+}
+.orch svg { display: block; width: 100%; min-width: 620px; height: auto; }
+
+.orch .box    { fill: var(--bg); stroke: rgba(19, 19, 19, 0.18); stroke-width: 1; }
+.orch .box.on { fill: #141414; stroke: #141414; }
+.orch .box.qa { fill: #efe3d2; stroke: rgba(122, 90, 51, 0.34); }
+.orch .box.ok { fill: #e2ead9; stroke: rgba(75, 122, 75, 0.4); }
+.orch .box.no { fill: #f2ded7; stroke: rgba(180, 71, 43, 0.4); }
+
+.orch .t  { font-family: var(--sans); font-size: 13px; letter-spacing: 0.03em; fill: #131313; }
+.orch .t.inv { fill: #f4f4f4; }
+.orch .m  { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.05em; fill: #8e8e8e; }
+.orch .m.inv { fill: rgba(244, 244, 244, 0.62); }
+.orch .cap-t { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.1em; fill: #b3b3b3; }
+
+.orch .wire  { stroke: rgba(19, 19, 19, 0.28); stroke-width: 1.2; fill: none; }
+.orch .wire.loop { stroke: #b4472b; stroke-dasharray: 4 4; }
+.orch .head  { fill: rgba(19, 19, 19, 0.42); }
+.orch .head.loop { fill: #b4472b; }
+
+.orch-cap {
+  margin-top: clamp(12px, 1.6vw, 18px);
+  font-size: clamp(12px, 0.58vw, 14.5px);
+  color: var(--mute);
+  line-height: 1.5;
+}
+
+/* ---------- the QA lanes, written out ---------- */
+.lanes { margin-top: clamp(20px, 2.4vw, 32px); border-top: 1px solid var(--line); }
+.lanes .lh {
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  padding: clamp(16px, 1.8vw, 22px) 0 4px;
+}
+.lanes .l {
+  display: grid;
+  grid-template-columns: minmax(0, 190px) 1fr;
+  gap: clamp(10px, 1.6vw, 26px);
+  padding: clamp(13px, 1.5vw, 18px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.lanes .l .who { font-size: clamp(13.5px, 0.68vw, 17px); }
+.lanes .l .who small {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.76em;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+.lanes .l .q { font-size: clamp(13.5px, 0.68vw, 17px); line-height: 1.5; color: var(--ink-2); }
+.lanes .l .q b { color: var(--ink); font-weight: 500; }
+@media (max-width: 620px) { .lanes .l { grid-template-columns: 1fr; gap: 7px; } }
+</style>
 </head>
 
 <body>
@@ -140,12 +218,214 @@
             <p>None of this surfaces. There is no model picker, no step list, no temperature. The interface asks about the story and the art direction; which engine drew what is an implementation detail the publisher should never have to hold.</p>
           </article>
         </div>
+
+        <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          That gets a page drawn. The harder half is deciding whether the page
+          that came back is any good &mdash; which is the next section.
+        </p>
       </div>
     </section>
 
-    <!-- ============ 03 COMPOSITION ============ -->
+    <!-- ============ 03 SUPERVISION ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">03 &mdash; A page has to hold words</p></div>
+      <div class="rail"><p class="label">03 &mdash; Supervision</p></div>
+      <div>
+        <h2>The model that drew it <em>does not get to mark it</em></h2>
+        <p class="body" data-r>
+          Orchestration gets a picture made. It does not get a picture that is
+          <i>correct</i>, and a children's book has a very low tolerance for
+          incorrect. A spread cannot ship with six fingers on one hand. The
+          coat cannot change colour between page 11 and page 12. A scene the
+          manuscript calls a garden cannot arrive as a forest.
+        </p>
+        <p class="body" data-r>
+          Those are three unrelated failures, and the thing that does not catch
+          them is asking one model <i>is this good?</i> &mdash; least of all the
+          model that just made it. So the second half of the system is a
+          supervision tree: the generator produces a candidate, a supervisor
+          fans it out to narrow critics that each answer <b>one question they
+          can actually answer</b>, and a single arbitrator turns their verdicts
+          into the one decision the page needs.
+        </p>
+
+        <figure class="orch" data-r>
+          <svg viewBox="0 0 980 760" role="img" aria-labelledby="orchT orchD">
+            <title id="orchT">The image generation and QA orchestration tree</title>
+            <desc id="orchD">An orchestrator drives an image generator, whose output passes to a QA supervisor. The supervisor fans out to character, scene and style QA, then to anatomy, continuity and safety checks. A final arbitrator either approves the page or sends it for targeted regeneration, which re-enters QA.</desc>
+
+            <defs>
+              <marker id="ah" viewBox="0 0 8 8" refX="7.2" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0,0 L8,4 L0,8 z" class="head"/>
+              </marker>
+              <marker id="ahl" viewBox="0 0 8 8" refX="7.2" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0,0 L8,4 L0,8 z" class="head loop"/>
+              </marker>
+            </defs>
+
+            <!-- spine -->
+            <rect class="box on" x="330" y="14" width="240" height="42" rx="8"/>
+            <text class="t inv" x="450" y="40" text-anchor="middle">ORCHESTRATOR</text>
+            <path class="wire" d="M450,56 V84" marker-end="url(#ah)"/>
+
+            <rect class="box" x="330" y="90" width="240" height="54" rx="8"/>
+            <text class="t" x="450" y="114" text-anchor="middle">IMAGE GENERATOR</text>
+            <text class="m" x="450" y="132" text-anchor="middle">the multi-model relay</text>
+            <path class="wire" d="M450,144 V172" marker-end="url(#ah)"/>
+
+            <rect class="box qa" x="330" y="178" width="240" height="42" rx="8"/>
+            <text class="t" x="450" y="204" text-anchor="middle">QA SUPERVISOR</text>
+
+            <!-- fan out to round one -->
+            <path class="wire" d="M450,220 V248 M150,248 H750 M150,248 V270 M450,248 V270 M750,248 V270"/>
+            <path class="wire" d="M150,262 V270" marker-end="url(#ah)"/>
+            <path class="wire" d="M450,262 V270" marker-end="url(#ah)"/>
+            <path class="wire" d="M750,262 V270" marker-end="url(#ah)"/>
+
+            <text class="cap-t" x="38" y="292" >ROUND ONE &mdash; IS IT THE RIGHT PICTURE?</text>
+
+            <rect class="box qa" x="38"  y="304" width="224" height="54" rx="8"/>
+            <text class="t" x="150" y="328" text-anchor="middle">CHARACTER QA</text>
+            <text class="m" x="150" y="346" text-anchor="middle">Gemini</text>
+
+            <rect class="box qa" x="338" y="304" width="224" height="54" rx="8"/>
+            <text class="t" x="450" y="328" text-anchor="middle">SCENE QA</text>
+            <text class="m" x="450" y="346" text-anchor="middle">GPT-5.6</text>
+
+            <rect class="box qa" x="638" y="304" width="224" height="54" rx="8"/>
+            <text class="t" x="750" y="328" text-anchor="middle">STYLE QA</text>
+            <text class="m" x="750" y="346" text-anchor="middle">Gemini &middot; GPT</text>
+
+            <!-- fan in, fan out to round two -->
+            <path class="wire" d="M150,358 V384 M450,358 V384 M750,358 V384 M150,384 H750 M150,384 V406 M450,384 V406 M750,384 V406"/>
+            <path class="wire" d="M150,398 V406" marker-end="url(#ah)"/>
+            <path class="wire" d="M450,398 V406" marker-end="url(#ah)"/>
+            <path class="wire" d="M750,398 V406" marker-end="url(#ah)"/>
+
+            <text class="cap-t" x="38" y="428">ROUND TWO &mdash; IS IT SAFE TO PRINT?</text>
+
+            <rect class="box qa" x="38"  y="440" width="224" height="54" rx="8"/>
+            <text class="t" x="150" y="464" text-anchor="middle">ANATOMY</text>
+            <text class="m" x="150" y="482" text-anchor="middle">Vision &middot; CV</text>
+
+            <rect class="box qa" x="338" y="440" width="224" height="54" rx="8"/>
+            <text class="t" x="450" y="464" text-anchor="middle">CONTINUITY</text>
+            <text class="m" x="450" y="482" text-anchor="middle">GPT-5.6</text>
+
+            <rect class="box qa" x="638" y="440" width="224" height="54" rx="8"/>
+            <text class="t" x="750" y="464" text-anchor="middle">SAFETY</text>
+            <text class="m" x="750" y="482" text-anchor="middle">safety model</text>
+
+            <!-- fan in to the arbitrator -->
+            <path class="wire" d="M150,494 V520 M450,494 V520 M750,494 V520 M150,520 H750 M450,520 V542"/>
+            <path class="wire" d="M450,534 V542" marker-end="url(#ah)"/>
+
+            <rect class="box on" x="310" y="542" width="280" height="54" rx="8"/>
+            <text class="t inv" x="450" y="566" text-anchor="middle">FINAL ARBITRATOR</text>
+            <text class="m inv" x="450" y="584" text-anchor="middle">GPT-5.6 Sol</text>
+
+            <!-- the two outcomes -->
+            <path class="wire" d="M450,596 V620 M300,620 H610 M300,620 V644 M610,620 V644"/>
+            <path class="wire" d="M300,636 V644" marker-end="url(#ah)"/>
+            <path class="wire" d="M610,636 V644" marker-end="url(#ah)"/>
+
+            <rect class="box ok" x="215" y="644" width="170" height="40" rx="8"/>
+            <text class="t" x="300" y="669" text-anchor="middle">APPROVE</text>
+
+            <rect class="box no" x="525" y="644" width="170" height="40" rx="8"/>
+            <text class="t" x="610" y="669" text-anchor="middle">REPAIR</text>
+
+            <path class="wire" d="M300,684 V706" marker-end="url(#ah)"/>
+            <path class="wire loop" d="M610,684 V706" marker-end="url(#ahl)"/>
+
+            <rect class="box" x="205" y="706" width="190" height="40" rx="8"/>
+            <text class="t" x="300" y="731" text-anchor="middle">PAGE DONE</text>
+
+            <rect class="box no" x="505" y="706" width="210" height="40" rx="8"/>
+            <text class="t" x="610" y="731" text-anchor="middle">TARGETED REGEN</text>
+
+            <!-- and back through QA, never straight to done -->
+            <path class="wire loop" d="M715,726 H888 Q900,726 900,714 V211 Q900,199 888,199 H584" marker-end="url(#ahl)"/>
+            <text class="m" x="926" y="460" text-anchor="middle" transform="rotate(-90 926 460)">re-judged, never shipped unchecked</text>
+          </svg>
+        </figure>
+        <p class="orch-cap" data-r>
+          Generation on the spine, judgement in the branches, one decision at
+          the bottom. The dashed return is the only path that loops &mdash; and
+          it loops into QA, not into the finished book.
+        </p>
+
+        <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          Six critics rather than one grader, because <b>&ldquo;rate this
+          image&rdquo; returns mush and six narrow questions return
+          verdicts</b>. Each lane is asked something specific enough to be
+          answered yes or no, with a reason:
+        </p>
+
+        <div class="lanes" data-r>
+          <p class="lh">Round one &mdash; is it the right picture?</p>
+          <div class="l">
+            <p class="who">Character QA<small>Gemini</small></p>
+            <p class="q">Is this the <b>same character</b> as the reference assigned to this page range — face, build, wardrobe, the props they carry? The variant system from section 05 decides which reference is correct here; this lane decides whether the render honoured it.</p>
+          </div>
+          <div class="l">
+            <p class="who">Scene QA<small>GPT-5.6</small></p>
+            <p class="q">Does the image show <b>what the manuscript says happens on this page</b> — the place, the action, the time of day, who is present? A beautiful illustration of the wrong moment is still a defect.</p>
+          </div>
+          <div class="l">
+            <p class="who">Style QA<small>Gemini &middot; GPT</small></p>
+            <p class="q">Is it in the <b>book's illustration style and palette</b>, at the same rendering weight as the spreads either side of it? This is the lane that stops a thirty-two page book from looking like four books.</p>
+          </div>
+
+          <p class="lh">Round two &mdash; is it safe to print?</p>
+          <div class="l">
+            <p class="who">Anatomy<small>vision &middot; CV</small></p>
+            <p class="q">Hands, limb counts, faces, the number of legs on the dog. <b>The failure every reader spots instantly</b> and no generator reliably avoids — so it gets a dedicated check rather than a clause in a longer prompt.</p>
+          </div>
+          <div class="l">
+            <p class="who">Continuity<small>GPT-5.6</small></p>
+            <p class="q">Does this page agree with the pages <b>already approved</b>? Season, weather, time of day, which shoulder the satchel is on. Consistency is a property of the book, so it can only be judged against the book.</p>
+          </div>
+          <div class="l">
+            <p class="who">Safety<small>safety model</small></p>
+            <p class="q">It is a children's book. This lane is <b>non-negotiable and it can fail a page on its own</b> — no arbitration, no weighing against the other five. The only veto in the system.</p>
+          </div>
+        </div>
+
+        <div class="cards" style="margin-top:clamp(24px,3vw,40px)" data-r>
+          <article>
+            <h3>Someone has to decide</h3>
+            <p>Six critics will disagree — style says yes, continuity says no, anatomy is unsure. A page cannot be 70% approved, so one arbitrator reads every verdict and returns a single answer. Without it the lanes deadlock, or worse, each starts fixing the page in a different direction.</p>
+          </article>
+          <article>
+            <h3>Repair is targeted, not re-rolled</h3>
+            <p>The important word in the diagram. A failed page is not thrown away and generated again — only the failing dimension is re-rendered, with everything that passed pinned in place. Re-rolling the whole page is how you lose a character you had already got right.</p>
+          </article>
+          <article>
+            <h3>The loop returns to QA</h3>
+            <p>A repaired page re-enters the tree rather than the output. It is an obvious rule that is easy to skip for speed, and skipping it means the second attempt is the one that ships unexamined — which is precisely the attempt nobody looked at.</p>
+          </article>
+          <article>
+            <h3>The arbitrator holds the budget</h3>
+            <p>It also owns the attempt ceiling. Eight model calls per page across thirty-two pages is already a real bill; a repair loop with no ceiling is an unbounded one. Past the limit the page is escalated to a person rather than retried forever.</p>
+          </article>
+        </div>
+
+        <div class="note-box" style="margin-top:clamp(20px,2.4vw,32px)" data-r>
+          <p class="body">
+            <b>On the roster.</b> The model names above are the assignment at
+            the time of building, and they are the part of this diagram most
+            likely to be wrong first &mdash; the lanes get reassigned whenever a
+            better model appears for that specific question. The architecture is
+            the durable bit: <b>separate the maker from the judge, decompose
+            judgement by failure mode, arbitrate once, and repair narrowly.</b>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 COMPOSITION ============ -->
+    <section class="sec wrap spine">
+      <div class="rail"><p class="label">04 &mdash; A page has to hold words</p></div>
       <div>
         <h2>Two thirds of the page is <em>scene you can write on</em></h2>
         <p class="body" data-r>
@@ -175,9 +455,9 @@
       </div>
     </section>
 
-    <!-- ============ 04 CHARACTERS ============ -->
+    <!-- ============ 05 CHARACTERS ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">04 &mdash; The character problem</p></div>
+      <div class="rail"><p class="label">05 &mdash; The character problem</p></div>
       <div>
         <h2>Same child on page 4 and page 27 &mdash; <em>unless the story says otherwise</em></h2>
         <p class="body" data-r>
@@ -218,9 +498,9 @@
       </div>
     </section>
 
-    <!-- ============ 05 DECISIONS ============ -->
+    <!-- ============ 06 DECISIONS ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">05 &mdash; Key design decisions</p></div>
+      <div class="rail"><p class="label">06 &mdash; Key design decisions</p></div>
       <div>
         <h2>Where the control <em>had to sit</em></h2>
         <p class="body" data-r>
@@ -250,9 +530,9 @@
       </div>
     </section>
 
-    <!-- ============ 06 THE PRODUCT ============ -->
+    <!-- ============ 07 THE PRODUCT ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">06 &mdash; The product</p></div>
+      <div class="rail"><p class="label">07 &mdash; The product</p></div>
       <div>
         <h2>Five screens, and <em>one of them is the idea</em></h2>
         <p class="body" data-r>
@@ -347,9 +627,9 @@
       </div>
     </section>
 
-    <!-- ============ 07 THE BUILD ============ -->
+    <!-- ============ 08 THE BUILD ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">07 &mdash; The build</p></div>
+      <div class="rail"><p class="label">08 &mdash; The build</p></div>
       <div>
         <h2>The workspace, <em>running</em></h2>
         <p class="body" data-r>
@@ -410,9 +690,9 @@
       </div>
     </section>
 
-    <!-- ============ 08 TAKEAWAY ============ -->
+    <!-- ============ 09 TAKEAWAY ============ -->
     <section class="sec wrap spine">
-      <div class="rail"><p class="label">08 &mdash; Impact &amp; takeaway</p></div>
+      <div class="rail"><p class="label">09 &mdash; Impact &amp; takeaway</p></div>
       <div>
         <h2>What the shape <em>comes down to</em></h2>
         <p class="body" data-r>
@@ -449,7 +729,8 @@
             the flow, the variant and page-range system, the staleness rules and
             the page canvas are all real and operable, but the illustrations it
             shows are placeholders rather than live generations &mdash; the
-            orchestration described in section 02 runs behind the product, not
+            orchestration and supervision described in sections 02 and 03 run
+            behind the product, not
             inside this page. <b>Still open:</b> whether the whole-book
             regeneration lock survives contact with a deadline. It is the honest
             behaviour and the one most likely to be argued with, and the test I

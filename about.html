@@ -12,23 +12,40 @@
 <link rel="stylesheet" href="core.css">
 
 <style>
+/* ==========================================================================
+   ABOUT — a centred column
+   --------------------------------------------------------------------------
+   Everywhere else on the site content hangs off a left spine: a label in the
+   rail, the content beside it. This page is the exception. It is the one page
+   about a person rather than a project, so it reads down the middle — heading
+   centred, content centred beneath it, measures capped with auto margins so
+   nothing drifts wide on a large screen.
+
+   The two things that stay left-and-right are the ledger rows and the tool
+   tiles: those are tables, and a centred table is a table you cannot scan.
+   ========================================================================== */
+
 /* ---------- head ---------- */
 .ahead {
   padding-top: clamp(70px, 13vh, 130px);
   padding-bottom: clamp(30px, 4.4vw, 60px);
-  align-items: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 22px);
+  text-align: center;
 }
 .ahead .rail {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 14px;
+  align-items: center;
+  gap: 10px;
 }
-@media (max-width: 900px) { .ahead .rail { margin-bottom: 22px; } }
+.ahead .note { max-width: 44ch; }
 
 /* ---------- portrait + intro ----------
    portrait.jpg is 4:3 landscape, so the frame is 4:3 and gets the wider
-   column. Text sits optically centred against it. */
+   column. The copy beside it is centred on its own measure. */
 .pband {
   display: grid;
   grid-template-columns: 1.12fr 0.88fr;
@@ -46,13 +63,20 @@
   background: var(--bg-2);
 }
 
+.pband .text { text-align: center; }
 .pband .text h2 { margin-bottom: clamp(16px, 2vw, 24px); }
-.pband .text .body { max-width: 46ch; }
+.pband .text .body { max-width: 46ch; margin-inline: auto; }
 .pband .text .body + .body { margin-top: 13px; }
 
 /* ---------- ledgers ---------- */
 .led-block { padding-top: clamp(64px, 10vw, 150px); }
 .led-block + .led-block { padding-top: clamp(40px, 6vw, 88px); }
+/* the section heading sits over its content rather than beside it */
+.led-block > .label { text-align: center; margin-bottom: clamp(18px, 2.4vw, 32px); }
+/* a table is still a table — capped and centred as a block, not as text */
+.led-block .ledger,
+.led-block .pair,
+.led-block .capwrap { max-width: 960px; margin-inline: auto; }
 
 .pair {
   display: grid;
@@ -60,23 +84,26 @@
   gap: clamp(24px, 4vw, 56px);
 }
 @media (max-width: 700px) { .pair { grid-template-columns: 1fr; } }
+.pair > div > .label { text-align: center; }
 
 .mini { border-top: 1px solid var(--line); }
 .mini .r {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: center;
+  gap: 14px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
+  text-align: center;
 }
 .mini .r .t { font-size: 15px; }
 .mini .r .t small { display: block; margin-top: 3px; font-size: 11.5px; color: var(--mute); }
 .mini .r .v { font-size: 11.5px; color: var(--mute); white-space: nowrap; }
 
 /* ---------- capabilities ---------- */
+.capwrap > .body { max-width: 56ch; margin-inline: auto; text-align: center; }
 .cap-set + .cap-set { margin-top: clamp(20px, 2.4vw, 32px); }
-.cap-set .label { margin-bottom: 9px; }
+.cap-set .label { margin-bottom: 9px; text-align: center; }
 
 /* ---------- photo wall ----------
    Nearly every photo is portrait 3:4, so every standard cell IS 3:4 and the
@@ -84,11 +111,11 @@
 .wall { padding-top: clamp(70px, 11vw, 165px); }
 .wall-lead {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding-bottom: clamp(14px, 2vw, 22px);
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  text-align: center;
+  padding-bottom: clamp(18px, 2.4vw, 30px);
 }
 
 .gal {
@@ -157,21 +184,23 @@
 
   <main id="main">
 
-    <header class="ahead wrap spine">
+    <header class="ahead wrap">
+      <h1 class="d-xl solo">About</h1>
       <div class="rail">
         <p class="note">
           It isn't always Shakespeare, but it's genuine. It's a life.
         </p>
         <p class="label">सारंगापुर, प्रयागराज</p>
       </div>
-      <h1 class="d-xl solo">About</h1>
     </header>
 
     <!-- ============ PORTRAIT + INTRO ============ -->
     <section class="pband wrap">
-      <div class="frame" data-r>
-        <img src="assets/images/about/portrait.jpg"
-             alt="Divyansh Srivastava sketching at his desk">
+      <div class="pframe" data-r>
+        <div class="frame">
+          <img src="assets/images/about/portrait.jpg"
+               alt="Divyansh Srivastava sketching at his desk">
+        </div>
       </div>
 
       <div class="text">
@@ -197,7 +226,7 @@
     </section>
 
     <!-- ============ EDUCATION ============ -->
-    <section class="led-block wrap spine" aria-labelledby="edu-h">
+    <section class="led-block wrap" aria-labelledby="edu-h">
       <h2 class="label" id="edu-h">Education</h2>
       <div class="ledger" data-r>
         <div class="row">
@@ -212,7 +241,7 @@
     </section>
 
     <!-- ============ EXPERIENCE ============ -->
-    <section class="led-block wrap spine" aria-labelledby="exp-h">
+    <section class="led-block wrap" aria-labelledby="exp-h">
       <h2 class="label" id="exp-h">Experience &mdash; 2 years</h2>
       <div class="ledger" data-r>
         <div class="row">
@@ -226,34 +255,11 @@
       </div>
     </section>
 
-    <!-- ============ OFF THE CLOCK ============ -->
-    <section class="led-block wrap spine" aria-labelledby="off-h">
-      <h2 class="label" id="off-h">Off the clock</h2>
-      <div class="pair" data-r>
-        <div>
-          <p class="label" style="margin-bottom:10px">On repeat</p>
-          <div class="mini">
-            <div class="r"><span class="t">4AM in Karachi<small>Talha Anjum</small></span></div>
-            <div class="r"><span class="t">Sifar Safar<small>Karan Aujla</small></span></div>
-            <div class="r"><span class="t">One Love<small>Shubh</small></span></div>
-          </div>
-        </div>
-        <div>
-          <p class="label" style="margin-bottom:10px">Shows I swear by</p>
-          <div class="mini">
-            <div class="r"><span class="t">The Blacklist</span><span class="v">crime · red</span></div>
-            <div class="r"><span class="t">Dexter</span><span class="v">thriller · dark</span></div>
-            <div class="r"><span class="t">Better Call Saul</span><span class="v">drama · slippin'</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ CAPABILITIES ============ -->
-    <section class="led-block wrap spine" aria-labelledby="cap-h">
+    <section class="led-block wrap" aria-labelledby="cap-h">
       <h2 class="label" id="cap-h">Technical capabilities</h2>
-      <div>
-        <p class="body" style="max-width:56ch;margin-bottom:clamp(20px,2.4vw,30px)" data-r>
+      <div class="capwrap">
+        <p class="body" style="margin-bottom:clamp(20px,2.4vw,30px)" data-r>
           I'm comfortable owning a problem from the analytics query all the way
           to the shipped interface &mdash; which mostly means I'm fluent in the
           tools on both sides of that gap.
@@ -296,10 +302,33 @@
       </div>
     </section>
 
+    <!-- ============ OFF THE CLOCK ============ -->
+    <section class="led-block wrap" aria-labelledby="off-h">
+      <h2 class="label" id="off-h">Off the clock</h2>
+      <div class="pair" data-r>
+        <div>
+          <p class="label" style="margin-bottom:10px">On repeat</p>
+          <div class="mini">
+            <div class="r"><span class="t">4AM in Karachi<small>Talha Anjum</small></span></div>
+            <div class="r"><span class="t">Sifar Safar<small>Karan Aujla</small></span></div>
+            <div class="r"><span class="t">One Love<small>Shubh</small></span></div>
+          </div>
+        </div>
+        <div>
+          <p class="label" style="margin-bottom:10px">Shows I swear by</p>
+          <div class="mini">
+            <div class="r"><span class="t">The Blacklist</span><span class="v">crime · red</span></div>
+            <div class="r"><span class="t">Dexter</span><span class="v">thriller · dark</span></div>
+            <div class="r"><span class="t">Better Call Saul</span><span class="v">drama · slippin'</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ PHOTO WALL ============ -->
     <section class="wall wrap" aria-labelledby="ph-h">
       <div class="wall-lead">
-        <h2 class="label" id="ph-h">I ♡ photography</h2>
+        <h2 class="label" id="ph-h">I ♡ Living</h2>
         <span class="label">Hover to colour</span>
       </div>
 

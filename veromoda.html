@@ -168,6 +168,256 @@
   .chart .plot { grid-column: 1 / -1; order: 3; margin-top: 4px; }
 }
 
+/* ---------- funnel counts ----------
+   The absolute number sits beside the step name so the percentage on the
+   right always has a quantity to be a share of. */
+.funnel .lbl .cnt {
+  display: inline-block;
+  margin-left: 10px;
+  color: var(--ink-2);
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+}
+.fnote { margin-top: 10px; font-size: clamp(11.5px, 0.52vw, 14px); color: var(--mute); }
+@media (max-width: 520px) { .funnel .lbl .cnt { display: block; margin: 3px 0 0; } }
+
+/* ---------- the load timeline ----------
+   What a visitor experiences, second by second, on one 0–10s scale: what is
+   on screen, whether a tap registers, and when they give up. The two paint
+   events are drawn once as guides through every row, so "first paint" and
+   "product image" line up with what changes in each row. */
+.lt {
+  margin-top: clamp(18px, 2.2vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--bg-2);
+  padding: clamp(16px, 2vw, 26px) clamp(16px, 2.2vw, 28px) clamp(14px, 1.6vw, 20px);
+}
+.lt-cap {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: clamp(14px, 1.6vw, 20px);
+}
+.lt-body { display: grid; grid-template-columns: minmax(0, 128px) minmax(0, 1fr); gap: clamp(10px, 1.4vw, 18px); }
+.lt-labels { display: grid; grid-template-rows: 46px repeat(3, 38px); row-gap: 8px; }
+.lt-labels span { display: flex; align-items: center; font-size: clamp(12px, 0.6vw, 15px); color: var(--ink-2); }
+.lt-plot { position: relative; display: grid; grid-template-rows: 46px repeat(3, 38px) auto; row-gap: 8px; margin-right: 18px; }
+.lt-row { position: relative; }
+.lt-row:not(.lt-marks) { border-radius: 6px; background: rgba(19, 19, 19, 0.035); }
+.seg {
+  position: absolute;
+  top: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: clamp(11px, 0.54vw, 13.5px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 6px;
+}
+.seg.blank { background: repeating-linear-gradient(-45deg, transparent 0 5px, rgba(19,19,19,0.08) 5px 6px); color: var(--mute); }
+.seg.part  { background: color-mix(in srgb, var(--ok) 30%, transparent); color: var(--ok-2); }
+.seg.full  { background: color-mix(in srgb, var(--ok) 72%, transparent); color: var(--ok-2); }
+.seg.lock  { background: color-mix(in srgb, var(--bad) 22%, transparent); color: var(--bad); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bad) 35%, transparent); }
+.seg.live  { background: color-mix(in srgb, var(--ok) 72%, transparent); }
+.seg.exit  {
+  background: repeating-linear-gradient(-45deg, transparent 0 5px, rgba(180, 71, 43, 0.18) 5px 6px);
+  border-left: 1px dashed color-mix(in srgb, var(--bad) 60%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--bad) 60%, transparent);
+  border-radius: 0;
+  color: var(--bad);
+}
+.lt-guide {
+  position: absolute;
+  top: 40px; bottom: 22px;
+  width: 0;
+  border-left: 1.5px solid var(--ok-2);
+  z-index: 1;
+  pointer-events: none;
+}
+.lt-guide.bad { border-left-color: var(--bad); }
+.lt-m {
+  position: absolute;
+  bottom: 8px;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: clamp(10.5px, 0.5vw, 12.5px);
+  color: var(--ok-2);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.lt-m b { display: block; font-weight: 500; font-size: clamp(14px, 0.86vw, 19px); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.lt-m.bad { color: var(--bad); }
+.lt-axis { position: relative; height: 22px; border-top: 1px solid var(--line); margin-top: 2px; }
+.lt-axis span {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  font-size: clamp(10.5px, 0.48vw, 12.5px);
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.lt-axis span:first-child { transform: none; }
+@media (max-width: 640px) {
+  .lt-body { grid-template-columns: minmax(0, 1fr); }
+  .lt-labels { display: none; }
+  .lt-plot { grid-template-rows: 46px repeat(3, 34px) auto; row-gap: 26px; margin-right: 14px; }
+  .lt-row[data-k]::before {
+    content: attr(data-k);
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 0;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+}
+
+/* ---------- tool badge (PageSpeed Insights) ---------- */
+.tool-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  justify-self: start;
+  margin: clamp(14px, 1.6vw, 20px) 0 clamp(14px, 1.6vw, 20px);
+  padding: 10px 18px 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  transition: border-color 0.35s var(--ease);
+}
+.tool-badge:hover { border-color: var(--ink-2); }
+.tool-badge svg { width: 26px; height: 26px; fill: #4285F4; flex: none; }
+.tool-badge .tb-t { font-size: clamp(13px, 0.64vw, 16px); line-height: 1.3; }
+.tool-badge .tb-t small { display: block; color: var(--mute); font-size: 0.8em; }
+
+/* the last stats row leads with a six-digit count — give that cell the room */
+.metrics.lead-wide { grid-template-columns: 1.6fr repeat(3, minmax(0, 1fr)); }
+.metrics.lead-wide .n { white-space: nowrap; }
+@media (max-width: 760px) { .metrics.lead-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* the four email templates are different lengths, so the caption sits on
+   top where the row can line up, and the screenshots hang at full height */
+.fig-row.emails { align-items: start; }
+.fig-row.emails figure { display: flex; flex-direction: column-reverse; gap: 10px; }
+.fig-row.emails figcaption { margin-top: 0; min-height: 4.5em; }
+.sec > div:not(.rail) > .fig-row.fig-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 620px) { .sec > div:not(.rail) > .fig-row.fig-row-2 { grid-template-columns: 1fr; } }
+
+/* ---------- payment page: before / after table ---------- */
+.swap { margin-top: clamp(18px, 2.2vw, 28px); border-top: 1px solid var(--line); }
+.swap .sw-h, .swap .sw {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(10px, 1.6vw, 24px);
+  padding: clamp(10px, 1.2vw, 14px) 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.swap .sw-h span { font-size: clamp(10.5px, 0.48vw, 12.5px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
+.swap .sw-k { font-size: clamp(12px, 0.58vw, 14.5px); color: var(--mute); }
+.swap .sw-b { font-size: clamp(13.5px, 0.66vw, 16.5px); color: var(--bad); line-height: 1.4; }
+.swap .sw-a { font-size: clamp(13.5px, 0.66vw, 16.5px); color: var(--ok-2); line-height: 1.4; }
+@media (max-width: 620px) {
+  .swap .sw-h { display: none; }
+  .swap .sw { grid-template-columns: 1fr; gap: 3px; }
+  .swap .sw-b::before { content: 'Before  '; color: var(--mute); font-size: 0.8em; }
+  .swap .sw-a::before { content: 'After  '; color: var(--mute); font-size: 0.8em; }
+}
+
+/* ---------- the chatbot argument, as a chain ---------- */
+.bot { margin-top: clamp(24px, 3vw, 40px); }
+.bot-t { font-size: clamp(15px, 0.9vw, 20px); letter-spacing: -0.01em; margin-bottom: clamp(12px, 1.4vw, 16px); }
+.bot-flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.bf {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: clamp(12px, 1.3vw, 16px);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  font-size: clamp(12px, 0.58vw, 14.5px);
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.bf b { font-weight: 500; color: var(--ink); font-size: 1.08em; }
+.bf .bf-n { font-size: 0.85em; color: var(--mute); font-variant-numeric: tabular-nums; }
+.bf.bad { border-color: color-mix(in srgb, var(--bad) 34%, transparent); background: color-mix(in srgb, var(--bad) 5%, transparent); }
+.bf.bad b { color: var(--bad); }
+.bf.ok { border-color: color-mix(in srgb, var(--ok-2) 30%, transparent); background: color-mix(in srgb, var(--ok) 16%, transparent); }
+.bf.ok b { color: var(--ok-2); }
+.bf + .bf::before {
+  content: '';
+  position: absolute;
+  left: -8px; top: 50%;
+  width: 8px; height: 1px;
+  background: var(--faint);
+}
+.bot-cap { margin-top: 12px; font-size: clamp(13px, 0.64vw, 16px); color: var(--ink-2); line-height: 1.5; max-width: 70ch; }
+@media (max-width: 760px) {
+  .bot-flow { grid-template-columns: 1fr; }
+  .bf + .bf::before { left: 24px; top: -8px; width: 1px; height: 8px; }
+}
+
+/* ---------- impact ----------
+   Three results, one scale. Each gets a full-width row and the same display
+   size, so none of them reads as the footnote to another. The before value
+   is struck through beside the after, and that is all the text a row needs. */
+.impact { margin-top: clamp(30px, 4vw, 64px); border-top: 1px solid var(--ink); }
+.imr {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(16px, 3vw, 48px);
+  padding: clamp(26px, 4vw, 64px) 0 clamp(20px, 2.6vw, 40px);
+  border-bottom: 1px solid var(--line);
+}
+.imr-n {
+  font-size: clamp(84px, 11.5vw, 210px);
+  line-height: 0.82;
+  letter-spacing: -0.065em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.imr-n span { font-size: 0.42em; letter-spacing: -0.02em; margin-left: 0.06em; color: var(--ok-2); }
+.imr-m { padding-bottom: 0.4em; }
+.imr-k { font-size: clamp(15px, 1vw, 22px); letter-spacing: -0.01em; line-height: 1.3; }
+.imr-ba {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: clamp(14px, 0.8vw, 18px);
+  font-variant-numeric: tabular-nums;
+}
+.imr-ba s { color: var(--faint); text-decoration-thickness: 1px; }
+.imr-ba i { flex: 0 1 64px; height: 1px; background: var(--line); position: relative; }
+.imr-ba i::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  width: 5px; height: 5px;
+  border-top: 1px solid var(--faint);
+  border-right: 1px solid var(--faint);
+  transform: translate(1px, -50%) rotate(45deg);
+}
+.imr-ba b { font-weight: 500; color: var(--ok-2); }
+@media (max-width: 640px) {
+  .imr { grid-template-columns: 1fr; gap: 14px; }
+  .imr-m { padding-bottom: 0; }
+}
+
 /* ---------- channel mix ---------- */
 .chan { margin-top: clamp(16px, 2vw, 26px); }
 .chan .cr {
@@ -537,7 +787,7 @@
 
     <div class="facts wrap">
       <div><span class="k">Company</span><span class="v">Bestseller India &mdash; Vero Moda</span></div>
-      <div><span class="k">Tools</span><span class="v">GA4 &middot; Lighthouse &middot; Python &middot; AMP for Email</span></div>
+      <div><span class="k">Tools</span><span class="v">GA4 &middot; PageSpeed Insights &middot; Python &middot; AMP for Email</span></div>
       <div><span class="k">Data</span><span class="v">634,884 new users &middot; 713,306 engaged sessions</span></div>
       <div><span class="k">Role</span><span class="v">UX research, algorithm &amp; interface design</span></div>
     </div>
@@ -600,42 +850,45 @@
         </p>
 
         <p class="body" style="margin-top:clamp(24px,3vw,40px)" data-r>
-          Then the same users through the purchase funnel. GA4's closed funnel
-          reports each step as a share of the one before it, and read that way
-          the shape is not a gradual decline. It is a cliff, in one specific
-          place.
+          Then the same sessions through the purchase funnel, from GA4's closed
+          funnel report. Every bar below is a share of the sessions that
+          started, so the shape reads the way it happened: not a gradual
+          decline, but a cliff in one specific place.
         </p>
 
         <div class="funnel" style="margin-top:clamp(18px,2.2vw,28px)" data-r>
           <div class="step">
             <span class="bar" style="width:100%"></span>
-            <span class="row"><span class="lbl">Session start<small>all sessions</small></span><span class="pct">100%</span></span>
+            <span class="row"><span class="lbl">Session start<span class="cnt">733,000 sessions</span></span><span class="pct">100%</span></span>
           </div>
           <div class="step">
-            <span class="bar" style="width:68.2%"></span>
-            <span class="row"><span class="lbl">View product<small>29.8% abandoned</small></span><span class="pct">68.2%</span></span>
+            <span class="bar" style="width:60.2%"></span>
+            <span class="row"><span class="lbl">View product<span class="cnt">441,000</span></span><span class="pct">60.2%</span></span>
           </div>
-          <p class="cliff">&minus;89.3% abandoned between viewing a product and adding one</p>
+          <p class="cliff">394,000 viewed a product and never added it &mdash; 89% of viewers lost at one step</p>
           <div class="step drop">
-            <span class="bar" style="width:10.7%"></span>
-            <span class="row"><span class="lbl">Add to cart<small>89.3% abandoned</small></span><span class="pct">10.7%</span></span>
+            <span class="bar" style="width:6.4%"></span>
+            <span class="row"><span class="lbl">Add to cart<span class="cnt">47,000</span></span><span class="pct">6.4%</span></span>
           </div>
           <div class="step drop">
-            <span class="bar" style="width:23.2%"></span>
-            <span class="row"><span class="lbl">Begin checkout<small>76.8% abandoned</small></span><span class="pct">23.2%</span></span>
+            <span class="bar" style="width:1.5%"></span>
+            <span class="row"><span class="lbl">Begin checkout<span class="cnt">11,000</span></span><span class="pct">1.5%</span></span>
           </div>
-          <div class="step">
-            <span class="bar" style="width:64.8%"></span>
-            <span class="row"><span class="lbl">Purchase<small>35.2% abandoned</small></span><span class="pct">64.8%</span></span>
+          <div class="step drop">
+            <span class="bar" style="width:1%"></span>
+            <span class="row"><span class="lbl">Purchase<span class="cnt">7,200</span></span><span class="pct">1.0%</span></span>
           </div>
         </div>
+        <p class="fnote" data-r>
+          Counts rounded from GA4's closed-funnel report for the period. Percentages are of all sessions started.
+        </p>
 
         <p class="body" style="margin-top:clamp(16px,2vw,24px)" data-r>
-          Each bar is the share of the previous step that continued. Read it
-          that way and the diagnosis writes itself: <b>once someone reaches
-          checkout they mostly buy &mdash; 64.8% complete</b>. The catastrophe
-          is one step earlier and one step wider. Nearly nine in ten people who
-          look at a product never add it to anything.
+          Roughly <b>one session in a hundred ended in a purchase</b>. The
+          single biggest loss is between looking and committing: 441,000
+          sessions reached a product, and only 47,000 put anything in the cart.
+          Once someone did reach checkout, about two in three went on to buy,
+          so the problem was not at the till. It was on the product page.
         </p>
 
         <div class="hmw" data-r>
@@ -690,8 +943,8 @@
         </p>
 
         <div class="olist" style="margin-top:clamp(14px,1.8vw,22px)" data-r>
-          <div class="o"><span class="n">A</span><span class="x"><b>Ad &rarr; PDP drop.</b> Slow product-page loading causing abandonment before engagement. A speed problem &mdash; sections 04 and 05.</span></div>
-          <div class="o"><span class="n">B</span><span class="x"><b>Ad &rarr; PLP drop.</b> Ineffective product discovery due to poor recommendation and filtering. A relevance problem &mdash; section 06.</span></div>
+          <div class="o"><span class="n">A</span><span class="x"><b>Ad &rarr; PDP drop.</b> Slow product-page loading causing abandonment before engagement. A speed problem &mdash; sections 04 to 06.</span></div>
+          <div class="o"><span class="n">B</span><span class="x"><b>Ad &rarr; PLP drop.</b> Ineffective product discovery due to poor recommendation and filtering. A relevance problem &mdash; section 07.</span></div>
         </div>
       </div>
     </section>
@@ -715,39 +968,35 @@
           people give up opens long before either.
         </p>
 
-        <div class="chart" data-r>
-          <div class="row">
-            <span class="k"></span>
-            <span class="zone">
-              <span style="left:20%">the window users leave in</span>
-              <i style="left:20%;right:38.5%"></i>
-            </span>
-            <span class="v"></span>
-          </div>
-          <div class="row">
-            <span class="k">Page request</span>
-            <span class="plot"><span class="bar" style="left:0;width:1.5%"></span></span>
-            <span class="v">0.2 s</span>
-          </div>
-          <div class="row">
-            <span class="k">Main thread blocked</span>
-            <span class="plot"><span class="bar bad" style="left:1.5%;width:70%"></span></span>
-            <span class="v">9.1 s</span>
-          </div>
-          <div class="row">
-            <span class="k">First Contentful Paint</span>
-            <span class="plot"><span class="mark" style="left:27.7%"></span></span>
-            <span class="v">3.6 s</span>
-          </div>
-          <div class="row">
-            <span class="k">Largest Contentful Paint</span>
-            <span class="plot"><span class="mark bad" style="left:61.5%"></span></span>
-            <span class="v">8.0 s</span>
-          </div>
-          <div class="row">
-            <span class="k"></span>
-            <span class="axis"><span>0 s</span><span>3.25 s</span><span>6.5 s</span><span>9.75 s</span><span>13 s</span></span>
-            <span class="v"></span>
+        <div class="lt" data-r>
+          <p class="lt-cap"><span>Vero Moda product page &middot; mobile &middot; Slow 4G</span><span>seconds after the ad click</span></p>
+          <div class="lt-body">
+            <div class="lt-labels" aria-hidden="true">
+              <span></span><span>What they see</span><span>Can they tap?</span><span>When they leave</span>
+            </div>
+            <div class="lt-plot">
+              <i class="lt-guide" style="left:36%"></i>
+              <i class="lt-guide bad" style="left:80%"></i>
+              <div class="lt-row lt-marks">
+                <span class="lt-m" style="left:36%"><b>3.6 s</b>first paint</span>
+                <span class="lt-m bad" style="left:80%"><b>8.0 s</b>product image</span>
+              </div>
+              <div class="lt-row" data-k="What they see">
+                <span class="seg blank" style="left:0;width:36%">Blank screen</span>
+                <span class="seg part" style="left:36%;width:44%">Partial page, no product image</span>
+                <span class="seg full" style="left:80%;width:20%">Product</span>
+              </div>
+              <div class="lt-row" data-k="Can they tap?">
+                <span class="seg lock" style="left:2%;width:91%">No &mdash; main thread blocked for 9.1 s</span>
+                <span class="seg live" style="left:93%;width:7%"></span>
+              </div>
+              <div class="lt-row" data-k="When they leave">
+                <span class="seg exit" style="left:26%;width:54%">Most exits happen here</span>
+              </div>
+              <div class="lt-axis">
+                <span style="left:0">0</span><span style="left:20%">2</span><span style="left:40%">4</span><span style="left:60%">6</span><span style="left:80%">8</span><span style="left:100%">10 s</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -767,11 +1016,17 @@
       <div class="rail"><p class="label">05 &mdash; PageSpeed Insights</p></div>
       <div>
         <h2>Performance <em>diagnostics</em></h2>
+        <a class="tool-badge" href="https://pagespeed.web.dev/" target="_blank" rel="noopener" data-r>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.363 1.636H1.635C.732 1.636 0 2.37.001 3.273L0 20.727v.003c0 .903.733 1.634 1.635 1.634h20.73c.904 0 1.635-.734 1.635-1.637V3.273c.016-.89-.76-1.64-1.637-1.637zM3.979 2.886c.492-.507 1.279.28.77.772-.491.508-1.278-.279-.77-.771zM1.8 2.89c.507-.509 1.28.265.772.771-.493.502-1.274-.28-.772-.771zm21.7 17.838c.012.611-.524 1.148-1.137 1.136H1.635A1.137 1.137 0 0 1 .5 20.727L.501 4.91H23.5v15.819zM11 16.159l5.946-4.577c.235-.2.576.129.389.372l-.002-.002-3.936 6.35a1.638 1.638 0 0 1-2.448.405c-.785-.668-.811-1.835.05-2.548zm4.763-.75c.09-.168 2.002-3.181 2.06-3.35 2.056 1.813 3.029 4.382 2.898 7.026h-3.819c.073-1.39-.29-2.678-1.139-3.676zm-8.679 3.682H3.278c-.357-7.022 7.148-11.735 13.39-7.92l-3.461 2.618c-3.3-.762-6.364 1.71-6.123 5.302z"/></svg>
+          <span class="tb-t">Google PageSpeed Insights<small>Lighthouse engine &middot; Slow 4G &middot; emulated Moto G Power</small></span>
+        </a>
         <p class="body" data-r>
-          The product page was tested with Lighthouse under Slow 4G on an
-          emulated Moto G Power &mdash; not a punishing setup, just an ordinary
-          one, and close to what a real Vero Moda customer clicking an Instagram
-          ad is actually holding.
+          The product page was run through <b>Google PageSpeed Insights</b>,
+          Google's public tool for measuring how fast a page loads and becomes
+          usable, which runs a Lighthouse audit under Slow 4G on an emulated
+          Moto G Power. That is not a punishing setup, just an ordinary one, and
+          close to what a real Vero Moda customer clicking an Instagram ad is
+          actually holding.
         </p>
 
         <div class="score" data-r>
@@ -1114,6 +1369,31 @@
             <p>Not every client supports AMP. Every template ships with an HTML fallback, because a feature that silently fails for a third of your list is a worse outcome than the static email it replaced.</p>
           </article>
         </div>
+
+        <p class="body" style="margin-top:clamp(26px,3vw,42px)" data-r>
+          Each template is built around one moment in the journey, and each
+          one is filled by the same recommendation bucket. Jack &amp; Jones was
+          designed first as the full set of four:
+        </p>
+        <div class="fig-row emails" data-r>
+          <figure><div class="frame"><img src="assets/images/case/vm-email-jj-crosssell.jpg" alt="Jack &amp; Jones cross-sell email: a hero product, a Style it with row, and recommended products" loading="lazy"></div><figcaption><b>Cross-sell</b> &mdash; after a purchase: style it with, more for you, recently viewed.</figcaption></figure>
+          <figure><div class="frame"><img src="assets/images/case/vm-email-jj-pdp.jpg" alt="Jack &amp; Jones product-page dropper email" loading="lazy"></div><figcaption><b>PDP dropper</b> &mdash; for someone who left a product page: the product back, with alternatives.</figcaption></figure>
+          <figure><div class="frame"><img src="assets/images/case/vm-email-jj-wishlist.jpg" alt="Jack &amp; Jones wishlist reminder email" loading="lazy"></div><figcaption><b>Wishlist</b> &mdash; the wishlisted items with add-to-cart, plus complementary pieces.</figcaption></figure>
+          <figure><div class="frame"><img src="assets/images/case/vm-email-jj-cart.jpg" alt="Jack &amp; Jones abandoned cart email" loading="lazy"></div><figcaption><b>Cart</b> &mdash; the abandoned cart, editable in the email, with checkout one tap away.</figcaption></figure>
+        </div>
+
+        <p class="body" style="margin-top:clamp(26px,3vw,42px)" data-r>
+          The same four templates were then carried across the other three
+          brands, each in its own visual language:
+        </p>
+        <figure class="fig" data-r>
+          <div class="frame"><img src="assets/images/case/vm-email-veromoda.jpg" alt="Vero Moda email templates: cart, wishlist, product-page dropper and cross-sell" loading="lazy"></div>
+          <figcaption>Vero Moda &mdash; cart, wishlist, product-page dropper and cross-sell.</figcaption>
+        </figure>
+        <div class="fig-row fig-row-2" data-r>
+          <figure><div class="frame"><img src="assets/images/case/vm-email-selected.jpg" alt="Selected Homme email templates" loading="lazy"></div><figcaption><b>Selected Homme</b></figcaption></figure>
+          <figure><div class="frame"><img src="assets/images/case/vm-email-only.jpg" alt="Only email templates" loading="lazy"></div><figcaption><b>Only</b></figcaption></figure>
+        </div>
       </div>
     </section>
 
@@ -1123,9 +1403,10 @@
       <div>
         <h2>Further down the funnel, <em>two smaller fixes</em></h2>
         <p class="body" data-r>
-          The funnel in section 02 showed two more leaks worth attention: 76.8%
-          abandoning between cart and checkout, and a returns problem that never
-          shows up in a funnel at all. Both were A/B tested against a control.
+          The funnel in section 02 showed one more leak worth attention: of the
+          47,000 sessions that added something to the cart, only 11,000 began
+          checkout. Alongside it sat a returns problem that never shows up in a
+          funnel at all. Both were A/B tested against a control.
         </p>
 
         <div class="obs" data-r>
@@ -1141,46 +1422,14 @@
             against a letter.
           </p>
 
-          <div class="ba">
-            <div class="pane">
-              <p class="plabel"><span>Control</span><span>letters only</span></p>
-              <div class="vp">
-                <div class="stack">
-                  <span class="fld" style="height:78px"></span>
-                  <p class="step">Select size</p>
-                  <div class="lineup">
-                    <span class="sz">XS</span><span class="sz">S</span>
-                    <span class="sz">M</span><span class="sz">L</span>
-                  </div>
-                  <span class="fld" style="margin-top:6px"></span>
-                  <span class="fld pay" style="height:30px"></span>
-                </div>
-              </div>
-              <p class="note">A size chart exists, but it is a separate link most shoppers never open — so the choice is a guess dressed as a decision.</p>
-            </div>
-            <div class="pane">
-              <p class="plabel"><span>Treatment</span><span>measurements on select</span></p>
-              <div class="vp">
-                <div class="stack">
-                  <span class="fld" style="height:46px"></span>
-                  <p class="step">Select size</p>
-                  <div class="lineup">
-                    <span class="sz on">XS</span><span class="sz">S</span>
-                    <span class="sz">M</span><span class="sz">L</span>
-                  </div>
-                  <div class="meas" style="margin-top:6px">
-                    <b>XS measures</b>
-                    <i><span>Bust</span><span>32&ndash;33 in</span></i>
-                    <i><span>Waist</span><span>24&ndash;25 in</span></i>
-                    <i><span>Hips</span><span>35&ndash;35.5 in</span></i>
-                    <i><span>Shoulder</span><span>14.7&ndash;15.2 in</span></i>
-                  </div>
-                  <span class="fld pay" style="height:30px"></span>
-                </div>
-              </div>
-              <p class="note">The measurements appear at the moment of choosing, against the size actually selected — no navigation, no modal to go and find.</p>
-            </div>
-          </div>
+          <figure class="fig">
+            <div class="frame"><img src="assets/images/case/vm-size-benchmark.jpg" alt="Size chart displays on Snitch, Rare Rabbit and Blissclub product pages" loading="lazy"></div>
+            <figcaption>Benchmark &mdash; Snitch, Rare Rabbit and Blissclub. The measurements exist, but in a table or a separate link away from the size buttons.</figcaption>
+          </figure>
+          <figure class="fig">
+            <div class="frame"><img src="assets/images/case/vm-size-popup.jpg" alt="Vero Moda product page: selecting XS opens a card with UK and US sizes, bust, waist, hips and shoulder" loading="lazy"></div>
+            <figcaption>The intervention on Vero Moda &mdash; tap a size and that garment's UK/US equivalents, bust, waist, hips and shoulder appear right there, with one button to confirm.</figcaption>
+          </figure>
 
           <div class="notes">
             <div class="nb warn">
@@ -1195,49 +1444,37 @@
         </div>
 
         <div class="obs" data-r>
-          <div class="oh"><span class="num">Intervention 02</span><h3>Collapse the checkout</h3></div>
+          <div class="oh"><span class="num">Intervention 02</span><h3>Rebuild the payment page</h3></div>
           <p class="body">
-            Traditional checkout asks for billing and shipping separately, then
-            payment, then reveals the real total at the end. On a phone that is
-            three screens of typing followed by a surprise. The redesign
-            <b>merged address selection and payment method into one step</b>,
-            added address autocomplete from existing user data, and kept the
-            full price &mdash; taxes and shipping included &mdash; visible
-            throughout rather than at the end.
+            Checkout ran across several pages, and the last one, payment, was
+            where people left. Six things changed.
           </p>
 
-          <div class="ba">
-            <div class="pane">
-              <p class="plabel"><span>Before</span><span>separate steps</span></p>
-              <div class="vp">
-                <div class="stack">
-                  <p class="step">Step 1 &mdash; address</p>
-                  <span class="fld"></span><span class="fld"></span><span class="fld"></span>
-                  <p class="step">Step 2 &mdash; payment</p>
-                  <span class="fld"></span><span class="fld"></span>
-                  <p class="step">Step 3 &mdash; total revealed</p>
-                  <span class="fld pay" style="height:30px"></span>
-                </div>
-              </div>
-              <p class="note">Cumbersome on mobile, and the final price only becomes real at the last screen — which is exactly where people leave.</p>
+          <figure class="fig">
+            <div class="frame"><img src="assets/images/case/vm-checkout.jpg" alt="Before: Vero Moda cart page leading to further checkout steps. After: one page with item, size, quantity stepper, address, coupons, total and UPI payment with a Buy now button" loading="lazy"></div>
+            <figcaption>Left, the existing cart, the first of several checkout pages. Right, the rebuilt payment page.</figcaption>
+          </figure>
+
+          <div class="swap">
+            <div class="sw-h"><span></span><span>Before</span><span>After</span></div>
+            <div class="sw"><span class="sw-k">Pages</span><span class="sw-b">Cart &rarr; address &rarr; payment, one page each</span><span class="sw-a">One page</span></div>
+            <div class="sw"><span class="sw-k">Size</span><span class="sw-b">Locked once you reach payment. To change it, go back a page</span><span class="sw-a">Size picker on the item card, right there</span></div>
+            <div class="sw"><span class="sw-k">Quantity</span><span class="sw-b">Dropdown</span><span class="sw-a">&minus; 1 + stepper, after Swiggy and Zomato</span></div>
+            <div class="sw"><span class="sw-k">Total</span><span class="sw-b">Confirmed at the last step</span><span class="sw-a">Subtotal, shipping and total visible throughout</span></div>
+            <div class="sw"><span class="sw-k">Pay</span><span class="sw-b">A separate step</span><span class="sw-a">UPI options and one Buy now button</span></div>
+            <div class="sw"><span class="sw-k">Chatbot</span><span class="sw-b">Third-party chatbot loaded on every visit</span><span class="sw-a">Removed</span></div>
+          </div>
+
+          <div class="bot">
+            <p class="bot-t">The chatbot, and the case for removing it</p>
+            <div class="bot-flow">
+              <div class="bf"><span class="bf-n">01</span><b>Nobody used it</b><span>A yellow.ai chatbot on the payment page, opened by almost no one</span></div>
+              <div class="bf bad"><span class="bf-n">02</span><b>Everyone paid for it</b><span>Its scripts and API calls added roughly 10&ndash;20% to load time</span></div>
+              <div class="bf bad"><span class="bf-n">03</span><b>On the worst page for it</b><span>The step closest to revenue, already where people bounced</span></div>
+              <div class="bf"><span class="bf-n">04</span><b>Argued it up</b><span>Taken to senior management as a cost, not a feature</span></div>
+              <div class="bf ok"><span class="bf-n">05</span><b>Removed</b><span>Shipped with the new design</span></div>
             </div>
-            <div class="pane">
-              <p class="plabel"><span>After</span><span>one step</span></p>
-              <div class="vp">
-                <div class="stack">
-                  <p class="step">Address &amp; payment together</p>
-                  <span class="fld"></span><span class="fld"></span>
-                  <div class="meas">
-                    <b>Total, throughout</b>
-                    <i><span>Subtotal</span><span>&#8377;999</span></i>
-                    <i><span>Shipping</span><span>&#8377;0</span></i>
-                    <i><span>Total</span><span>&#8377;999</span></i>
-                  </div>
-                  <span class="fld pay" style="height:34px"></span>
-                </div>
-              </div>
-              <p class="note">Autocompleted address, payment method chosen in the same form, and a total that never changes shape at the last moment.</p>
-            </div>
+            <p class="bot-cap">The design changes were the easy part. Getting a paid vendor's widget off the page meant convincing senior management that a feature nobody used was costing them sales.</p>
           </div>
 
           <div class="notes">
@@ -1247,7 +1484,7 @@
             </div>
             <div class="nb fix">
               <span class="k">Outcome</span>
-              <p><b>Bounce rate at the payment gateway fell by 40%.</b> Fewer steps, less typing and no price surprise — the friction removed was not decorative, it was the whole of it.</p>
+              <p><b>Bounce rate at the payment gateway fell by 40%.</b> One page, no going back to fix a size, no price surprise, and one less third-party script to wait for.</p>
             </div>
           </div>
         </div>
@@ -1267,24 +1504,27 @@
           These are the measured movements afterwards.
         </p>
 
-        <div class="delta" data-r>
-          <div class="d">
-            <span class="lbl">Email &mdash; share of new users<small>the channel that was effectively absent</small></span>
-            <span class="was">0.19%</span>
-            <span class="arr">&rarr;</span>
-            <span class="now">13%</span>
+        <div class="impact">
+          <div class="imr" data-r>
+            <p class="imr-n">68<span>&times;</span></p>
+            <div class="imr-m">
+              <p class="imr-k">Email, share of new users</p>
+              <p class="imr-ba"><s>0.19%</s><i></i><b>13%</b></p>
+            </div>
           </div>
-          <div class="d">
-            <span class="lbl">Cross-network &mdash; share of new users<small>paid campaigns across Google surfaces</small></span>
-            <span class="was">13.87%</span>
-            <span class="arr">&rarr;</span>
-            <span class="now">19%</span>
+          <div class="imr" data-r>
+            <p class="imr-n">+37<span>%</span></p>
+            <div class="imr-m">
+              <p class="imr-k">Cross-network, share of new users</p>
+              <p class="imr-ba"><s>13.87%</s><i></i><b>19%</b></p>
+            </div>
           </div>
-          <div class="d down">
-            <span class="lbl">Payment gateway bounce rate<small>after the single-step checkout</small></span>
-            <span class="was">baseline</span>
-            <span class="arr">&rarr;</span>
-            <span class="now">&minus;40%</span>
+          <div class="imr" data-r>
+            <p class="imr-n">&minus;40<span>%</span></p>
+            <div class="imr-m">
+              <p class="imr-k">Payment gateway bounce rate</p>
+              <p class="imr-ba"><s>baseline</s><i></i><b>&minus;40%</b></p>
+            </div>
           </div>
         </div>
 
@@ -1296,7 +1536,7 @@
           carrying the relevant products with it.
         </p>
 
-        <div class="metrics" style="margin-top:clamp(26px,3vw,42px)" data-r>
+        <div class="metrics lead-wide" style="margin-top:clamp(26px,3vw,42px)" data-r>
           <div><p class="n">634,884</p><p class="l">New users analysed</p></div>
           <div><p class="n">89.3<sup>%</sup></p><p class="l">Abandoned at one step of five</p></div>
           <div><p class="n">8.0<sup>s</sup></p><p class="l">To the largest element, on mobile</p></div>

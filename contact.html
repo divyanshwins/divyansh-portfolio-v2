@@ -63,6 +63,9 @@
   transition: border-color 0.4s var(--ease);
 }
 .mail a:hover { border-color: var(--ink); }
+.mail .wa-line { margin-top: clamp(14px, 1.8vw, 22px); font-size: clamp(16px, 1.5vw, 26px); letter-spacing: -0.01em; }
+.mail .wa-line a { font-size: inherit; line-height: inherit; letter-spacing: inherit; }
+.mail .wa-line span { color: var(--mute); }
 
 /* copy is the quiet second option for people who want to paste it into their
    own client rather than fire a mailto: at whatever the OS thinks is default */
@@ -214,6 +217,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.2"/><path d="M5.5 15H4.6A1.6 1.6 0 0 1 3 13.4V4.6A1.6 1.6 0 0 1 4.6 3h8.8A1.6 1.6 0 0 1 15 4.6v.9"/></svg>
           <span>Copy address</span>
         </button>
+        <p class="wa-line"><a href="https://wa.me/918576069278" target="_blank" rel="noopener">+91 85760 69278</a> <span>&middot; WhatsApp</span></p>
       </div>
     </section>
 

@@ -59,6 +59,49 @@
 .map .loop-label { font-size: 12.5px; fill: var(--mute); }
 .map .node:hover circle { stroke: var(--ink); stroke-width: 1.5; }
 
+
+/* ---------- vertical loop (phones) ---------- */
+.vloop { display: none; }
+@media (max-width: 700px) {
+  .map-scroll { display: none; }
+  .vloop { display: block; position: relative; list-style: none; margin: 0; padding: 0 44px 0 0; }
+  .vloop::before {            /* the spine */
+    content: ""; position: absolute; left: 25px; top: 26px; bottom: 26px;
+    width: 2px; background: var(--line);
+  }
+  .vloop li {
+    position: relative; display: flex; align-items: center; gap: 16px;
+    padding: 12px 0; min-height: 52px;
+  }
+  .vloop .dot {
+    flex: none; width: 52px; height: 52px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 16px; font-weight: 500;
+    border: 1px solid rgba(19,19,19,.14); position: relative; z-index: 1;
+  }
+  .vloop .t b { display: block; font-weight: 500; font-size: 18px; line-height: 1.2; color: var(--ink); }
+  .vloop .t small { display: block; font-size: 13px; color: var(--mute); margin-top: 2px; }
+  /* the return path: dashed bracket on the right, Validate back up to Frame */
+  .vloop-wrap { position: relative; }
+  .vloop-wrap::after {
+    content: ""; position: absolute; right: 6px; top: 38px; bottom: 38px; width: 26px;
+    border: 2px dashed var(--line); border-left: 0; border-radius: 0 18px 18px 0;
+  }
+  .vloop-wrap::before {       /* arrowhead into Frame */
+    content: ""; position: absolute; right: 24px; top: 33px; width: 8px; height: 8px;
+    border-top: 2px solid var(--mute); border-left: 2px solid var(--mute);
+    transform: rotate(-45deg); z-index: 1;
+  }
+  .vloop-label {
+    position: absolute; right: -4px; top: 50%;
+    transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl;
+    font-size: 11.5px; letter-spacing: .02em; color: var(--mute); white-space: nowrap;
+    background: var(--bg); padding: 8px 0;
+  }
+  .vloop-wrap::after { right: 22px; }
+  .vloop-label { right: 4px; }
+  .vloop { padding-right: 56px; }
+}
+
 /* ---------- phases ---------- */
 .phases { padding-top: clamp(56px, 9vw, 130px); }
 
@@ -162,15 +205,10 @@
       <h2 class="label">In short</h2>
       <div>
         <p class="body">
-          I start with the problem statement, then go looking for evidence.
-          Primary research &mdash; ethnographic studies, interviews, usability
-          testing &mdash; sits alongside secondary reading. The quantitative
-          half runs through Google Analytics, Meta, Metabase and Microsoft
-          Clarity, then Excel or Python until the data says something specific.
-          Only then do I design: user flows, information architecture, visual
-          reference mapping. First renders come out of AI &mdash; Claude wired
-          to Figma over MCP, or straight into React Native and HTML.
-          Stakeholders review, I produce, we test, and the numbers decide
+          I frame the problem, then hunt for evidence: interviews and usability
+          tests alongside analytics, Excel and Python. Only once the data says
+          something specific do I design &mdash; flows first, AI-made first
+          renders next. Stakeholders review, we test, and the numbers decide
           whether it ships.
         </p>
 
@@ -239,6 +277,18 @@
             <text class="n-sub"  x="1100" y="170" text-anchor="middle">test, measure, ship</text>
           </g>
         </svg>
+      </div>
+
+      <div class="vloop-wrap">
+        <ol class="vloop" aria-label="Six-phase process, repeating until the data agrees">
+          <li><span class="dot" style="background:#f3e1d6;color:#8a4726">01</span><span class="t"><b>Frame</b><small>the problem</small></span></li>
+          <li><span class="dot" style="background:#f3e1d6;color:#8a4726">02</span><span class="t"><b>Research</b><small>primary + secondary</small></span></li>
+          <li><span class="dot" style="background:#d8e8df;color:#205a48">03</span><span class="t"><b>Quantify</b><small>analytics to inference</small></span></li>
+          <li><span class="dot" style="background:#dde5f1;color:#294a75">04</span><span class="t"><b>Architect</b><small>flows + IA</small></span></li>
+          <li><span class="dot" style="background:#e9dded;color:#5d3769">05</span><span class="t"><b>Prototype</b><small>AI-first renders</small></span></li>
+          <li><span class="dot" style="background:#d8e8df;color:#205a48">06</span><span class="t"><b>Validate</b><small>test, measure, ship</small></span></li>
+        </ol>
+        <span class="vloop-label" aria-hidden="true">iterate until the data agrees</span>
       </div>
     </section>
 
@@ -443,6 +493,9 @@
                         ease: 'back.out(1.7)' }, 0.25)
     .to(loop, { opacity: 1, duration: 0.6 }, '-=0.3')
     .to('.map .loop-label', { opacity: 1, duration: 0.5 }, '-=0.35');
+
+  gsap.from('.vloop li', { opacity: 0, x: -14, duration: 0.5, stagger: 0.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.vloop', start: 'top 85%', once: true } });
 
   /* the dashed loop keeps crawling, so the process reads as continuous */
   gsap.to(loop, { strokeDashoffset: -loopLen, duration: 34,
